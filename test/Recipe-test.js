@@ -10,7 +10,7 @@ describe('Recipe', () => {
         recipe = new Recipe(data.recipeData[0].id, data.recipeData[0].image, data.recipeData[0].ingredients, data.recipeData[0].instructions, data.recipeData[0].name, data.recipeData[0].tags)
     })
     it('should be an instance of Recipe', () => {
-     
+
       expect(recipe).to.be.an.instanceof(Recipe);
     });
 
@@ -21,8 +21,8 @@ describe('Recipe', () => {
     it('should have an image', () => {
         expect(recipe.image).to.equal("https://spoonacular.com/recipeImages/595736-556x370.jpg");
     });
-    
-    it('should have ingridients', () => {
+
+    it('should have ingredients', () => {
         expect(recipe.ingredients).to.equal(data.recipeData[0].ingredients);
     });
 
@@ -36,6 +36,15 @@ describe('Recipe', () => {
 
     it('should have tags', () => {
         expect(recipe.tags).to.equal(data.recipeData[0].tags);
-        console.log(recipe.ingredients)
+    });
+
+    it('should have all of the ingredients', () => {
+        expect(recipe.allIngredients.length).to.equal(247);
+    });
+    it('should determine ingredients needed', () => {
+      expect(recipe.ingredients.length).to.equal(recipe.determineIngredientsNeeded().length)
+    });
+    it('should have wheat flour as the first element', () => {
+      expect(recipe.determineIngredientsNeeded()[0]).to.equal('wheat flour')
     });
 });
