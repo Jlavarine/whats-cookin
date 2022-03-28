@@ -5,11 +5,12 @@ class Recipe {
     constructor (id, image, ingredients, instructions, name, tags) {
         this.id = id;
         this.image = image;
-        this.ingredients = ingredients;
+        this.ingredients = ingredients; //id & quantity
         this.instructions = instructions;
         this.name = name;
         this.tags = tags;
         this.allIngredients = this.instantiateIngredients()
+        //^intantiations of Ingredient class, has id, name, cost
     };
     instantiateIngredients() {
         return data.ingredientsData.map(ingredient => {
