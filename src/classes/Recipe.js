@@ -15,8 +15,9 @@ class Recipe {
     instantiateIngredients() {
         return data.ingredientsData.map(ingredient => {
             return new Ingredient(ingredient.id, ingredient.name, ingredient.estimatedCostInCents)
+            // line 898 of the ingredients.js only has a cost
         })
-       
+
     }
     determineIngredientsNeeded() {
         return this.ingredients.reduce((arr, ingredient) => {
@@ -28,6 +29,20 @@ class Recipe {
                 return arr
         }, [])
     }
+    calculateCostofIngredients() {
+      return this.ingredients.reduce((num, ingredient) => {
+        this.allIngredients.forEach(e => {
+          if (e.id === ingredient.id){
+            num += (e.estimatedCost * ingredient.quantity.amount) / 100
+          }
+        })
+        console.log(num)
+        return num
+      },0)
+      // have to go recipes.js to find the amount of the ingredient used and multiple that
+      // by the cost in the ingreients.js
+      // want to match ingredient Id to recipe Id
+    };
 
 };
 
