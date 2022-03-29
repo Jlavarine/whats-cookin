@@ -39,6 +39,7 @@ describe('Recipe', () => {
     });
 
     it('should have all of the ingredients', () => {
+      recipe.instantiateIngredients();
         expect(recipe.allIngredients.length).to.equal(247);
     });
     it('should determine ingredients needed', () => {
@@ -49,7 +50,6 @@ describe('Recipe', () => {
     });
     it('should be able to return the cost of a recipe', () => {
       expect(recipe.calculateCostofIngredients()).to.equal(177.76)
-      console.log(recipe.findInstructions())
     })
 
 });
