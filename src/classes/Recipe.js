@@ -9,17 +9,18 @@ class Recipe {
         this.instructions = instructions;
         this.name = name;
         this.tags = tags;
-        this.allIngredients = this.instantiateIngredients()
+        this.allIngredients;
         //^intantiations of Ingredient class, has id, name, cost
     };
     instantiateIngredients() {
-        return data.ingredientsData.map(ingredient => {
+        this.allIngredients = data.ingredientsData.map(ingredient => {
             return new Ingredient(ingredient.id, ingredient.name, ingredient.estimatedCostInCents)
             // line 898 of the ingredients.js only has a cost
         })
 
     }
     determineIngredientsNeeded() {
+      this.instantiateIngredients()
         return this.ingredients.reduce((arr, ingredient) => {
                 this.allIngredients.forEach(e => {
                     if (e.id === ingredient.id){
@@ -30,6 +31,7 @@ class Recipe {
         }, [])
     }
     calculateCostofIngredients() {
+      this.instantiateIngredients()
       return parseFloat(this.ingredients.reduce((num, ingredient) => {
         this.allIngredients.forEach(e => {
           if (e.id === ingredient.id){
