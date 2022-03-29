@@ -36,11 +36,13 @@ class Recipe {
             num += (e.estimatedCost * ingredient.quantity.amount) / 100
           }
         })
-        console.log(num)
         return num
       },0).toFixed(2))
     };
-
+    findInstructions() {
+      return this.instructions
+      // returns an array of objects with instructions and instruction number
+    }
 };
 
 export default Recipe;
