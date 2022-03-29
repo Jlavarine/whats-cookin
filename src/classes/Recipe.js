@@ -15,8 +15,9 @@ class Recipe {
     instantiateIngredients() {
         return data.ingredientsData.map(ingredient => {
             return new Ingredient(ingredient.id, ingredient.name, ingredient.estimatedCostInCents)
+            // line 898 of the ingredients.js only has a cost
         })
-       
+
     }
     determineIngredientsNeeded() {
         return this.ingredients.reduce((arr, ingredient) => {
@@ -28,7 +29,20 @@ class Recipe {
                 return arr
         }, [])
     }
-
+    calculateCostofIngredients() {
+      return parseFloat(this.ingredients.reduce((num, ingredient) => {
+        this.allIngredients.forEach(e => {
+          if (e.id === ingredient.id){
+            num += (e.estimatedCost * ingredient.quantity.amount) / 100
+          }
+        })
+        return num
+      },0).toFixed(2))
+    };
+    findInstructions() {
+      return this.instructions
+      // returns an array of objects with instructions and instruction number
+    }
 };
 
 export default Recipe;
