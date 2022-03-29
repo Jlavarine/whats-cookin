@@ -46,10 +46,10 @@ describe('Recipe', () => {
     });
     it('should have wheat flour as the first element', () => {
       expect(recipe.determineIngredientsNeeded()[0]).to.equal('wheat flour')
-      console.log(recipe.calculateCostofIngredients())
     });
     it('should be able to return the cost of a recipe', () => {
       expect(recipe.calculateCostofIngredients()).to.equal(177.76)
+      console.log(recipe.findInstructions())
     })
 
 });
