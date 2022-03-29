@@ -30,7 +30,7 @@ class Recipe {
         }, [])
     }
     calculateCostofIngredients() {
-      return this.ingredients.reduce((num, ingredient) => {
+      return parseFloat(this.ingredients.reduce((num, ingredient) => {
         this.allIngredients.forEach(e => {
           if (e.id === ingredient.id){
             num += (e.estimatedCost * ingredient.quantity.amount) / 100
@@ -38,10 +38,7 @@ class Recipe {
         })
         console.log(num)
         return num
-      },0)
-      // have to go recipes.js to find the amount of the ingredient used and multiple that
-      // by the cost in the ingreients.js
-      // want to match ingredient Id to recipe Id
+      },0).toFixed(2))
     };
 
 };
