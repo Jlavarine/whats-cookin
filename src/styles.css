@@ -105,19 +105,31 @@ border-radius: 20px;
 
 .main__recipe-card:hover {
 transform: scale(1.1);
-transition: 200ms;
+transition: 800ms;
 cursor: pointer;
 border: 3px solid orange;
 }
 
-.main__recipe-card-image {
+.main__recipe-card-image-box {
+  display: inline;
+  overflow: hidden;
   width: 270px;
   height: 75%;
   border-radius: 20px;
 }
-.main__recipe-card-image:hover {
 
+.main__recipe-card-image {
+  width: 270px;
+  height: 100%;
+  border-radius: 20px;
 }
+
+
+.main__recipe-card-image:hover {
+  transform:scale(1.2);
+  transition: 800ms
+}
+
 
 .main__recipe-card-filters {
   display: flex;
@@ -128,6 +140,4 @@ border: 3px solid orange;
   padding: 10px;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-
-
 }
