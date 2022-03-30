@@ -1,5 +1,5 @@
 * {
-  /* border: 1px solid red; */
+  border: 1px solid red;
   padding: 0;
   margin: 0;
   font-family: 'Sansita Swashed', cursive;
@@ -22,10 +22,11 @@ body {
 
 
 .top__header {
-  height: 50px;
+  height: 75px;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 23pt;
 }
 
 .nav {
@@ -39,16 +40,17 @@ body {
 button {
 background: white;
 height: 50%;
-width: 20%;
+width: 08%;
 font-size: 28px;
 border: none;
 border-bottom: 5px solid black;
 cursor: pointer;
 }
 
-/* button: hover {
+button:hover {
   color: orange;
-} */
+
+}
 
 .main {
   height: 100%;
@@ -77,6 +79,7 @@ cursor: pointer;
   height: 6%;
   width: 85%;
   text-align: center;
+  font-size: 34pt;
 }
 
 .main__recipe-images-box {
@@ -100,10 +103,19 @@ background-color: rgb(235,235,235);
 border-radius: 20px;
 };
 
+.main__recipe-card:hover {
+transform: scale(1.1);
+transition: 200ms;
+cursor: pointer
+}
+
 .main__recipe-card-image {
   width: 270px;
   height: 75%;
   border-radius: 20px;
+}
+.main__recipe-card-image:hover {
+
 }
 
 .main__recipe-card-filters {
