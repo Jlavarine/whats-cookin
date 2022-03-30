@@ -6,17 +6,20 @@ import RecipeRepository from './classes/RecipeRepository';
 
 const navButtons = document.querySelector('.nav');
 const mainRecipeDisplay = document.querySelector('.main__recipe-images-box');
-const recipeHeader = document.querySelector('.main__recipe-header')
-const recipeCards = document.querySelectorAll('main__recipe-card')
-
+const recipeHeader = document.querySelector('.main__recipe-header');
+const recipeCards = document.querySelectorAll('main__recipe-card');
+const mainRenderedRecipeArea = document.querySelector('.main__rendered-recipe-area');
+const recipeRepo = new RecipeRepository();
 
 window.addEventListener('load', instantiateRecipeRepo)
 mainRecipeDisplay.addEventListener('click', (e) => {
     returnRecipe(e)
+    renderRecipeInfo(e)
 })
 navButtons.addEventListener('click', function(event) {
     fireButton(event);
 })
+// recipeCards.addEventListener('click', )
 
 
 function returnRecipe (e) {
@@ -29,7 +32,6 @@ function fireButton(event){
 }
 
 function instantiateRecipeRepo (){
-    const recipeRepo = new RecipeRepository();
     recipeRepo.instantiateRecipes()
     populateRecipeCards(recipeRepo)
 }
@@ -52,7 +54,40 @@ function populateRecipeCards(recipeRepo) {
     })
 }
 
+function show(element) {
+  element.classList.remove('hidden');
+};
 
+function hide(element) {
+  element.classList.add('hidden');
+};
+
+function renderRecipeInfo(e) {
+  // console.log(recipeRepo)
+  let currentRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === e.target.dataset.recipe)
+  // console.log(currentRecipe.determineIngredientsNeeded())
+  // console.log(currentRecipe.ingredients)
+  let currentIngredients = currentRecipe.determineIngredientsNeeded()
+  let currentIngredientAmounts = currentRecipe.ingredients
+  console.log(currentIngredients)
+  console.log(currentIngredientAmounts)
+
+  hide(mainRecipeDisplay);
+  show(mainRenderedRecipeArea);
+  recipeHeader.innerText = e.target.dataset.recipe
+  mainRenderedRecipeArea.innerHTML = `
+        <div class="main__rendered-recipe-box">
+          <section class="main__rendered-recipe-cost">${currentRecipe.calculateCostofIngredients()}
+          </section>
+          <section class="main__rendered-recipe-image">
+            <img src=${currentRecipe.image} alt=${currentRecipe.name}/>
+          </section>
+          <section class="main__rendered-recipe-ingredients">${currentIngredientAmounts[0].quantity.amount} ${currentIngredientAmounts[0].quantity.unit} ${currentIngredients[0]}
+          </section>
+          <section class="main__rendered-recipe-instructions">${currentRecipe.instructions}
+          </section>
+        </div>`
+}
 
 //add a function to create a recipe card w/
 /* <div class="main__recipe-card" datas-recipe=`${recipe.name}`>
