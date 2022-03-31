@@ -1,14 +1,15 @@
-const data = require('../data/recipes');
+// const data = require('../data/recipes');
 import Recipe from './Recipe';
 class RecipeRepository {
-  constructor(recipe) {
-    this.userRecipe = recipe;
+  constructor(data) {
+    this.recipeData = data;
     this.allRecipes;
 
     // One class to get you started!
   };
   instantiateRecipes() {
-    this.allRecipes = data.recipeData.map(recipe => {
+    console.log(this.recipeData)
+    this.allRecipes = this.recipeData.recipeData.map(recipe => {
       return new Recipe(recipe.id, recipe.image, recipe.ingredients, recipe.instructions, recipe.name, recipe.tags)
     })
   }
