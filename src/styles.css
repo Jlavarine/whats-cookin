@@ -1,5 +1,5 @@
 * {
-  border: 1px solid red;
+  /* border: 1px solid red; */
   padding: 0;
   margin: 0;
   font-family: 'Sansita Swashed', cursive;
@@ -47,10 +47,20 @@ border-bottom: 5px solid black;
 cursor: pointer;
 }
 
+.sidebar__right-filter-button{
+  background: white;
+  height: 1.8%;
+  width: 1px;
+  font-size: 16.5px;
+  cursor: pointer;
+  padding-left: 10px;
+  border-bottom: none;
+}
+
 button:hover {
   color: orange;
-
 }
+
 
 .main {
   height: 100%;
@@ -63,7 +73,13 @@ button:hover {
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  border-left: 1px solid black;
+}
+
+.sidebar__right-header {
+  padding-left: 20px;
+  font-weight: bolder;
 }
 
 .main__recipe-display-box {
@@ -131,7 +147,7 @@ border: 3px solid orange;
 }
 
 
-.main__recipe-card-filters {
+.main__recipe-card-tags-box {
   display: flex;
   justify-content: space-between;
   background-color: rgb(235,235,235);

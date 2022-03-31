@@ -15,20 +15,29 @@ const mainRenderedRecipeInstructionsHeader = document.querySelector('.main__rend
 const mainRenderedReceipeInstructions = document.querySelector('.main__rendered-recipe-instructions');
 const mainRenderedReceipeIngredients = document.querySelector('.main__rendered-recipe-ingredients');
 const mainRenderedReceipeImage = document.querySelector('.main__rendered-recipe-image');
+const sidebarRight = document.querySelector('.sidebar__right')
+
+
+
 const recipeRepo = new RecipeRepository();
 
 window.addEventListener('load', instantiateRecipeRepo)
+
 mainRecipeDisplay.addEventListener('click', (e) => {
-    returnRecipe(e)
     renderRecipeInfo(e)
 })
 navButtons.addEventListener('click', function(event) {
     fireButton(event);
 })
+sidebarRight.addEventListener('click', function(e){
+    filterRecipeCards(e)
+})
 
-function returnRecipe (e) {
-    console.log(e.target.dataset.recipe);
-}
+
+// function returnRecipe (e) {
+//     if (e.target.dataset.tag)
+//     console.log(e.target.dataset.tag);
+// }
 
 function fireButton(event){
     if (event)
@@ -41,8 +50,8 @@ function instantiateRecipeRepo (){
 }
 
 
-function populateRecipeCards(recipeRepo) {
 
+function populateRecipeCards(recipeRepo) {
     recipeRepo.allRecipes.forEach((recipe, index) => {
         mainRecipeDisplay.innerHTML +=
         `<div class="main__recipe-card" data-recipe="${recipeRepo.allRecipes[index].name}">
@@ -50,8 +59,8 @@ function populateRecipeCards(recipeRepo) {
         <img class="main__recipe-card-image" data-recipe="${recipeRepo.allRecipes[index].name}" src=${recipeRepo.allRecipes[index].image} alt="${recipeRepo.allRecipes[index].name}">
         </div>
         <p class="main__recipe-card-text" data-recipe="${recipeRepo.allRecipes[index].name}" >${recipeRepo.allRecipes[index].name}</p>
-         <div class="main__recipe-card-filters" data-recipe="${recipeRepo.allRecipes[index].name}">
-           <p class="main__recipe-card-tag" data-recipe="${recipeRepo.allRecipes[index].name}">${recipeRepo.allRecipes[index].tags}</p>
+         <div class="main__recipe-card-tags-box" data-recipe="${recipeRepo.allRecipes[index].name}">
+           <section class="main__recipe-card-tag" data-recipe="${recipeRepo.allRecipes[index].name}">${recipeRepo.allRecipes[index].tags.join(', ')}</section>
            </div>
           <p class="main__recipe-card-price" data-recipe="${recipeRepo.allRecipes[index].name}">$$$$</p>
         </div> `
@@ -98,4 +107,17 @@ function renderRecipeInfo(e) {
           <section class="main__rendered-recipe-instructions">${instruction.number} ${instruction.instruction}</section>
         </div>`
         })
+      }
+
+      function filterRecipeCards (e) {
+        let userSelectedTag = e.target.dataset.tag
+        let allRecipeCards = document.querySelectorAll('.main__recipe-card')
+        allRecipeCards.forEach(card => {
+            if (!card.children[2].innerText.includes(userSelectedTag))
+            card.remove()
+        })
+                
+        
+
+        
       }
