@@ -9,6 +9,12 @@ const mainRecipeDisplay = document.querySelector('.main__recipe-images-box');
 const recipeHeader = document.querySelector('.main__recipe-header');
 const recipeCards = document.querySelectorAll('main__recipe-card');
 const mainRenderedRecipeArea = document.querySelector('.main__rendered-recipe-area');
+const mainRenderedRecipeBox = document.querySelector('.main__rendered-recipe-box')
+const mainRenderedRecipeIngredientsHeader = document.querySelector('.main__rendered-recipe-ingredients-header');
+const mainRenderedRecipeInstructionsHeader = document.querySelector('.main__rendered-recipe-instructions-header');
+const mainRenderedReceipeInstructions = document.querySelector('.main__rendered-recipe-instructions');
+const mainRenderedReceipeIngredients = document.querySelector('.main__rendered-recipe-ingredients');
+const mainRenderedReceipeImage = document.querySelector('.main__rendered-recipe-image');
 const recipeRepo = new RecipeRepository();
 
 window.addEventListener('load', instantiateRecipeRepo)
@@ -19,8 +25,6 @@ mainRecipeDisplay.addEventListener('click', (e) => {
 navButtons.addEventListener('click', function(event) {
     fireButton(event);
 })
-// recipeCards.addEventListener('click', )
-
 
 function returnRecipe (e) {
     console.log(e.target.dataset.recipe);
@@ -63,10 +67,7 @@ function hide(element) {
 };
 
 function renderRecipeInfo(e) {
-  // console.log(recipeRepo)
   let currentRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === e.target.dataset.recipe)
-  // console.log(currentRecipe.determineIngredientsNeeded())
-  // console.log(currentRecipe.ingredients)
   let currentIngredients = currentRecipe.determineIngredientsNeeded()
   let currentIngredientAmounts = currentRecipe.ingredients
   console.log(currentIngredients)
@@ -74,27 +75,27 @@ function renderRecipeInfo(e) {
 
   hide(mainRecipeDisplay);
   show(mainRenderedRecipeArea);
+  show(mainRenderedRecipeInstructionsHeader);
+  show(mainRenderedRecipeIngredientsHeader);
+  show(mainRenderedReceipeInstructions);
+  show(mainRenderedReceipeIngredients);
+  show(mainRenderedReceipeImage);
   recipeHeader.innerText = e.target.dataset.recipe
+  mainRenderedReceipeImage.src = currentRecipe.image
   mainRenderedRecipeArea.innerHTML = `
-        <div class="main__rendered-recipe-box">
-          <section class="main__rendered-recipe-cost">${currentRecipe.calculateCostofIngredients()}
-          </section>
-          <section class="main__rendered-recipe-image">
-            <img src=${currentRecipe.image} alt=${currentRecipe.name}/>
-          </section>
-          <section class="main__rendered-recipe-ingredients">${currentIngredientAmounts[0].quantity.amount} ${currentIngredientAmounts[0].quantity.unit} ${currentIngredients[0]}
-          </section>
-          <section class="main__rendered-recipe-instructions">${currentRecipe.instructions}
+        <section class="main__rendered-recipe-cost">recipe cost: $${currentRecipe.calculateCostofIngredients()}
+        </section>`
+      currentIngredientAmounts.forEach((ingredient, index) => {
+        mainRenderedReceipeIngredients.innerHTML +=
+        `<div class="main__rendered-recipe-box">
+          <section class="main__rendered-recipe-ingredients">${ingredient.quantity.amount} ${ingredient.quantity.unit} ${currentIngredients[index]}
           </section>
         </div>`
-}
-
-//add a function to create a recipe card w/
-/* <div class="main__recipe-card" datas-recipe=`${recipe.name}`>
-<img class="main__recipe-card-image" src="https://spoonacular.com/recipeImages/595736-556x370.jpg">
-<p class="main__recipe-card-text">Loaded Chocolate Chip Pudding Cookie Cups</p>
- <div class="main__recipe-card-filters">
-   <p class="main__recipe-card-tag">Dinner</p>
-  <p class="main__recipe-card-price">$$$$</p>
- </div>
-</div> */
+        })
+        currentRecipe.instructions.forEach(instruction =>{
+        mainRenderedReceipeInstructions.innerHTML +=
+        `<div class='main__rendered-recipe-instructions'>
+          <section class="main__rendered-recipe-instructions">${instruction.number} ${instruction.instruction}</section>
+        </div>`
+        })
+      }
