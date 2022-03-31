@@ -141,3 +141,22 @@ border: 3px solid orange;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
 }
+
+.main__rendered-recipe-area {
+  height: 6%;
+  width: 85%;
+}
+
+.main__rendered-recipe-box {
+  display: flex;
+
+}
+
+.main__rendered-recipe-image {
+  display: flex;
+  flex-direction: column;
+}
+
+.hidden {
+  display: none;
+}
