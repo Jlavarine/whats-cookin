@@ -149,7 +149,12 @@ border: 3px solid orange;
 
 .main__rendered-recipe-box {
   display: flex;
-  
+
+}
+
+.main__rendered-recipe-image {
+  display: flex;
+  flex-direction: column;
 }
 
 .hidden {
