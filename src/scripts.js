@@ -81,18 +81,9 @@ function removeFromFavorites (e) {
   let allFavoriteRecipes = document.querySelectorAll(".sidebar__favorite-recipe-titles");
   let favoriteRecipeName = e.target.innerText
   let favoriteRecipe = user.favoriteRecipes.find(recipe => recipe.name === favoriteRecipeName)
-  console.log('favorite recipe', favoriteRecipe)
   user.removeRecipeFromFavorites(favoriteRecipe)
   let favoriteRecipeIndex = user.favoriteRecipes.indexOf(favoriteRecipe)
-  console.log("index of", favoriteRecipeIndex)
-  allFavoriteRecipes[favoriteRecipeIndex + 1].remove()
-  // console.log("all recipe array", allFavoriteRecipes)
-  // allFavoriteRecipes.forEach(recipeName => {
-  //   if(recipeName.includes(favoriteRecipe)){
-  //     recipeName.remove()
-  //   }
-  // })
-
+  allFavoriteRecipes[favoriteRecipeIndex +1].remove()
 }
 
 function instantiateUser (usersData) {
