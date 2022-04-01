@@ -22,6 +22,8 @@ const sidebarRight = document.querySelector('.sidebar__right');
 const recipeSearchInput = document.getElementById('searchbar');
 const recipeSearchButton = document.querySelector('.top__search-bar-button');
 const addFavoritesButton = document.querySelector('.add-favorites-button');
+// const favoritesList = document.querySelector('.sidebar__favorite-recipe-titles');
+const favoritesListBox = document.querySelector('.sidebar__title-box')
 
 
 console.log('data:', data)
@@ -33,7 +35,6 @@ let user;
 window.addEventListener('load', () => {
   instantiateRecipeRepo();
 instantiateUser (usersData.usersData);
-console.log(user)
 });
 
 mainRecipeDisplay.addEventListener('click', (e) => {
@@ -54,6 +55,12 @@ addFavoritesButton.addEventListener('click', addToFavorites)
 //     console.log(e.target.dataset.tag);
 // }
 
+favoritesListBox.addEventListener('dblclick', function(e) {
+  console.log(user.favoriteRecipes)
+  removeFromFavorites(e)
+  console.log(user.favoriteRecipes)
+} )
+
 function fireButton(event){
     if (event)
     console.log(event.target.dataset.button);
@@ -64,10 +71,28 @@ function instantiateRecipeRepo (){
     populateRecipeCards(recipeRepo)
 }
 
-function addToFavorites() {
+function addToFavorites () {
   let userFavRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === recipeHeader.innerText)
   user.addRecipeToFavorites(userFavRecipe)
-  console.log(user.favoriteRecipes)
+  favoritesListBox.innerHTML += `<ul class="sidebar__favorite-recipe-titles">${userFavRecipe.name}</ul>`
+}
+
+function removeFromFavorites (e) {
+  let allFavoriteRecipes = document.querySelectorAll(".sidebar__favorite-recipe-titles");
+  let favoriteRecipeName = e.target.innerText
+  let favoriteRecipe = user.favoriteRecipes.find(recipe => recipe.name === favoriteRecipeName)
+  console.log('favorite recipe', favoriteRecipe)
+  user.removeRecipeFromFavorites(favoriteRecipe)
+  let favoriteRecipeIndex = user.favoriteRecipes.indexOf(favoriteRecipe)
+  console.log("index of", favoriteRecipeIndex)
+  allFavoriteRecipes[favoriteRecipeIndex + 1].remove()
+  // console.log("all recipe array", allFavoriteRecipes)
+  // allFavoriteRecipes.forEach(recipeName => {
+  //   if(recipeName.includes(favoriteRecipe)){
+  //     recipeName.remove()
+  //   }
+  // })
+
 }
 
 function instantiateUser (usersData) {
@@ -154,7 +179,7 @@ function renderRecipeInfo(e) {
 
       function redirectNavBar(e) {
         if(e.target.dataset.button === 'favorites') {
-          renderFavorites();
+
         };
       };
 
@@ -162,8 +187,8 @@ function renderRecipeInfo(e) {
         document.querySelectorAll('.main__recipe-card').forEach(card => card.remove())
       };
 
-      function renderFavorites() {
-        removeAllCards();
-        recipeHeader.innerText = 'Favorites';
-
-      };
+      // function renderFavorites() {
+      //   removeAllCards();
+      //   recipeHeader.innerText = 'Favorites';
+      //
+      // };
