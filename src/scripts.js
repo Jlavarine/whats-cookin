@@ -16,7 +16,9 @@ const mainRenderedRecipeInstructionsHeader = document.querySelector('.main__rend
 const mainRenderedReceipeInstructions = document.querySelector('.main__rendered-recipe-instructions');
 const mainRenderedReceipeIngredients = document.querySelector('.main__rendered-recipe-ingredients');
 const mainRenderedReceipeImage = document.querySelector('.main__rendered-recipe-image');
-const sidebarRight = document.querySelector('.sidebar__right')
+const sidebarRight = document.querySelector('.sidebar__right');
+const recipeSearchInput = document.getElementById('searchbar');
+const recipeSearchButton = document.querySelector('.top__search-bar-button')
 
 
 console.log('data:', data)
@@ -33,7 +35,7 @@ navButtons.addEventListener('click', function(event) {
 sidebarRight.addEventListener('click', function(e){
     filterRecipeCards(e)
 })
-
+recipeSearchButton.addEventListener('click', searchRecipe)
 
 // function returnRecipe (e) {
 //     if (e.target.dataset.tag)
@@ -49,7 +51,6 @@ function instantiateRecipeRepo (){
     recipeRepo.instantiateRecipes()
     populateRecipeCards(recipeRepo)
 }
-
 
 
 function populateRecipeCards(recipeRepo) {
@@ -117,8 +118,12 @@ function renderRecipeInfo(e) {
             if (!card.children[2].innerText.includes(userSelectedTag))
             card.remove()
         })
+      }
 
-
-
-
+      function searchRecipe () {
+        let userSearch = recipeSearchInput.value
+        document.querySelectorAll('.main__recipe-card').forEach(card => card.remove())
+        recipeRepo.filterRecipesByName(userSearch)
+        populateRecipeCards(recipeRepo)
+        console.log(recipeRepo.filterRecipesByName(userSearch))
       }
