@@ -2,6 +2,7 @@ import './styles.css';
 import apiCalls from './apiCalls';
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
+const data = require('./data/recipes')
 import RecipeRepository from './classes/RecipeRepository';
 
 const navButtons = document.querySelector('.nav');
@@ -18,8 +19,8 @@ const mainRenderedReceipeImage = document.querySelector('.main__rendered-recipe-
 const sidebarRight = document.querySelector('.sidebar__right')
 
 
-
-const recipeRepo = new RecipeRepository();
+console.log('data:', data)
+const recipeRepo = new RecipeRepository(data);
 
 window.addEventListener('load', instantiateRecipeRepo)
 
@@ -116,8 +117,8 @@ function renderRecipeInfo(e) {
             if (!card.children[2].innerText.includes(userSelectedTag))
             card.remove()
         })
-                
-        
 
-        
+
+
+
       }
