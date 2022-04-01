@@ -28,12 +28,13 @@ console.log('data:', data)
 
 const recipeRepo = new RecipeRepository(data);
 console.log(recipeRepo.recipeData.recipeData)
-const user = new User(instantiateUser(usersData.usersData))
-console.log(user)
+let user;
 
 window.addEventListener('load', () => {
   instantiateRecipeRepo();
-instantiateUser (usersData.usersData);})
+instantiateUser (usersData.usersData);
+console.log(user)
+});
 
 mainRecipeDisplay.addEventListener('click', (e) => {
     renderRecipeInfo(e)
@@ -46,7 +47,7 @@ sidebarRight.addEventListener('click', function(e){
 })
 recipeSearchButton.addEventListener('click', searchRecipe)
 
-//Shanes work******************
+
 addFavoritesButton.addEventListener('click', addToFavorites)
 // function returnRecipe (e) {
 //     if (e.target.dataset.tag)
@@ -62,18 +63,16 @@ function instantiateRecipeRepo (){
     recipeRepo.instantiateRecipes()
     populateRecipeCards(recipeRepo)
 }
-// Shanes work*********************
-function addToFavorites() {
-  let favNomNomNom = recipeRepo.allRecipes.find(recipe => recipe.name === recipeHeader.innerText)
-  user.addRecipeToFavorites(favNomNomNom)
-  console.log(user.favoriteRecipes)
-// user.addRecipeToFavorites(recipe[index])
-}
-  // user.addRecipeToFavorites(recipe)
 
+function addToFavorites() {
+  let userFavRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === recipeHeader.innerText)
+  user.addRecipeToFavorites(userFavRecipe)
+  console.log(user.favoriteRecipes)
+}
 
 function instantiateUser (usersData) {
-  return usersData[Math.floor(Math.random()*usersData.length)]
+  let randomUserInfo = usersData[Math.floor(Math.random()*usersData.length)]
+  user = new User(randomUserInfo.name, randomUserInfo.id)
 }
 
 
