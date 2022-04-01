@@ -19,7 +19,8 @@ class RecipeRepository {
   };
   filterRecipesByName(inputName) {
     this.instantiateRecipes();
-    return this.allRecipes.filter(recipe => recipe.name.includes(inputName.trim()))
+    this.allRecipes = this.allRecipes.filter(recipe => recipe.name.includes(inputName.trim()));
+    return this.allRecipes
   };
 };
 

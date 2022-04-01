@@ -13,7 +13,7 @@ body {
   margin: 0;
 }
 
-.top_search_bar {
+.top__search-bar {
   width: 100%;
   height: 50px;
   display: flex;
