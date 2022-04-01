@@ -3,7 +3,9 @@ import apiCalls from './apiCalls';
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
 const data = require('./data/recipes')
+const usersData = require('./data/users')
 import RecipeRepository from './classes/RecipeRepository';
+import User from './classes/User';
 
 const navButtons = document.querySelector('.nav');
 const mainRecipeDisplay = document.querySelector('.main__recipe-images-box');
@@ -23,9 +25,15 @@ const addFavoritesButton = document.querySelector('.add-favorites-button');
 
 
 console.log('data:', data)
-const recipeRepo = new RecipeRepository(data);
 
-window.addEventListener('load', instantiateRecipeRepo)
+const recipeRepo = new RecipeRepository(data);
+console.log(recipeRepo.recipeData.recipeData)
+const user = new User(instantiateUser(usersData.usersData))
+console.log(user)
+
+window.addEventListener('load', () => {
+  instantiateRecipeRepo();
+instantiateUser (usersData.usersData);})
 
 mainRecipeDisplay.addEventListener('click', (e) => {
     renderRecipeInfo(e)
@@ -38,6 +46,8 @@ sidebarRight.addEventListener('click', function(e){
 })
 recipeSearchButton.addEventListener('click', searchRecipe)
 
+//Shanes work******************
+addFavoritesButton.addEventListener('click', addToFavorites)
 // function returnRecipe (e) {
 //     if (e.target.dataset.tag)
 //     console.log(e.target.dataset.tag);
@@ -51,6 +61,19 @@ function fireButton(event){
 function instantiateRecipeRepo (){
     recipeRepo.instantiateRecipes()
     populateRecipeCards(recipeRepo)
+}
+// Shanes work*********************
+function addToFavorites() {
+  let favNomNomNom = recipeRepo.allRecipes.find(recipe => recipe.name === recipeHeader.innerText)
+  user.addRecipeToFavorites(favNomNomNom)
+  console.log(user.favoriteRecipes)
+// user.addRecipeToFavorites(recipe[index])
+}
+  // user.addRecipeToFavorites(recipe)
+
+
+function instantiateUser (usersData) {
+  return usersData[Math.floor(Math.random()*usersData.length)]
 }
 
 
@@ -80,10 +103,9 @@ function hide(element) {
 
 function renderRecipeInfo(e) {
   let currentRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === e.target.dataset.recipe)
+  console.log(currentRecipe)
   let currentIngredients = currentRecipe.determineIngredientsNeeded()
   let currentIngredientAmounts = currentRecipe.ingredients
-  console.log(currentIngredients)
-  console.log(currentIngredientAmounts)
 
   hide(mainRecipeDisplay);
   show(mainRenderedRecipeArea);
@@ -129,6 +151,7 @@ function renderRecipeInfo(e) {
         populateRecipeCards(recipeRepo)
         console.log(recipeRepo.filterRecipesByName(userSearch))
       }
+
 
       function redirectNavBar(e) {
         if(e.target.dataset.button === 'favorites') {
