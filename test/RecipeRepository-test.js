@@ -17,15 +17,15 @@ describe('RecipeRepository', () => {
   it('Should be an instance of recipe', () => {
     expect(recipeRepository).to.be.an.instanceof(RecipeRepository);
   });
-  it('Should hold a list of all recipes', () => {
+  it.skip('Should hold a list of all recipes', () => {
     recipeRepository.instantiateRecipes();
     expect(recipeRepository.allRecipes.length).to.equal(50);
   });
-  it('Should filter all recipes based on a tag', () => {
+  it.skip('Should filter all recipes based on a tag', () => {
     expect(recipeRepository.filterRecipesByTag('starter').length).to.equal(9);
     expect(recipeRepository.filterRecipesByTag('starter')[0].name).to.equal("Loaded Chocolate Chip Pudding Cookie Cups");
   });
-  it('Should filter all recipes based on a recipe name', () => {
+  it.skip('Should filter all recipes based on a recipe name', () => {
     expect(recipeRepository.filterRecipesByName("Loaded Chocolate Chip Pudding Cookie Cups").length).to.equal(1);
     console.log(recipeRepository.filterRecipesByName("Cookie"))
   });

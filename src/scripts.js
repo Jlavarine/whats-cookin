@@ -18,7 +18,8 @@ const mainRenderedReceipeIngredients = document.querySelector('.main__rendered-r
 const mainRenderedReceipeImage = document.querySelector('.main__rendered-recipe-image');
 const sidebarRight = document.querySelector('.sidebar__right');
 const recipeSearchInput = document.getElementById('searchbar');
-const recipeSearchButton = document.querySelector('.top__search-bar-button')
+const recipeSearchButton = document.querySelector('.top__search-bar-button');
+const addFavoritesButton = document.querySelector('.add-favorites-button');
 
 
 console.log('data:', data)
@@ -29,8 +30,8 @@ window.addEventListener('load', instantiateRecipeRepo)
 mainRecipeDisplay.addEventListener('click', (e) => {
     renderRecipeInfo(e)
 })
-navButtons.addEventListener('click', function(event) {
-    fireButton(event);
+navButtons.addEventListener('click', function(e) {
+    redirectNavBar(e);
 })
 sidebarRight.addEventListener('click', function(e){
     filterRecipeCards(e)
@@ -91,6 +92,7 @@ function renderRecipeInfo(e) {
   show(mainRenderedReceipeInstructions);
   show(mainRenderedReceipeIngredients);
   show(mainRenderedReceipeImage);
+  show(addFavoritesButton);
   recipeHeader.innerText = e.target.dataset.recipe
   mainRenderedReceipeImage.src = currentRecipe.image
   mainRenderedRecipeArea.innerHTML = `
@@ -122,8 +124,24 @@ function renderRecipeInfo(e) {
 
       function searchRecipe () {
         let userSearch = recipeSearchInput.value
-        document.querySelectorAll('.main__recipe-card').forEach(card => card.remove())
+        removeAllCards();
         recipeRepo.filterRecipesByName(userSearch)
         populateRecipeCards(recipeRepo)
         console.log(recipeRepo.filterRecipesByName(userSearch))
       }
+
+      function redirectNavBar(e) {
+        if(e.target.dataset.button === 'favorites') {
+          renderFavorites();
+        };
+      };
+
+      function removeAllCards() {
+        document.querySelectorAll('.main__recipe-card').forEach(card => card.remove())
+      };
+
+      function renderFavorites() {
+        removeAllCards();
+        recipeHeader.innerText = 'Favorites';
+
+      };

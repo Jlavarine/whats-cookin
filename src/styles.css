@@ -57,6 +57,16 @@ cursor: pointer;
   border-bottom: none;
 }
 
+.add-favorites-button {
+  background: white;
+  height: 4%;
+  width: 29%;
+  font-size: 28px;
+  border: none;
+  border-bottom: none;
+  cursor: pointer;
+}
+
 button:hover {
   color: orange;
 }
