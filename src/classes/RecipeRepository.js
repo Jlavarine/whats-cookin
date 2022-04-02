@@ -8,7 +8,6 @@ class RecipeRepository {
     // One class to get you started!
   };
   instantiateRecipes() {
-    console.log(this.recipeData)
     this.allRecipes = this.recipeData.recipeData.map(recipe => {
       return new Recipe(recipe.id, recipe.image, recipe.ingredients, recipe.instructions, recipe.name, recipe.tags)
     })
@@ -19,8 +18,7 @@ class RecipeRepository {
   };
   filterRecipesByName(inputName) {
     this.instantiateRecipes();
-    this.allRecipes = this.allRecipes.filter(recipe => recipe.name.includes(inputName.trim()));
-    return this.allRecipes
+    return this.allRecipes.filter(recipe => recipe.name.includes(inputName.trim()));
   };
 };
 
