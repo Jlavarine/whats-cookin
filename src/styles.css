@@ -72,14 +72,23 @@ cursor: pointer;
   border-bottom: none;
 }
 
+.main__recipe-header-button-box{
+  display: flex;
+  justify-content: center;
+  width: 60%;
+}
 .add-favorites-button, .remove-favorites-button, .add-recipe-to-cook-button {
-  background: white;
   height: 4%;
   width: 29%;
-  font-size: 28px;
-  border: none;
+  font-size: 20px;
   border-bottom: none;
-  cursor: pointer;
+}
+.add-favorites-button:hover {
+  color: blue
+}
+
+.remove-favorites-button:hover {
+  color: red;
 }
 
 button:hover {
@@ -196,6 +205,7 @@ border: 3px solid orange;
 .main__rendered-recipe-image {
   display: flex;
   flex-direction: column;
+  width:50%
 }
 
 
