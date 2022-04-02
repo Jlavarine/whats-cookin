@@ -26,10 +26,10 @@ const addFavoritesButton = document.querySelector('.add-favorites-button');
 const favoritesListBox = document.querySelector('.sidebar__title-box')
 
 
-console.log('data:', data)
+
 
 const recipeRepo = new RecipeRepository(data);
-console.log(recipeRepo.recipeData.recipeData)
+
 let user;
 
 window.addEventListener('load', () => {
@@ -56,15 +56,15 @@ addFavoritesButton.addEventListener('click', addToFavorites)
 // }
 
 favoritesListBox.addEventListener('dblclick', function(e) {
-  console.log(user.favoriteRecipes)
+  
   removeFromFavorites(e)
-  console.log(user.favoriteRecipes)
+
 } )
 
-function fireButton(event){
-    if (event)
-    console.log(event.target.dataset.button);
-}
+// function fireButton(event){
+//     if (event)
+//     console.log(event.target.dataset.button);
+// }
 
 function instantiateRecipeRepo (){
     recipeRepo.instantiateRecipes()
@@ -74,16 +74,18 @@ function instantiateRecipeRepo (){
 function addToFavorites () {
   let userFavRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === recipeHeader.innerText)
   user.addRecipeToFavorites(userFavRecipe)
-  favoritesListBox.innerHTML += `<ul class="sidebar__favorite-recipe-titles">${userFavRecipe.name}</ul>`
+  favoritesListBox.innerHTML += 
+  `<div class="sidebar__favorite-recipe-titles"><ul class="sidebar__favorite-recipe-titles" data-name="${userFavRecipe.name}">${userFavRecipe.name}</ul><br></div>`
 }
 
 function removeFromFavorites (e) {
   let allFavoriteRecipes = document.querySelectorAll(".sidebar__favorite-recipe-titles");
-  let favoriteRecipeName = e.target.innerText
+  let favoriteRecipeName = e.target.dataset.name
   let favoriteRecipe = user.favoriteRecipes.find(recipe => recipe.name === favoriteRecipeName)
-  user.removeRecipeFromFavorites(favoriteRecipe)
   let favoriteRecipeIndex = user.favoriteRecipes.indexOf(favoriteRecipe)
-  allFavoriteRecipes[favoriteRecipeIndex +1].remove()
+  user.removeRecipeFromFavorites(favoriteRecipe)
+
+  allFavoriteRecipes[favoriteRecipeIndex].remove()
 }
 
 function instantiateUser (usersData) {
@@ -118,7 +120,7 @@ function hide(element) {
 
 function renderRecipeInfo(e) {
   let currentRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === e.target.dataset.recipe)
-  console.log(currentRecipe)
+  
   let currentIngredients = currentRecipe.determineIngredientsNeeded()
   let currentIngredientAmounts = currentRecipe.ingredients
 
@@ -164,13 +166,15 @@ function renderRecipeInfo(e) {
         removeAllCards();
         recipeRepo.filterRecipesByName(userSearch)
         populateRecipeCards(recipeRepo)
-        console.log(recipeRepo.filterRecipesByName(userSearch))
+     
       }
 
 
       function redirectNavBar(e) {
-        if(e.target.dataset.button === 'favorites') {
-
+        if(e.target.dataset.button === 'all') {
+          removeAllCards();
+          showHomeView()
+          populateRecipeCards(recipeRepo)
         };
       };
 
@@ -178,6 +182,17 @@ function renderRecipeInfo(e) {
         document.querySelectorAll('.main__recipe-card').forEach(card => card.remove())
       };
 
+      function showHomeView(){
+        recipeHeader.innerText = 'All Recipes'
+        hide(mainRenderedRecipeArea);
+        hide(mainRenderedRecipeInstructionsHeader);
+        hide(mainRenderedRecipeIngredientsHeader);
+        hide(mainRenderedReceipeInstructions);
+        hide(mainRenderedReceipeIngredients);
+        hide(mainRenderedReceipeImage);
+        hide(addFavoritesButton);
+        show(mainRecipeDisplay);
+      }
       // function renderFavorites() {
       //   removeAllCards();
       //   recipeHeader.innerText = 'Favorites';
