@@ -7,6 +7,7 @@ class User {
   };
 
   addRecipeToFavorites(recipe) {
+    if (!this.favoriteRecipes.includes(recipe))
     this.favoriteRecipes.push(recipe);
   };
 
@@ -24,12 +25,13 @@ class User {
     this.recipesToCook.splice(foundRecipe, 1);
   };
 
-  filterFavoriteRecipesByTag(userTag) {
-    return this.favoriteRecipes.filter(recipe => recipe.tags.includes(userTag))
+  filterFavoriteRecipesByTag(inputTag) {
+    this.favoriteRecipes = this.favoriteRecipes.filter(recipe => recipe.tags.includes(inputTag))
+    return this.favoriteRecipes
   };
 
-  filterFavoriteRecipesByName(recipeName) {
-    return this.favoriteRecipes.filter(recipe => recipe.name.includes(recipeName))
+  filterFavoriteRecipesByName(inputName) {
+    return this.favoriteRecipes.filter(recipe => recipe.name.includes(inputName.trim()))
   };
 };
  export default User;

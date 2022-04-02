@@ -20,6 +20,11 @@ body {
   justify-content: end;
 }
 
+.top__search-bar-input-field {
+  width: 230px;
+  height: 40px;
+  font-size: 16pt;
+}
 
 .top__header {
   height: 75px;
@@ -47,6 +52,16 @@ border-bottom: 5px solid black;
 cursor: pointer;
 }
 
+.top__search-bar-button {
+  background: white;
+height: 50%;
+width: 08%;
+font-size: 28px;
+border: none;
+
+cursor: pointer;
+}
+
 .sidebar__right-filter-button{
   background: white;
   height: 1.8%;
@@ -57,7 +72,7 @@ cursor: pointer;
   border-bottom: none;
 }
 
-.add-favorites-button {
+.add-favorites-button, .remove-favorites-button {
   background: white;
   height: 4%;
   width: 29%;
@@ -183,15 +198,7 @@ border: 3px solid orange;
   flex-direction: column;
 }
 
-.sidebar__favorite-recipe-titles {
-  padding-left: 10px;
-}
 
-.sidebar__favorite-recipe-titles:hover {
-  cursor: pointer;
-  color: orange;
-  padding-left: 10px;
-}
 
 .hidden {
   display: none;
