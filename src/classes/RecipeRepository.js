@@ -8,7 +8,7 @@ class RecipeRepository {
     // One class to get you started!
   };
   instantiateRecipes() {
-    this.allRecipes = this.recipeData.recipeData.map(recipe => {
+    this.allRecipes = this.recipeData.map(recipe => {
       return new Recipe(recipe.id, recipe.image, recipe.ingredients, recipe.instructions, recipe.name, recipe.tags)
     })
   }

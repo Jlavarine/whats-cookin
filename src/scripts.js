@@ -2,8 +2,8 @@ import './styles.css';
 import apiCalls from './apiCalls';
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
-const data = require('./data/recipes')
-const usersData = require('./data/users')
+// const data = require('./data/recipes')
+// const usersData = require('./data/users')
 import RecipeRepository from './classes/RecipeRepository';
 import User from './classes/User';
 
@@ -30,13 +30,12 @@ const addToCookListButton = document.querySelector('.add-recipe-to-cook-button')
 
 
 
-const recipeRepo = new RecipeRepository(data);
-
+let recipeRepo;
 let user;
+let ingredients;
 
 window.addEventListener('load', () => {
-  instantiateRecipeRepo();
-  instantiateUser(usersData.usersData);
+  fetchData();
 });
 
 mainRecipeDisplay.addEventListener('click', (e) => {
@@ -56,6 +55,23 @@ recipeSearchButton.addEventListener('click', searchRecipe)
 addFavoritesButton.addEventListener('click', addToFavorites)
 removeFavoritesButton.addEventListener('click', removeFromFavorites)
 addToCookListButton.addEventListener('click', addToCookList)
+
+
+function fetchData(){
+  let userData = fetch('https://what-s-cookin-starter-kit.herokuapp.com/api/v1/users').then(response => response.json()).then(data => {
+    instantiateUser(data.usersData);
+  })
+  let ingredientData = fetch('https://what-s-cookin-starter-kit.herokuapp.com/api/v1/ingredients').then(response => response.json()).then(data => {
+    ingredients = data.ingredientsData;
+  })
+
+  let recipeData = fetch('https://what-s-cookin-starter-kit.herokuapp.com/api/v1/recipes').then(response => response.json()).then(data => {
+    recipeRepo = new RecipeRepository(data.recipeData);
+    instantiateRecipeRepo();
+  })
+}
+
+
 
 
 function instantiateRecipeRepo (){
@@ -116,7 +132,7 @@ function renderRecipeInfo(e) {
 
   let currentRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === e.target.dataset.recipe)
 
-  let currentIngredients = currentRecipe.determineIngredientsNeeded()
+  let currentIngredients = currentRecipe.determineIngredientsNeeded(ingredients)
   let currentIngredientAmounts = currentRecipe.ingredients
 
   hide(mainRecipeDisplay);
@@ -132,7 +148,7 @@ function renderRecipeInfo(e) {
   recipeHeader.innerText = e.target.dataset.recipe
   mainRenderedReceipeImage.src = currentRecipe.image
   mainRenderedRecipeArea.innerHTML = `
-        <section class="main__rendered-recipe-cost">recipe cost: $${currentRecipe.calculateCostofIngredients()}
+        <section class="main__rendered-recipe-cost">recipe cost: $${currentRecipe.calculateCostofIngredients(ingredients)}
         </section>`
       currentIngredientAmounts.forEach((ingredient, index) => {
         mainRenderedReceipeIngredients.innerHTML +=
