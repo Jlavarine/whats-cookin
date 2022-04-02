@@ -72,7 +72,7 @@ cursor: pointer;
   border-bottom: none;
 }
 
-.add-favorites-button, .remove-favorites-button {
+.add-favorites-button, .remove-favorites-button, .add-recipe-to-cook-button {
   background: white;
   height: 4%;
   width: 29%;
