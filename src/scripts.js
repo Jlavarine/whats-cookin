@@ -22,18 +22,19 @@ const sidebarRight = document.querySelector('.sidebar__right');
 const recipeSearchInput = document.getElementById('searchbar');
 const recipeSearchButton = document.querySelector('.top__search-bar-button');
 const addFavoritesButton = document.querySelector('.add-favorites-button');
+// const favoritesList = document.querySelector('.sidebar__favorite-recipe-titles');
+const favoritesListBox = document.querySelector('.sidebar__title-box')
 
 
-console.log('data:', data)
+
 
 const recipeRepo = new RecipeRepository(data);
-console.log(recipeRepo.recipeData.recipeData)
+
 let user;
 
 window.addEventListener('load', () => {
   instantiateRecipeRepo();
 instantiateUser (usersData.usersData);
-console.log(user)
 });
 
 mainRecipeDisplay.addEventListener('click', (e) => {
@@ -54,20 +55,37 @@ addFavoritesButton.addEventListener('click', addToFavorites)
 //     console.log(e.target.dataset.tag);
 // }
 
-function fireButton(event){
-    if (event)
-    console.log(event.target.dataset.button);
-}
+favoritesListBox.addEventListener('dblclick', function(e) {
+  
+  removeFromFavorites(e)
+
+} )
+
+// function fireButton(event){
+//     if (event)
+//     console.log(event.target.dataset.button);
+// }
 
 function instantiateRecipeRepo (){
     recipeRepo.instantiateRecipes()
     populateRecipeCards(recipeRepo)
 }
 
-function addToFavorites() {
+function addToFavorites () {
   let userFavRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === recipeHeader.innerText)
   user.addRecipeToFavorites(userFavRecipe)
-  console.log(user.favoriteRecipes)
+  favoritesListBox.innerHTML += 
+  `<div class="sidebar__favorite-recipe-titles"><ul class="sidebar__favorite-recipe-titles" data-name="${userFavRecipe.name}">${userFavRecipe.name}</ul><br></div>`
+}
+
+function removeFromFavorites (e) {
+  let allFavoriteRecipes = document.querySelectorAll(".sidebar__favorite-recipe-titles");
+  let favoriteRecipeName = e.target.dataset.name
+  let favoriteRecipe = user.favoriteRecipes.find(recipe => recipe.name === favoriteRecipeName)
+  let favoriteRecipeIndex = user.favoriteRecipes.indexOf(favoriteRecipe)
+  user.removeRecipeFromFavorites(favoriteRecipe)
+
+  allFavoriteRecipes[favoriteRecipeIndex].remove()
 }
 
 function instantiateUser (usersData) {
@@ -102,7 +120,7 @@ function hide(element) {
 
 function renderRecipeInfo(e) {
   let currentRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === e.target.dataset.recipe)
-  console.log(currentRecipe)
+  
   let currentIngredients = currentRecipe.determineIngredientsNeeded()
   let currentIngredientAmounts = currentRecipe.ingredients
 
@@ -148,13 +166,15 @@ function renderRecipeInfo(e) {
         removeAllCards();
         recipeRepo.filterRecipesByName(userSearch)
         populateRecipeCards(recipeRepo)
-        console.log(recipeRepo.filterRecipesByName(userSearch))
+     
       }
 
 
       function redirectNavBar(e) {
-        if(e.target.dataset.button === 'favorites') {
-          renderFavorites();
+        if(e.target.dataset.button === 'all') {
+          removeAllCards();
+          showHomeView()
+          populateRecipeCards(recipeRepo)
         };
       };
 
@@ -162,8 +182,19 @@ function renderRecipeInfo(e) {
         document.querySelectorAll('.main__recipe-card').forEach(card => card.remove())
       };
 
-      function renderFavorites() {
-        removeAllCards();
-        recipeHeader.innerText = 'Favorites';
-
-      };
+      function showHomeView(){
+        recipeHeader.innerText = 'All Recipes'
+        hide(mainRenderedRecipeArea);
+        hide(mainRenderedRecipeInstructionsHeader);
+        hide(mainRenderedRecipeIngredientsHeader);
+        hide(mainRenderedReceipeInstructions);
+        hide(mainRenderedReceipeIngredients);
+        hide(mainRenderedReceipeImage);
+        hide(addFavoritesButton);
+        show(mainRecipeDisplay);
+      }
+      // function renderFavorites() {
+      //   removeAllCards();
+      //   recipeHeader.innerText = 'Favorites';
+      //
+      // };

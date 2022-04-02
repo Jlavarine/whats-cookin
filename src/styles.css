@@ -183,6 +183,16 @@ border: 3px solid orange;
   flex-direction: column;
 }
 
+.sidebar__favorite-recipe-titles {
+  padding-left: 10px;
+}
+
+.sidebar__favorite-recipe-titles:hover {
+  cursor: pointer;
+  color: orange;
+  padding-left: 10px;
+}
+
 .hidden {
   display: none;
 }
