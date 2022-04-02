@@ -23,6 +23,7 @@ const recipeSearchInput = document.getElementById('searchbar');
 const recipeSearchButton = document.querySelector('.top__search-bar-button');
 const addFavoritesButton = document.querySelector('.add-favorites-button');
 const removeFavoritesButton = document.querySelector('.remove-favorites-button')
+const addToCookListButton = document.querySelector('.add-recipe-to-cook-button');
 
 
 
@@ -54,6 +55,7 @@ recipeSearchButton.addEventListener('click', searchRecipe)
 
 addFavoritesButton.addEventListener('click', addToFavorites)
 removeFavoritesButton.addEventListener('click', removeFromFavorites)
+addToCookListButton.addEventListener('click', addToCookList)
 
 
 function instantiateRecipeRepo (){
@@ -73,6 +75,12 @@ function removeFromFavorites () {
   let userFavRecipe = user.favoriteRecipes.find(recipe => recipe.name === recipeHeader.innerText)
   user.removeRecipeFromFavorites(userFavRecipe)
 }
+
+function addToCookList() {
+  let recipeToCook = recipeRepo.allRecipes.find(recipe => recipe.name === recipeHeader.innerText)
+  user.addRecipeToCookList(recipeToCook)
+  console.log(user.recipesToCook)
+};
 
 function instantiateUser (usersData) {
   let randomUserInfo = usersData[Math.floor(Math.random()*usersData.length)]
@@ -107,7 +115,7 @@ function hide(element) {
 function renderRecipeInfo(e) {
 
   let currentRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === e.target.dataset.recipe)
-  
+
   let currentIngredients = currentRecipe.determineIngredientsNeeded()
   let currentIngredientAmounts = currentRecipe.ingredients
 
@@ -120,6 +128,7 @@ function renderRecipeInfo(e) {
   show(mainRenderedReceipeImage);
   show(addFavoritesButton);
   show(removeFavoritesButton);
+  show(addToCookListButton);
   recipeHeader.innerText = e.target.dataset.recipe
   mainRenderedReceipeImage.src = currentRecipe.image
   mainRenderedRecipeArea.innerHTML = `
@@ -138,7 +147,7 @@ function renderRecipeInfo(e) {
           <section class="main__rendered-recipe-instructions">${instruction.number} ${instruction.instruction}</section>
         </div>`
         })
-      
+
     }
 
       function filterRecipeCards (e) {
@@ -159,7 +168,7 @@ function renderRecipeInfo(e) {
           return
         }
         if (recipeHeader.innerText === 'Favorites') {
-          
+
           populateRecipeCards(user.filterFavoriteRecipesByName(userSearch))
           return
         }
@@ -198,10 +207,6 @@ function renderRecipeInfo(e) {
         hide(mainRenderedReceipeImage);
         hide(addFavoritesButton);
         hide(removeFavoritesButton)
+        hide(addToCookListButton)
         show(mainRecipeDisplay);
       }
-      // function renderFavorites() {
-      //   removeAllCards();
-      //   recipeHeader.innerText = 'Favorites';
-      //
-      // };
