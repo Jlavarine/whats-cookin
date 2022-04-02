@@ -72,14 +72,23 @@ cursor: pointer;
   border-bottom: none;
 }
 
+.main__recipe-header-button-box{
+  display: flex;
+  justify-content: center;
+  width: 60%;
+}
 .add-favorites-button, .remove-favorites-button, .add-recipe-to-cook-button {
-  background: white;
   height: 4%;
   width: 29%;
-  font-size: 28px;
-  border: none;
+  font-size: 20px;
   border-bottom: none;
-  cursor: pointer;
+}
+.add-favorites-button:hover {
+  color: blue
+}
+
+.remove-favorites-button:hover {
+  color: red;
 }
 
 button:hover {
@@ -196,9 +205,35 @@ border: 3px solid orange;
 .main__rendered-recipe-image {
   display: flex;
   flex-direction: column;
+  width:50%
 }
 
+.main__rendered-recipe-ingredients-header,
+.main__rendered-recipe-instructions-header
+ {
+  font-size: 40px;
+  margin-bottom: 10px
+}
 
+.main__rendered-recipe-ingredients,
+.main__rendered-recipe-instructions {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.main__rendered-recipe-instructions {
+    width: 85%;
+    margin-left: 8%;
+
+}
+
+.main__rendered-recipe-cost{
+  font-size: 30px;
+  color: green
+}
+.main__recipe-header-box {
+  width: 45%
+}
 
 .hidden {
   display: none;
