@@ -137,18 +137,18 @@ function renderRecipeInfo(e) {
       currentIngredientAmounts.forEach((ingredient, index) => {
         mainRenderedReceipeIngredients.innerHTML +=
         `<div class="main__rendered-recipe-box">
-          <section class="main__rendered-recipe-ingredients">${ingredient.quantity.amount} ${ingredient.quantity.unit} ${currentIngredients[index]}
+          <section class="main__rendered-recipe-ingredients">${ingredient.quantity.amount}-${ingredient.quantity.unit} ${currentIngredients[index]}
           </section>
         </div>`
         })
         currentRecipe.instructions.forEach(instruction =>{
         mainRenderedReceipeInstructions.innerHTML +=
         `<div class='main__rendered-recipe-instructions'>
-          <section class="main__rendered-recipe-instructions">${instruction.number} ${instruction.instruction}</section>
+          <section class="main__rendered-recipe-instructions">${instruction.number} - ${instruction.instruction}</section>
         </div>`
         })
         mainRenderedRecipeArea.innerHTML =
-            `<section class="main__rendered-recipe-cost">recipe cost: $${currentRecipe.calculateCostofIngredients()}</section>`
+            `<section class="main__rendered-recipe-cost">Recipe Cost: $${currentRecipe.calculateCostofIngredients()}</section>`
 
     }
 

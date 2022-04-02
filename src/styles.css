@@ -208,7 +208,29 @@ border: 3px solid orange;
   width:50%
 }
 
+.main__rendered-recipe-ingredients-header,
+.main__rendered-recipe-instructions-header
+ {
+  font-size: 40px;
+  margin-bottom: 10px
+}
 
+.main__rendered-recipe-ingredients,
+.main__rendered-recipe-instructions {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.main__rendered-recipe-instructions {
+    width: 85%;
+    margin-left: 8%;
+
+}
+
+.main__rendered-recipe-cost{
+  font-size: 30px;
+  color: green
+}
 
 .hidden {
   display: none;
