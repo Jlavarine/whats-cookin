@@ -145,11 +145,9 @@ function renderRecipeInfo(e) {
   show(addFavoritesButton);
   show(removeFavoritesButton);
   show(addToCookListButton);
+  window.scrollTo(0,0)
   recipeHeader.innerText = e.target.dataset.recipe
   mainRenderedReceipeImage.src = currentRecipe.image
-  mainRenderedRecipeArea.innerHTML = `
-        <section class="main__rendered-recipe-cost">recipe cost: $${currentRecipe.calculateCostofIngredients(ingredients)}
-        </section>`
       currentIngredientAmounts.forEach((ingredient, index) => {
         mainRenderedReceipeIngredients.innerHTML +=
         `<div class="main__rendered-recipe-box">
@@ -163,6 +161,9 @@ function renderRecipeInfo(e) {
           <section class="main__rendered-recipe-instructions">${instruction.number} ${instruction.instruction}</section>
         </div>`
         })
+        mainRenderedRecipeArea.innerHTML = `
+              <section class="main__rendered-recipe-cost">recipe cost: $${currentRecipe.calculateCostofIngredients(ingredients)}
+              </section>`
 
     }
 
