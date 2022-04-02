@@ -1,4 +1,4 @@
-const data = require('../data/ingredients');
+// const data = require('../data/ingredients');
 import Ingredient from './Ingredient';
 
 class Recipe {
@@ -12,15 +12,16 @@ class Recipe {
         this.allIngredients;
         //^intantiations of Ingredient class, has id, name, cost
     };
-    instantiateIngredients() {
-        this.allIngredients = data.ingredientsData.map(ingredient => {
+    instantiateIngredients(ingredientData) {
+      
+        this.allIngredients = ingredientData.map(ingredient => {
             return new Ingredient(ingredient.id, ingredient.name, ingredient.estimatedCostInCents)
             // line 898 of the ingredients.js only has a cost
         })
 
     }
-    determineIngredientsNeeded() {
-      this.instantiateIngredients()
+    determineIngredientsNeeded(ingredientData) {
+      this.instantiateIngredients(ingredientData)
         return this.ingredients.reduce((arr, ingredient) => {
                 this.allIngredients.forEach(e => {
                     if (e.id === ingredient.id){
@@ -30,8 +31,8 @@ class Recipe {
                 return arr
         }, [])
     }
-    calculateCostofIngredients() {
-      this.instantiateIngredients()
+    calculateCostofIngredients(ingredientData) {
+      this.instantiateIngredients(ingredientData)
       return parseFloat(this.ingredients.reduce((num, ingredient) => {
         this.allIngredients.forEach(e => {
           if (e.id === ingredient.id){
