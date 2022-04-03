@@ -106,6 +106,7 @@ function instantiateUser (usersData) {
 
 function populateRecipeCards(recipesArray) {
     recipesArray.forEach((recipe, index) => {
+      let recipeCost = recipe.calculateCostofIngredients(ingredients)
         mainRecipeDisplay.innerHTML +=
         `<div class="main__recipe-card" data-recipe="${recipesArray[index].name}">
         <div class="main__recipe-card-image-box">
@@ -115,7 +116,7 @@ function populateRecipeCards(recipesArray) {
          <div class="main__recipe-card-tags-box" data-recipe="${recipesArray[index].name}">
            <section class="main__recipe-card-tag" data-recipe="${recipesArray[index].name}">${recipesArray[index].tags.join(', ')}</section>
            </div>
-          <p class="main__recipe-card-price" data-recipe="${recipesArray[index].name}">$$$$</p>
+          <p class="main__recipe-card-price" data-recipe="${recipesArray[index].name}">$${recipeCost}</p>
         </div> `
     })
 }
