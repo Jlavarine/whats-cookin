@@ -10,9 +10,7 @@ import User from './classes/User';
 const navButtons = document.querySelector('.nav');
 const mainRecipeDisplay = document.querySelector('.main__recipe-images-box');
 const recipeHeader = document.querySelector('.main__recipe-header');
-const recipeCards = document.querySelectorAll('main__recipe-card');
 const mainRenderedRecipeArea = document.querySelector('.main__rendered-recipe-area');
-const mainRenderedRecipeBox = document.querySelector('.main__rendered-recipe-box')
 const mainRenderedRecipeIngredientsHeader = document.querySelector('.main__rendered-recipe-ingredients-header');
 const mainRenderedRecipeInstructionsHeader = document.querySelector('.main__rendered-recipe-instructions-header');
 const mainRenderedReceipeInstructions = document.querySelector('.main__rendered-recipe-instructions');
@@ -130,23 +128,13 @@ function hide(element) {
 };
 
 function renderRecipeInfo(e) {
-
+  window.scrollTo(0,0)
   let currentRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === e.target.dataset.recipe)
 
   let currentIngredients = currentRecipe.determineIngredientsNeeded(ingredients)
   let currentIngredientAmounts = currentRecipe.ingredients
 
-  hide(mainRecipeDisplay);
-  show(mainRenderedRecipeArea);
-  show(mainRenderedRecipeInstructionsHeader);
-  show(mainRenderedRecipeIngredientsHeader);
-  show(mainRenderedReceipeInstructions);
-  show(mainRenderedReceipeIngredients);
-  show(mainRenderedReceipeImage);
-  show(addFavoritesButton);
-  show(removeFavoritesButton);
-  show(addToCookListButton);
-  window.scrollTo(0,0)
+  displayRecipeInfoPage ()
   recipeHeader.innerText = e.target.dataset.recipe
   mainRenderedReceipeImage.src = currentRecipe.image
       currentIngredientAmounts.forEach((ingredient, index) => {
@@ -166,6 +154,19 @@ function renderRecipeInfo(e) {
               <section class="main__rendered-recipe-cost">recipe cost: $${currentRecipe.calculateCostofIngredients(ingredients)}
               </section>`
 
+    }
+
+    function displayRecipeInfoPage () {
+      hide(mainRecipeDisplay);
+      show(mainRenderedRecipeArea);
+      show(mainRenderedRecipeInstructionsHeader);
+      show(mainRenderedRecipeIngredientsHeader);
+      show(mainRenderedReceipeInstructions);
+      show(mainRenderedReceipeIngredients);
+      show(mainRenderedReceipeImage);
+      show(addFavoritesButton);
+      show(removeFavoritesButton);
+      show(addToCookListButton);
     }
 
       function filterRecipeCards (e) {
