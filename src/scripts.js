@@ -170,12 +170,8 @@ function renderRecipeInfo(e) {
     }
 
       function filterRecipeCards (e) {
-        let userSelectedTag = e.target.dataset.tag
-        let allRecipeCards = document.querySelectorAll('.main__recipe-card')
-        allRecipeCards.forEach(card => {
-            if (!card.children[2].innerText.includes(userSelectedTag))
-            card.remove()
-        })
+          removeAllCards();
+          populateRecipeCards(recipeRepo.filterRecipesByTag(e.target.dataset.tag))
       }
 
       function searchRecipe () {
@@ -187,7 +183,18 @@ function renderRecipeInfo(e) {
           return
         }
         if (recipeHeader.innerText === 'Favorites') {
-
+          populateRecipeCards(user.filterFavoriteRecipesByName(userSearch))
+          return
+        }
+        if (recipeHeader.innerText === 'Starters') {
+          populateRecipeCards(user.filterFavoriteRecipesByName(userSearch))
+          return
+        }
+        if (recipeHeader.innerText === 'Favorites') {
+          populateRecipeCards(user.filterFavoriteRecipesByName(userSearch))
+          return
+        }
+        if (recipeHeader.innerText === 'Favorites') {
           populateRecipeCards(user.filterFavoriteRecipesByName(userSearch))
           return
         }
