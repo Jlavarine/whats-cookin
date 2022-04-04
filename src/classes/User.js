@@ -34,7 +34,7 @@ class User {
   };
 
   filterFavoriteRecipesByName(inputName) {
-    return this.favoriteRecipes.filter(recipe => recipe.name.includes(inputName.trim()));
+    return this.favoriteRecipes.filter(recipe => recipe.name.toLowerCase().includes(inputName.trim()));
   };
 };
  export default User;
