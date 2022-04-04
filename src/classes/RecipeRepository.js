@@ -11,9 +11,13 @@ class RecipeRepository {
     });
   };
 
-  filterRecipesByTag(userTag) {
+  filterRecipesByTag(userTags) {
     this.instantiateRecipes();
-    return this.allRecipes.filter(recipe => recipe.tags.includes(userTag));
+    let filteredRecipes = this.allRecipes
+     userTags.forEach(tag => {
+       filteredRecipes = filteredRecipes.filter(recipe => recipe.tags.includes(tag))
+     })
+     return filteredRecipes
   };
 
   filterRecipesByName(inputName) {

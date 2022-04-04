@@ -142,13 +142,26 @@ function renderRecipeInfo(e) {
     };
 
       function filterRecipeCards(e) {
-        removeAllCards();
-        if (recipeHeader.innerText === 'Favorites') {
-          populateRecipeCards(user.filterFavoriteRecipesByTag(e.target.dataset.tag));
-          return;
-        };
-        populateRecipeCards(recipeRepo.filterRecipesByTag(e.target.dataset.tag));
+        let userSelectedTag = e.target.dataset.tag;
+        user.userTags.push(userSelectedTag);
+        
+        // let allRecipeCards = document.querySelectorAll('.main__recipe-card')
+        // allRecipeCards.forEach(card => {
+          //     if (!card.children[2].innerText.includes(userSelectedTag))
+          //     card.remove()
+          // })
+          removeAllCards();
+          if (recipeHeader.innerText === 'Favorites') {
+            populateRecipeCards(user.filterFavoriteRecipesByTag(user.userTags));
+            return;
+          };
+          console.log(user.userTags);
+          
+        populateRecipeCards(recipeRepo.filterRecipesByTag(user.userTags))
+        console.log(recipeRepo.filteredRecipes)
       };
+
+
 
       function searchRecipe () {
         let userSearch = recipeSearchInput.value.toLowerCase();
