@@ -12,6 +12,9 @@ class User {
   };
 
   removeRecipeFromFavorites(recipe) {
+    if(!recipe) {
+      return
+    }
     let foundRecipe = this.favoriteRecipes.indexOf(recipe);
     this.favoriteRecipes.splice(foundRecipe, 1);
   };
@@ -27,7 +30,7 @@ class User {
 
   filterFavoriteRecipesByTag(inputTag) {
     return this.favoriteRecipes.filter(recipe => recipe.tags.includes(inputTag));
-    
+
   };
 
   filterFavoriteRecipesByName(inputName) {
