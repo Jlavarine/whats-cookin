@@ -31,14 +31,14 @@ class Recipe {
 
     calculateCostofIngredients(ingredientData) {
       this.instantiateIngredients(ingredientData);
-      return parseFloat(this.ingredients.reduce((num, ingredient) => {
+      return this.ingredients.reduce((num, ingredient) => {
         this.allIngredients.forEach(e => {
           if (e.id === ingredient.id){
             num += (e.estimatedCost * ingredient.quantity.amount) / 100;
           };
         });
         return num;
-      },0).toFixed(2));
+      },0).toFixed(2);
     };
 
     findInstructions() {
