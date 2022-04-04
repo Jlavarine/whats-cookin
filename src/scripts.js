@@ -114,6 +114,8 @@ function populateRecipeCards(recipesArray) {
 
 function renderRecipeInfo(e) {
   window.scrollTo(0,0);
+  mainRenderedReceipeIngredients.innerHTML = '';
+  mainRenderedReceipeInstructions.innerHTML = '';
   let currentRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === e.target.dataset.recipe);
   let currentIngredients = currentRecipe.determineIngredientsNeeded(ingredients);
   let currentIngredientAmounts = currentRecipe.ingredients;
