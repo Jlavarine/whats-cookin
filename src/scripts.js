@@ -1,5 +1,5 @@
 import './styles.css';
-import apiCalls from './apiCalls';
+import fetchData from './apiCalls';
 import './images/turing-logo.png';
 import RecipeRepository from './classes/RecipeRepository';
 import User from './classes/User';
@@ -24,8 +24,15 @@ let recipeRepo;
 let user;
 let ingredients;
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Event Listeners~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fetchData.then(data => {
+  console.log(data);
+  instantiateUser(data[0].usersData);
+  ingredients = data[1].ingredientsData;
+  recipeRepo = new RecipeRepository(data[2].recipeData)
+  instantiateRecipeRepo()
+})
 window.addEventListener('load', () => {
-  fetchData();
 });
 
 mainRecipeDisplay.addEventListener('click', (e) => {
@@ -46,20 +53,9 @@ addFavoritesButton.addEventListener('click', addToFavorites);
 removeFavoritesButton.addEventListener('click', removeFromFavorites);
 addToCookListButton.addEventListener('click', addToCookList);
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function fetchData(){
-  let userData = fetch('https://what-s-cookin-starter-kit.herokuapp.com/api/v1/users').then(response => response.json()).then(data => {
-    instantiateUser(data.usersData);
-  });
 
-  let ingredientData = fetch('https://what-s-cookin-starter-kit.herokuapp.com/api/v1/ingredients').then(response => response.json()).then(data => {
-    ingredients = data.ingredientsData;
-  });
 
-  let recipeData = fetch('https://what-s-cookin-starter-kit.herokuapp.com/api/v1/recipes').then(response => response.json()).then(data => {
-    recipeRepo = new RecipeRepository(data.recipeData);
-    instantiateRecipeRepo();
-  });
-};
+  
 
 function instantiateRecipeRepo (){
     recipeRepo.instantiateRecipes();
