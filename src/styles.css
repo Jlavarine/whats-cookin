@@ -112,8 +112,8 @@ button:hover {
 }
 
 .sidebar__right-header {
-  padding-left: 20px;
-  font-weight: bolder;
+  padding-left: -10px;
+  text-align: center;
 }
 
 .main__recipe-display-box {
