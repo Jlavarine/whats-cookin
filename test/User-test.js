@@ -98,4 +98,8 @@ describe('Users', () => {
     user.addRecipeToFavorites(recipe3);
     expect(user.filterFavoriteRecipesByName('Dirty').length).to.equal(0);
   });
+
+  it('Should show no recipes if nothing matches user search', () => {
+    expect(user.filterFavoriteRecipesByName("    ").length).to.equal(0);
+  })
 });
