@@ -73,7 +73,7 @@ describe('Users', () => {
   });
 
   it('Should hold a list of recipes to cook', () => {
-    user.addRecipeToCookList(recipe)
+    user.addRecipeToCookList(recipe);
     expect(user.recipesToCook[0]).to.deep.equal(recipe);
   });
 
@@ -92,6 +92,10 @@ describe('Users', () => {
     expect(user.filterFavoriteRecipesByTag('starter').length).to.equal(3);
   });
 
+  it('Should show no recipes if nothing matches the tag', () => {
+    expect(user.filterFavoriteRecipesByTag('lorem ipsum').length).to.equal(0);
+  });
+
   it('Should be able to filter favorite recipes by names', () => {
     user.addRecipeToFavorites(recipe);
     user.addRecipeToFavorites(recipe2);
@@ -101,5 +105,5 @@ describe('Users', () => {
 
   it('Should show no recipes if nothing matches user search', () => {
     expect(user.filterFavoriteRecipesByName("    ").length).to.equal(0);
-  })
+  });
 });
