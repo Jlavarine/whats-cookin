@@ -48,14 +48,16 @@ sidebarRight.addEventListener('click', function(e){
   };
 });
 recipeSearchButton.addEventListener('click', searchRecipe);
+recipeSearchInput.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    document.querySelector('.top__search-bar-button').click();
+  };
+});
 addFavoritesButton.addEventListener('click', addToFavorites);
 removeFavoritesButton.addEventListener('click', removeFromFavorites);
 addToCookListButton.addEventListener('click', addToCookList);
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-  
-
 function instantiateRecipeRepo (){
     recipeRepo.instantiateRecipes();
     populateRecipeCards(recipeRepo.allRecipes);
@@ -137,7 +139,6 @@ function renderRecipeInfo(e) {
         mainRenderedRecipeArea.innerHTML = `
               <section class="main__rendered-recipe-cost">recipe cost: $${currentRecipe.calculateCostofIngredients(ingredients)}
               </section>`
-
     };
 
       function filterRecipeCards(e) {

@@ -46,6 +46,15 @@ describe('RecipeRepository', () => {
   });
 
   it('Should filter all recipes based on a recipe name', () => {
-    expect(recipeRepository.filterRecipesByName("Cookies").length).to.equal(1);
+    expect(recipeRepository.filterRecipesByName('cookies').length).to.equal(1);
   });
+
+  it('Should show no recipes if nothing matches user search', () => {
+    expect(recipeRepository.filterRecipesByName('DFECVHCJSB').length).to.equal(0);
+  })
+
+  it('Should show no recipes if nothing matches user search', () => {
+    expect(recipeRepository.filterRecipesByName("    ").length).to.equal(0);
+  })
+
 });

@@ -17,6 +17,9 @@ class RecipeRepository {
   };
 
   filterRecipesByName(inputName) {
+    if(!inputName.trim()) {
+      return []
+    }
     this.instantiateRecipes();
     return this.allRecipes.filter(recipe => recipe.name.toLowerCase().includes(inputName.trim()));
   };

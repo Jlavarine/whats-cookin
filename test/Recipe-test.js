@@ -57,7 +57,8 @@ describe('Recipe', () => {
     it('should determine ingredients needed', () => {
       expect(recipe.determineIngredientsNeeded(recipe.ingredients)).to.deep.equal(['pear'])
     });
+
     it('should determine cost of ingredients', () => {
-      expect(recipe.calculateCostofIngredients(recipe.ingredients)).to.equal(4.56)
+      expect(recipe.calculateCostofIngredients(recipe.ingredients)).to.equal('4.56')
     });
 });
