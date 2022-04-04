@@ -19,12 +19,12 @@ const recipeSearchButton = document.querySelector('.top__search-bar-button');
 const addFavoritesButton = document.querySelector('.add-favorites-button');
 const removeFavoritesButton = document.querySelector('.remove-favorites-button');
 const addToCookListButton = document.querySelector('.add-recipe-to-cook-button');
+const filterByBox = document.querySelector('.main__filter-paragraph');
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Global Variables~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 let recipeRepo;
 let user;
 let ingredients;
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Event Listeners~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 window.addEventListener('load', () => {
   fetchData.then(data => {
     instantiateUser(data[0].usersData);
@@ -33,7 +33,6 @@ window.addEventListener('load', () => {
     instantiateRecipeRepo()
   })
 });
-
 mainRecipeDisplay.addEventListener('click', (e) => {
   if(e.target.dataset.recipe) {
     renderRecipeInfo(e);
@@ -93,7 +92,6 @@ function addToCookList() {
   user.addRecipeToCookList(recipeToCook);
 };
 
-
 function populateRecipeCards(recipesArray) {
     recipesArray.forEach((recipe, index) => {
       let recipeCost = recipe.calculateCostofIngredients(ingredients);
@@ -110,7 +108,6 @@ function populateRecipeCards(recipesArray) {
         </div> `;
     });
 };
-
 
 function renderRecipeInfo(e) {
   window.scrollTo(0,0);
@@ -141,88 +138,93 @@ function renderRecipeInfo(e) {
               </section>`
     };
 
-      function filterRecipeCards(e) {
-        removeAllCards();
-        if (recipeHeader.innerText === 'Favorites') {
-          populateRecipeCards(user.filterFavoriteRecipesByTag(e.target.dataset.tag));
-          return;
-        };
-        populateRecipeCards(recipeRepo.filterRecipesByTag(e.target.dataset.tag));
-      };
+function filterRecipeCards(e) {
+  removeAllCards();
+  show(filterByBox);
+  filterByBox.innerText = `You are filtering by: '${e.target.dataset.tag}'`
+  if (recipeHeader.innerText === 'Favorites') {
+    populateRecipeCards(user.filterFavoriteRecipesByTag(e.target.dataset.tag));
+    return;
+  };
+  populateRecipeCards(recipeRepo.filterRecipesByTag(e.target.dataset.tag));
+};
 
-      function searchRecipe () {
-        let userSearch = recipeSearchInput.value.toLowerCase();
-        recipeSearchInput.value = '';
-        removeAllCards();
-        if (recipeHeader.innerText === 'Favorites') {
-          populateRecipeCards(user.filterFavoriteRecipesByName(userSearch));
-          return;
-        };
-          populateRecipeCards(recipeRepo.filterRecipesByName(userSearch));
-      };
+function searchRecipe () {
+  let userSearch = recipeSearchInput.value.toLowerCase();
+  show(filterByBox);
+  filterByBox.innerText = `You are searching by: '${userSearch}'`
+  recipeSearchInput.value = '';
+  removeAllCards();
+  if (recipeHeader.innerText === 'Favorites') {
+    populateRecipeCards(user.filterFavoriteRecipesByName(userSearch));
+    return;
+  };
+    populateRecipeCards(recipeRepo.filterRecipesByName(userSearch));
+};
 
-      function redirectNavBar(e) {
-        if(e.target.dataset.button === 'all') {
-          removeCardsAndShowHomeView()
-          populateRecipeCards(recipeRepo.allRecipes);
-        };
-        if(e.target.dataset.button === 'favorites'){
-          removeAllCards();
-          showFavoritesView();
-          populateRecipeCards(user.favoriteRecipes);
-        };
-        if(e.target.dataset.button === 'starters'){
-          removeCardsAndShowHomeView();
-          recipeHeader.innerText = 'Starters';
-          populateRecipeCards(recipeRepo.filterRecipesByTag('starter'));
-        };
-        if(e.target.dataset.button === 'mains'){
-          removeCardsAndShowHomeView();
-          recipeHeader.innerText = 'Mains';
-          populateRecipeCards(recipeRepo.filterRecipesByTag('main course'));
-        };
-      };
+function redirectNavBar(e) {
+  hide(filterByBox)
+  if(e.target.dataset.button === 'all') {
+    removeCardsAndShowHomeView()
+    populateRecipeCards(recipeRepo.allRecipes);
+  };
+  if(e.target.dataset.button === 'favorites'){
+    removeAllCards();
+    showFavoritesView();
+    populateRecipeCards(user.favoriteRecipes);
+  };
+  if(e.target.dataset.button === 'starters'){
+    removeCardsAndShowHomeView();
+    recipeHeader.innerText = 'Starters';
+    populateRecipeCards(recipeRepo.filterRecipesByTag('starter'));
+  };
+  if(e.target.dataset.button === 'mains'){
+    removeCardsAndShowHomeView();
+    recipeHeader.innerText = 'Mains';
+    populateRecipeCards(recipeRepo.filterRecipesByTag('main course'));
+  };
+};
 
-      function removeCardsAndShowHomeView() {
-        removeAllCards();
-        showHomeView();
-      };
+function removeCardsAndShowHomeView() {
+  removeAllCards();
+  showHomeView();
+};
 
-      function show(element) {
-        element.classList.remove('hidden');
-      };
+function show(element) {
+  element.classList.remove('hidden');
+};
 
-      function hide(element) {
-        element.classList.add('hidden');
-      };
+function hide(element) {
+  element.classList.add('hidden');
+};
 
-      function showHomeView(){
-        recipeHeader.innerText = 'All Recipes'
-        hide(mainRenderedRecipeArea);
-        hide(mainRenderedRecipeInstructionsHeader);
-        hide(mainRenderedRecipeIngredientsHeader);
-        hide(mainRenderedReceipeInstructions);
-        hide(mainRenderedReceipeIngredients);
-        hide(mainRenderedReceipeImage);
-        hide(addFavoritesButton);
-        hide(removeFavoritesButton);
-        hide(addToCookListButton);
-        show(mainRecipeDisplay);
-      };
+function showHomeView(){
+  recipeHeader.innerText = 'All Recipes'
+  hide(mainRenderedRecipeArea);
+  hide(mainRenderedRecipeInstructionsHeader);
+  hide(mainRenderedRecipeIngredientsHeader);
+  hide(mainRenderedReceipeInstructions);
+  hide(mainRenderedReceipeIngredients);
+  hide(mainRenderedReceipeImage);
+  hide(addFavoritesButton);
+  hide(removeFavoritesButton);
+  hide(addToCookListButton);
+  show(mainRecipeDisplay);
+};
 
-      function displayRecipeInfoPage() {
-        hide(mainRecipeDisplay);
-        show(mainRenderedRecipeArea);
-        show(mainRenderedRecipeInstructionsHeader);
-        show(mainRenderedRecipeIngredientsHeader);
-        show(mainRenderedReceipeInstructions);
-        show(mainRenderedReceipeIngredients);
-        show(mainRenderedReceipeImage);
-        show(addFavoritesButton);
-        show(removeFavoritesButton);
-        show(addToCookListButton);
-      };
+function displayRecipeInfoPage() {
+  hide(mainRecipeDisplay);
+  show(mainRenderedRecipeArea);
+  show(mainRenderedRecipeInstructionsHeader);
+  show(mainRenderedRecipeIngredientsHeader);
+  show(mainRenderedReceipeInstructions);
+  show(mainRenderedReceipeIngredients);
+  show(mainRenderedReceipeImage);
+  show(addFavoritesButton);
+  show(removeFavoritesButton);
+  show(addToCookListButton);
+};
 
-      function removeAllCards() {
-        document.querySelectorAll('.main__recipe-card').forEach(card => card.remove());
-      };
+function removeAllCards() {
+  document.querySelectorAll('.main__recipe-card').forEach(card => card.remove());
+};
