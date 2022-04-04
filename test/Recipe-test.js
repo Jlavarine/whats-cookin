@@ -54,11 +54,20 @@ describe('Recipe', () => {
         expect(recipe.tags).to.deep.equal(['food','starter']);
     });
 
+    it('should have ingredients be instances of the ingredient class', () => {
+      recipe.instantiateIngredients(recipe.ingredients);
+      expect(recipe.allIngredients[0]).to.be.an.instanceof(Ingredient);
+    });
+
     it('should determine ingredients needed', () => {
-      expect(recipe.determineIngredientsNeeded(recipe.ingredients)).to.deep.equal(['pear'])
+      expect(recipe.determineIngredientsNeeded(recipe.ingredients)).to.deep.equal(['pear']);
     });
 
     it('should determine cost of ingredients', () => {
-      expect(recipe.calculateCostofIngredients(recipe.ingredients)).to.equal('4.56')
+      expect(recipe.calculateCostofIngredients(recipe.ingredients)).to.equal('4.56');
+    });
+
+    it('should return recipe instructions', () => {
+      expect(recipe.findInstructions()).to.deep.equal([{instruction: 'cook.', number: 1}]);
     });
 });

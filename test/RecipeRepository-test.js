@@ -2,11 +2,6 @@ import { expect } from 'chai';
 import RecipeRepository from '../src/classes/RecipeRepository';
 import Recipe from '../src/classes/Recipe';
 
-
-
-
-
-
 describe('RecipeRepository', () => {
   let recipeRepository;
   let recipe;
@@ -45,16 +40,19 @@ describe('RecipeRepository', () => {
     expect(recipeRepository.filterRecipesByTag('starter')[0].name).to.equal('Cookies');
   });
 
+  it('Should show no recipes if nothing matches the tag', () => {
+    expect(recipeRepository.filterRecipesByTag('lorem ipsum').length).to.equal(0);
+  });
+
   it('Should filter all recipes based on a recipe name', () => {
     expect(recipeRepository.filterRecipesByName('cookies').length).to.equal(1);
   });
 
   it('Should show no recipes if nothing matches user search', () => {
-    expect(recipeRepository.filterRecipesByName('DFECVHCJSB').length).to.equal(0);
-  })
+    expect(recipeRepository.filterRecipesByName('lorem ipsum').length).to.equal(0);
+  });
 
   it('Should show no recipes if nothing matches user search', () => {
     expect(recipeRepository.filterRecipesByName("    ").length).to.equal(0);
-  })
-
+  });
 });
