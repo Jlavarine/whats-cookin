@@ -26,8 +26,8 @@ class User {
   };
 
   filterFavoriteRecipesByTag(inputTag) {
-    this.favoriteRecipes = this.favoriteRecipes.filter(recipe => recipe.tags.includes(inputTag));
-    return this.favoriteRecipes;
+    return this.favoriteRecipes.filter(recipe => recipe.tags.includes(inputTag));
+    
   };
 
   filterFavoriteRecipesByName(inputName) {

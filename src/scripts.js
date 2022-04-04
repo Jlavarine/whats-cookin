@@ -171,6 +171,10 @@ function renderRecipeInfo(e) {
 
       function filterRecipeCards (e) {
           removeAllCards();
+          if (recipeHeader.innerText === 'Favorites') {
+            populateRecipeCards(user.filterFavoriteRecipesByTag(e.target.dataset.tag))
+            return
+          }
           populateRecipeCards(recipeRepo.filterRecipesByTag(e.target.dataset.tag))
       }
 
