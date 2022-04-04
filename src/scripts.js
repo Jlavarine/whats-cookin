@@ -25,14 +25,13 @@ let user;
 let ingredients;
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Event Listeners~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-fetchData.then(data => {
-  console.log(data);
-  instantiateUser(data[0].usersData);
-  ingredients = data[1].ingredientsData;
-  recipeRepo = new RecipeRepository(data[2].recipeData)
-  instantiateRecipeRepo()
-})
 window.addEventListener('load', () => {
+  fetchData.then(data => {
+    instantiateUser(data[0].usersData);
+    ingredients = data[1].ingredientsData;
+    recipeRepo = new RecipeRepository(data[2].recipeData)
+    instantiateRecipeRepo()
+  })
 });
 
 mainRecipeDisplay.addEventListener('click', (e) => {
@@ -90,7 +89,6 @@ function removeFromFavorites () {
 function addToCookList() {
   let recipeToCook = recipeRepo.allRecipes.find(recipe => recipe.name === recipeHeader.innerText);
   user.addRecipeToCookList(recipeToCook);
-  console.log(user.recipesToCook);
 };
 
 
@@ -152,7 +150,7 @@ function renderRecipeInfo(e) {
       };
 
       function searchRecipe () {
-        let userSearch = recipeSearchInput.value;
+        let userSearch = recipeSearchInput.value.toLowerCase();
         recipeSearchInput.value = '';
         removeAllCards();
         if (recipeHeader.innerText === 'Favorites') {
