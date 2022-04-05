@@ -36,12 +36,12 @@ describe('RecipeRepository', () => {
   });
 
   it('Should filter all recipes based on a tag', () => {
-    expect(recipeRepository.filterRecipesByTag('starter').length).to.equal(1);
-    expect(recipeRepository.filterRecipesByTag('starter')[0].name).to.equal('Cookies');
+    expect(recipeRepository.filterRecipesByTag(['starter']).length).to.equal(1);
+    expect(recipeRepository.filterRecipesByTag(['starter', 'food'])[0].name).to.equal('Cookies');
   });
 
   it('Should show no recipes if nothing matches the tag', () => {
-    expect(recipeRepository.filterRecipesByTag('lorem ipsum').length).to.equal(0);
+    expect(recipeRepository.filterRecipesByTag(['lorem ipsum']).length).to.equal(0);
   });
 
   it('Should filter all recipes based on a recipe name', () => {
