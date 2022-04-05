@@ -19,12 +19,12 @@ const recipeSearchButton = document.querySelector('.top__search-bar-button');
 const addFavoritesButton = document.querySelector('.add-favorites-button');
 const removeFavoritesButton = document.querySelector('.remove-favorites-button');
 const addToCookListButton = document.querySelector('.add-recipe-to-cook-button');
+const filterByBox = document.querySelector('.main__filter-paragraph');
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Global Variables~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 let recipeRepo;
 let user;
 let ingredients;
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Event Listeners~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 window.addEventListener('load', () => {
   fetchData.then(data => {
     instantiateUser(data[0].usersData);
@@ -33,7 +33,6 @@ window.addEventListener('load', () => {
     instantiateRecipeRepo()
   })
 });
-
 mainRecipeDisplay.addEventListener('click', (e) => {
   if(e.target.dataset.recipe) {
     renderRecipeInfo(e);
@@ -93,7 +92,6 @@ function addToCookList() {
   user.addRecipeToCookList(recipeToCook);
 };
 
-
 function populateRecipeCards(recipesArray) {
     recipesArray.forEach((recipe, index) => {
       let recipeCost = recipe.calculateCostofIngredients(ingredients);
@@ -110,7 +108,6 @@ function populateRecipeCards(recipesArray) {
         </div> `;
     });
 };
-
 
 function renderRecipeInfo(e) {
   window.scrollTo(0,0);
@@ -149,6 +146,7 @@ function renderRecipeInfo(e) {
         let userSelectedTag = e.target.dataset.tag;
         user.userTags.push(userSelectedTag);
         removeAllCards();
+        filterByBox.innerText = `You are filtering by: '${user.userTags}'`
         if (recipeHeader.innerText === 'Favorites') {
           populateRecipeCards(user.filterFavoriteRecipesByTag(user.userTags));
           return;
@@ -163,10 +161,10 @@ function renderRecipeInfo(e) {
         recipeHeader.innerText = 'All Recipes'
       }
 
-
-
       function searchRecipe () {
         let userSearch = recipeSearchInput.value.toLowerCase();
+        show(filterByBox);
+        filterByBox.innerText = `You are searching by: '${userSearch}'`
         recipeSearchInput.value = '';
         removeAllCards();
         if (recipeHeader.innerText === 'Favorites') {
@@ -244,3 +242,4 @@ function renderRecipeInfo(e) {
       function removeAllCards() {
         document.querySelectorAll('.main__recipe-card').forEach(card => card.remove());
       };
+
