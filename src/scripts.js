@@ -142,24 +142,26 @@ function renderRecipeInfo(e) {
     };
 
       function filterRecipeCards(e) {
+        if (e.target.dataset.tag === 'clear') {
+          clearFilters()
+          return
+        }
         let userSelectedTag = e.target.dataset.tag;
         user.userTags.push(userSelectedTag);
-        
-        // let allRecipeCards = document.querySelectorAll('.main__recipe-card')
-        // allRecipeCards.forEach(card => {
-          //     if (!card.children[2].innerText.includes(userSelectedTag))
-          //     card.remove()
-          // })
-          removeAllCards();
-          if (recipeHeader.innerText === 'Favorites') {
-            populateRecipeCards(user.filterFavoriteRecipesByTag(user.userTags));
-            return;
-          };
-          console.log(user.userTags);
-          
+        removeAllCards();
+        if (recipeHeader.innerText === 'Favorites') {
+          populateRecipeCards(user.filterFavoriteRecipesByTag(user.userTags));
+          return;
+        };          
         populateRecipeCards(recipeRepo.filterRecipesByTag(user.userTags))
-        console.log(recipeRepo.filteredRecipes)
       };
+
+      function clearFilters(){
+        user.userTags = [];
+        removeAllCards()
+        populateRecipeCards(recipeRepo.filterRecipesByTag(user.userTags))
+        recipeHeader.innerText = 'All Recipes'
+      }
 
 
 
@@ -187,12 +189,15 @@ function renderRecipeInfo(e) {
         if(e.target.dataset.button === 'starters'){
           removeCardsAndShowHomeView();
           recipeHeader.innerText = 'Starters';
-          populateRecipeCards(recipeRepo.filterRecipesByTag('starter'));
+          user.userTags.push('starter');
+          populateRecipeCards(recipeRepo.filterRecipesByTag(user.userTags));
         };
         if(e.target.dataset.button === 'mains'){
           removeCardsAndShowHomeView();
           recipeHeader.innerText = 'Mains';
-          populateRecipeCards(recipeRepo.filterRecipesByTag('main course'));
+          user.userTags.push('main course');
+          user.userTags.push('main dish');
+          populateRecipeCards(recipeRepo.filterRecipesByTag(user.userTags));
         };
       };
 
