@@ -4,6 +4,7 @@ class User {
     this.id = id;
     this.favoriteRecipes = [];
     this.recipesToCook = [];
+    this.userTags = [];
   };
 
   addRecipeToFavorites(recipe) {
@@ -28,9 +29,12 @@ class User {
     this.recipesToCook.splice(foundRecipe, 1);
   };
 
-  filterFavoriteRecipesByTag(inputTag) {
-    return this.favoriteRecipes.filter(recipe => recipe.tags.includes(inputTag));
-
+  filterFavoriteRecipesByTag(userTags) {
+    let filteredRecipes = this.favoriteRecipes
+     userTags.forEach(tag => {
+       filteredRecipes = filteredRecipes.filter(recipe => recipe.tags.includes(tag))
+     })
+     return filteredRecipes
   };
 
   filterFavoriteRecipesByName(inputName) {
