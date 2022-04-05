@@ -20,6 +20,7 @@ const addFavoritesButton = document.querySelector('.add-favorites-button');
 const removeFavoritesButton = document.querySelector('.remove-favorites-button');
 const addToCookListButton = document.querySelector('.add-recipe-to-cook-button');
 const filterByBox = document.querySelector('.main__filter-paragraph');
+const allFilterButtons = document.querySelectorAll('.sidebar__right-filter-button')
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Global Variables~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 let recipeRepo;
 let user;
@@ -146,16 +147,19 @@ function renderRecipeInfo(e) {
         let userSelectedTag = e.target.dataset.tag;
         user.userTags.push(userSelectedTag);
         removeAllCards();
+        show(filterByBox)
         filterByBox.innerText = `You are filtering by: '${user.userTags}'`
         if (recipeHeader.innerText === 'Favorites') {
           populateRecipeCards(user.filterFavoriteRecipesByTag(user.userTags));
           return;
-        };          
+        };
         populateRecipeCards(recipeRepo.filterRecipesByTag(user.userTags))
       };
 
       function clearFilters(){
         user.userTags = [];
+        filterByBox.innerText = ''
+        hide(filterByBox)
         removeAllCards()
         populateRecipeCards(recipeRepo.filterRecipesByTag(user.userTags))
         recipeHeader.innerText = 'All Recipes'
@@ -175,7 +179,12 @@ function renderRecipeInfo(e) {
       };
 
       function redirectNavBar(e) {
+        clearFilters()
+        recipeSearchInput.disabled = false;
+        recipeSearchButton.disabled = false;
+        allFilterButtons.forEach(button => button.disabled = false);
         if(e.target.dataset.button === 'all') {
+
           removeCardsAndShowHomeView()
           populateRecipeCards(recipeRepo.allRecipes);
         };
@@ -187,15 +196,12 @@ function renderRecipeInfo(e) {
         if(e.target.dataset.button === 'starters'){
           removeCardsAndShowHomeView();
           recipeHeader.innerText = 'Starters';
-          user.userTags.push('starter');
-          populateRecipeCards(recipeRepo.filterRecipesByTag(user.userTags));
+          populateRecipeCards(recipeRepo.filterRecipesByTag(['starter']));
         };
         if(e.target.dataset.button === 'mains'){
           removeCardsAndShowHomeView();
           recipeHeader.innerText = 'Mains';
-          user.userTags.push('main course');
-          user.userTags.push('main dish');
-          populateRecipeCards(recipeRepo.filterRecipesByTag(user.userTags));
+          populateRecipeCards(recipeRepo.filterRecipesByTag(['main course', 'main dish']));
         };
       };
 
@@ -227,6 +233,9 @@ function renderRecipeInfo(e) {
       };
 
       function displayRecipeInfoPage() {
+        allFilterButtons.forEach(button => button.disabled = true)
+        recipeSearchInput.disabled = true;
+        recipeSearchButton.disabled = true;
         hide(mainRecipeDisplay);
         show(mainRenderedRecipeArea);
         show(mainRenderedRecipeInstructionsHeader);
@@ -237,9 +246,9 @@ function renderRecipeInfo(e) {
         show(addFavoritesButton);
         show(removeFavoritesButton);
         show(addToCookListButton);
+        hide(filterByBox)
       };
 
       function removeAllCards() {
         document.querySelectorAll('.main__recipe-card').forEach(card => card.remove());
       };
-
