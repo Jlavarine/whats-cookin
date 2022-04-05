@@ -89,11 +89,11 @@ describe('Users', () => {
     user.addRecipeToFavorites(recipe);
     user.addRecipeToFavorites(recipe2);
     user.addRecipeToFavorites(recipe3);
-    expect(user.filterFavoriteRecipesByTag('starter').length).to.equal(3);
+    expect(user.filterFavoriteRecipesByTag(['starter']).length).to.equal(3);
   });
 
   it('Should show no recipes if nothing matches the tag', () => {
-    expect(user.filterFavoriteRecipesByTag('lorem ipsum').length).to.equal(0);
+    expect(user.filterFavoriteRecipesByTag(['lorem ipsum']).length).to.equal(0);
   });
 
   it('Should be able to filter favorite recipes by names', () => {
