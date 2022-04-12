@@ -63,7 +63,6 @@ cursor: pointer;
 }
 
 .sidebar__right-filter-button{
-  background: white;
   height: 1.8%;
   width: 1px;
   font-size: 16.5px;
@@ -73,7 +72,7 @@ cursor: pointer;
 }
 
 .clear-button {
-  color: red;
+  color: brown;
   padding-left: 5px;
 }
 
@@ -191,7 +190,7 @@ border: 3px solid orange;
   justify-content: space-between;
   background-color: rgb(235,235,235);
   font-size:  12px;
-  color: rgb(150,150,150);
+  color: black;
   padding: 10px;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;

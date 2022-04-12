@@ -121,6 +121,7 @@ function renderRecipeInfo(e) {
   displayRecipeInfoPage();
   recipeHeader.innerText = e.target.dataset.recipe;
   mainRenderedReceipeImage.src = currentRecipe.image;
+  mainRenderedReceipeImage.alt = `Image of ${currentRecipe.name} recipe`;
       currentIngredientAmounts.forEach((ingredient, index) => {
         mainRenderedReceipeIngredients.innerHTML +=
         `<div class="main__rendered-recipe-box">
