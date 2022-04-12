@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang='en-US'>
   <head>
     <meta charset="UTF-8">
     <!-- <link href="../src/styles.css" rel="stylesheet"> -->
@@ -8,7 +8,7 @@
   </head>
   <body class="body">
     <section class="top__search-bar">
-      <input class="top__search-bar-input-field" id="searchbar" type="text" placeholder="Search By Recipe Name">
+      <input class="top__search-bar-input-field" id="searchbar" type="text" placeholder="Search By Recipe Name" aria-label="Search">
       <button class='top__search-bar-button'>Search</button>
     </section>
     <header class="top__header">
@@ -31,17 +31,17 @@
           <button class="remove-favorites-button hidden"data-button="remove-favorite">Remove From Favorites</button>
           <button class="add-recipe-to-cook-button hidden"data-button="remove-favorite">Add Recipe to Cook List</button>
       </div>
-        <img class="main__rendered-recipe-image hidden"/>
-        <h4 class="main__rendered-recipe-ingredients-header hidden"> Ingredients<h4>
+        <img class="main__rendered-recipe-image hidden" alt=''/>
+        <h3 class="main__rendered-recipe-ingredients-header hidden"> Ingredients<h3>
         <section class="main__rendered-recipe-ingredients hidden"></section>
-        <h4 class="main__rendered-recipe-instructions-header hidden">Instructions<h4>
+        <h3 class="main__rendered-recipe-instructions-header hidden">Instructions<h3>
         <section class="main__rendered-recipe-instructions hidden"></section>
         <section class="main__rendered-recipe-area hidden"></section>
         <section class="main__recipe-images-box">
       </section>
       </section>
       <section class="sidebar__right">
-        <h4 class="sidebar__right-header"> Filter All Recipes <br>--------------</h4>
+        <h3 class="sidebar__right-header"> Filter All Recipes <br>--------------</h3>
         <button class="sidebar__right-filter-button clear-button" data-tag="clear">Clear Filters </button>--------------<br>
         <button class="sidebar__right-filter-button" data-tag="starter">Starter</button>
         <button class="sidebar__right-filter-button" data-tag="antipasti">Antipasti</button>
