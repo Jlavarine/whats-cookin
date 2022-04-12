@@ -2,52 +2,14 @@ import { expect } from 'chai';
 import RecipeRepository from '../src/classes/RecipeRepository';
 import Recipe from '../src/classes/Recipe';
 import User from '../src/classes/User';
-
+import data from '../test/Sample-Data.js'
 describe('Users', () => {
   let user;
-  let recipe;
+  let recipe1;
   let recipe2;
-  let recipe3;
   beforeEach( () => {
-    recipe = new Recipe(1, 'example.com',
-    [{
-      id: 1,
-      name: 'pear',
-      estimatedCostInCents: 456,
-      quantity: {
-        amount: 1,
-        unit: 'c'
-      }
-    }], [{
-      instruction: 'cook.',
-      number: 1
-    }], 'Cookies', ['food','starter']);
-    recipe2 = new Recipe(2, 'example.com',
-    [{
-      id: 1,
-      name: 'pear',
-      estimatedCostInCents: 456,
-      quantity: {
-        amount: 1,
-        unit: 'c'
-      }
-    }], [{
-      instruction: 'cook.',
-      number: 1
-    }], 'Cookies', ['food','starter']);
-    recipe3 = new Recipe(3, 'example.com',
-    [{
-      id: 1,
-      name: 'pear',
-      estimatedCostInCents: 456,
-      quantity: {
-        amount: 1,
-        unit: 'c'
-      }
-    }], [{
-      instruction: 'cook.',
-      number: 1
-    }], 'Cookies', ['food','starter'])
+    recipe1 = new Recipe(data.sampleRecipeData[0].id, data.sampleRecipeData[0].image, data.sampleRecipeData[0].ingredients, data.sampleRecipeData[0].instructions, data.sampleRecipeData[0].name, data.sampleRecipeData[0].tags);
+    recipe2 = new Recipe(data.sampleRecipeData[1].id, data.sampleRecipeData[1].image, data.sampleRecipeData[1].ingredients, data.sampleRecipeData[1].instructions, data.sampleRecipeData[1].name, data.sampleRecipeData[1].tags);
     user = new User();
   });
 
@@ -60,36 +22,35 @@ describe('Users', () => {
   });
 
   it('Should hold a list of all favorite recipes', () => {
-    user.addRecipeToFavorites(recipe);
-    expect(user.favoriteRecipes[0]).to.deep.equal(recipe);
+    user.addRecipeToFavorites(recipe1);
+    expect(user.favoriteRecipes[0]).to.deep.equal(recipe1);
   });
 
   it('Should be able to remove favorite recipes', () => {
-    user.addRecipeToFavorites(recipe);
-    user.addRecipeToFavorites(recipe);
-    user.addRecipeToFavorites(recipe);
-    user.removeRecipeFromFavorites(recipe);
-    expect(user.favoriteRecipes.length).to.equal(2);
+    user.addRecipeToFavorites(recipe1);
+    user.addRecipeToFavorites(recipe2);
+    user.removeRecipeFromFavorites(recipe2);
+    expect(user.favoriteRecipes.length).to.equal(1);
+    expect(user.favoriteRecipes[0]).to.deep.equal(recipe1);
   });
 
   it('Should hold a list of recipes to cook', () => {
-    user.addRecipeToCookList(recipe);
-    expect(user.recipesToCook[0]).to.deep.equal(recipe);
+    user.addRecipeToCookList(recipe1);
+    expect(user.recipesToCook[0]).to.deep.equal(recipe1);
   });
 
   it('Should be able to remove from recipes to cook', () => {
-    user.addRecipeToCookList(recipe);
-    user.addRecipeToCookList(recipe);
-    user.addRecipeToCookList(recipe);
-    user.removeRecipeFromCookList(recipe);
-    expect(user.recipesToCook.length).to.equal(2);
+    user.addRecipeToCookList(recipe1);
+    user.addRecipeToCookList(recipe2);
+    user.removeRecipeFromCookList(recipe1);
+    expect(user.recipesToCook.length).to.equal(1);
+    expect(user.recipesToCook[0]).to.deep.equal(recipe2);
   });
 
   it('Should be able to filter favorite recipes by tags', () => {
-    user.addRecipeToFavorites(recipe);
+    user.addRecipeToFavorites(recipe1);
     user.addRecipeToFavorites(recipe2);
-    user.addRecipeToFavorites(recipe3);
-    expect(user.filterFavoriteRecipesByTag(['starter']).length).to.equal(3);
+    expect(user.filterFavoriteRecipesByTag(['starter']).length).to.equal(1);
   });
 
   it('Should show no recipes if nothing matches the tag', () => {
@@ -97,10 +58,9 @@ describe('Users', () => {
   });
 
   it('Should be able to filter favorite recipes by names', () => {
-    user.addRecipeToFavorites(recipe);
+    user.addRecipeToFavorites(recipe1);
     user.addRecipeToFavorites(recipe2);
-    user.addRecipeToFavorites(recipe3);
-    expect(user.filterFavoriteRecipesByName('Dirty').length).to.equal(0);
+    expect(user.filterFavoriteRecipesByName('cookie').length).to.equal(1);
   });
 
   it('Should show no recipes if nothing matches user search', () => {
