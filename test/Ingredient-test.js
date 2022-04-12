@@ -1,17 +1,18 @@
 import { expect } from 'chai';
 import Ingredient from '../src/classes/Ingredient';
+import data from '../test/Sample-Data.js'
 describe('Ingredient', () => {
 
   it('should be an instance of ingredients', () => {
-    const newIngredient = new Ingredient(19116, 'marshmallow', 425);
-
+    const newIngredient = new Ingredient(data.sampleIngredientData[0].id, data.sampleIngredientData[0].name, data.sampleIngredientData[0].estimatedCostInCents);
+    // console.log(data.sampleIngredientData)
     expect(newIngredient).to.be.an.instanceof(Ingredient);
   });
 
-  it('instantiate a new ingredient', () => {
-    const newIngredient = new Ingredient(19116, 'marshmallow', 425);
-    expect(newIngredient.id).to.equal(19116);
-    expect(newIngredient.name).to.equal('marshmallow');
-    expect(newIngredient.estimatedCost).to.equal(425);
+  it('should have a property of id, name, and estimatedCost', () => {
+    const newIngredient = new Ingredient(data.sampleIngredientData[0].id, data.sampleIngredientData[0].name, data.sampleIngredientData[0].estimatedCostInCents);
+    expect(newIngredient.id).to.equal(20081);
+    expect(newIngredient.name).to.equal('wheat flour');
+    expect(newIngredient.estimatedCost).to.equal(142);
   });
 });
