@@ -1,14 +1,10 @@
 // Your fetch requests will live here!
 
-let userData = fetch('https://what-s-cookin-starter-kit.herokuapp.com/api/v1/users').then(response => response.json())
+const fetchDatasets = (dataset) => {
+    return fetch(`http://localhost:3001/api/v1/${dataset}`).then(response => response.json()).catch(error => console.log(`${dataset} fetch failed`))
+}
 
-let ingredientData = fetch('https://what-s-cookin-starter-kit.herokuapp.com/api/v1/ingredients').then(response => response.json())
-
-let recipeData = fetch('https://what-s-cookin-starter-kit.herokuapp.com/api/v1/recipes').then(response => response.json())
-
-const fetchData = Promise.all([userData, ingredientData, recipeData])
-
-
+const fetchData = Promise.all([fetchDatasets('users'), fetchDatasets('ingredients'), fetchDatasets('recipes')])
 
 
 
