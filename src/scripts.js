@@ -3,6 +3,7 @@ import fetchData from './apiCalls';
 import './images/turing-logo.png';
 import RecipeRepository from './classes/RecipeRepository';
 import User from './classes/User';
+import dom from '../src/domUpdates.js'
 // ~~~~~~~~~~~~~~~~~~~~Query Selectors~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const navButtons = document.querySelector('.nav');
 const mainRecipeDisplay = document.querySelector('.main__recipe-images-box');
@@ -32,7 +33,8 @@ window.addEventListener('load', () => {
     ingredients = data[1];
     recipeRepo = new RecipeRepository(data[2])
     instantiateRecipeRepo()
-  }).catch(error => alertPromiseFail())
+  })
+  // .catch(error => dom.alertPromiseFail())
 });
 mainRecipeDisplay.addEventListener('click', (e) => {
   if(e.target.dataset.recipe) {
@@ -59,14 +61,10 @@ removeFavoritesButton.addEventListener('click', removeFromFavorites);
 addToCookListButton.addEventListener('click', addToCookList);
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function alertPromiseFail(){
-  window.alert('Sorry, something went wrong!');
-  location.reload()
-}
 
 function instantiateRecipeRepo (){
     recipeRepo.instantiateRecipes();
-    populateRecipeCards(recipeRepo.allRecipes);
+    dom.populateRecipeCards(recipeRepo.allRecipes, ingredients);
 };
 
 function instantiateUser (usersData) {
@@ -99,22 +97,6 @@ function addToCookList() {
   user.addRecipeToCookList(recipeToCook);
 };
 
-function populateRecipeCards(recipesArray) {
-    recipesArray.forEach((recipe, index) => {
-      let recipeCost = recipe.calculateCostofIngredients(ingredients);
-        mainRecipeDisplay.innerHTML +=
-        `<div class="main__recipe-card" data-recipe="${recipesArray[index].name}">
-        <div class="main__recipe-card-image-box">
-        <img class="main__recipe-card-image" data-recipe="${recipesArray[index].name}" src=${recipesArray[index].image} alt="${recipesArray[index].name}">
-        </div>
-        <p class="main__recipe-card-text" data-recipe="${recipesArray[index].name}" >${recipesArray[index].name}</p>
-         <div class="main__recipe-card-tags-box" data-recipe="${recipesArray[index].name}">
-           <section class="main__recipe-card-tag" data-recipe="${recipesArray[index].name}">${recipesArray[index].tags.join(', ')}</section>
-           </div>
-          <p class="main__recipe-card-price" data-recipe="${recipesArray[index].name}">$${recipeCost}</p>
-        </div> `;
-    });
-};
 
 function renderRecipeInfo(e) {
   window.scrollTo(0,0);
@@ -259,3 +241,5 @@ function renderRecipeInfo(e) {
       function removeAllCards() {
         document.querySelectorAll('.main__recipe-card').forEach(card => card.remove());
       };
+
+      export default { recipeRepo, user, ingredients }
