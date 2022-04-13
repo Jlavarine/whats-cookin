@@ -28,11 +28,11 @@ let ingredients;
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Event Listeners~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 window.addEventListener('load', () => {
   fetchData.then(data => {
-    instantiateUser(data[0].usersData);
-    ingredients = data[1].ingredientsData;
-    recipeRepo = new RecipeRepository(data[2].recipeData)
+    instantiateUser(data[0]);
+    ingredients = data[1];
+    recipeRepo = new RecipeRepository(data[2])
     instantiateRecipeRepo()
-  })
+  }).catch(error => alertPromiseFail())
 });
 mainRecipeDisplay.addEventListener('click', (e) => {
   if(e.target.dataset.recipe) {
@@ -58,6 +58,12 @@ addFavoritesButton.addEventListener('click', addToFavorites);
 removeFavoritesButton.addEventListener('click', removeFromFavorites);
 addToCookListButton.addEventListener('click', addToCookList);
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+function alertPromiseFail(){
+  window.alert('Sorry, something went wrong!');
+  location.reload()
+}
+
 function instantiateRecipeRepo (){
     recipeRepo.instantiateRecipes();
     populateRecipeCards(recipeRepo.allRecipes);
