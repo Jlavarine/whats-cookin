@@ -1,5 +1,6 @@
-const { recipeRepo, user, ingredients } = require('../src/scripts.js')
-
+import { recipeRepo } from '../src/scripts.js';
+import { user } from '../src/scripts.js';
+import { ingredients } from '../src/scripts.js';
 const navButtons = document.querySelector('.nav');
 const mainRecipeDisplay = document.querySelector('.main__recipe-images-box');
 const recipeHeader = document.querySelector('.main__recipe-header');
@@ -24,7 +25,7 @@ const dom = {
     location.reload()
   },
 
-  populateRecipeCards(recipesArray, ingredients) {
+  populateRecipeCards(recipesArray) {
       recipesArray.forEach((recipe, index) => {
         let recipeCost = recipe.calculateCostofIngredients(ingredients);
           mainRecipeDisplay.innerHTML +=
@@ -39,6 +40,34 @@ const dom = {
             <p class="main__recipe-card-price" data-recipe="${recipesArray[index].name}">$${recipeCost}</p>
           </div> `;
       });
+  },
+
+  showFavoritesView(){
+    this.showHomeView();
+    recipeHeader.innerText = 'Favorites';
+  },
+
+
+  showHomeView(){
+    recipeHeader.innerText = 'All Recipes'
+    this.hide(mainRenderedRecipeArea);
+    this.hide(mainRenderedRecipeInstructionsHeader);
+    this.hide(mainRenderedRecipeIngredientsHeader);
+    this.hide(mainRenderedReceipeInstructions);
+    this.hide(mainRenderedReceipeIngredients);
+    this.hide(mainRenderedReceipeImage);
+    this.hide(addFavoritesButton);
+    this.hide(removeFavoritesButton);
+    this.hide(addToCookListButton);
+    this.show(mainRecipeDisplay);
+  },
+
+  show(element) {
+    element.classList.remove('hidden');
+  },
+
+  hide(element) {
+    element.classList.add('hidden');
   }
 }
 

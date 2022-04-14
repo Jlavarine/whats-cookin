@@ -72,10 +72,6 @@ function instantiateUser (usersData) {
   user = new User(randomUserInfo.name, randomUserInfo.id);
 };
 
-function showFavoritesView(){
-  showHomeView();
-  recipeHeader.innerText = 'Favorites';
-};
 
 function addToFavorites () {
   let userFavRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === recipeHeader.innerText);
@@ -139,10 +135,10 @@ function renderRecipeInfo(e) {
         show(filterByBox)
         filterByBox.innerText = `You are filtering by: '${user.userTags}'`
         if (recipeHeader.innerText === 'Favorites') {
-          populateRecipeCards(user.filterFavoriteRecipesByTag(user.userTags));
+          dom.populateRecipeCards(user.filterFavoriteRecipesByTag(user.userTags));
           return;
         };
-        populateRecipeCards(recipeRepo.filterRecipesByTag(user.userTags))
+        dom.populateRecipeCards(recipeRepo.filterRecipesByTag(user.userTags))
       };
 
       function clearFilters(){
@@ -150,7 +146,7 @@ function renderRecipeInfo(e) {
         filterByBox.innerText = ''
         hide(filterByBox)
         removeAllCards()
-        populateRecipeCards(recipeRepo.filterRecipesByTag(user.userTags))
+        dom.populateRecipeCards(recipeRepo.filterRecipesByTag(user.userTags))
         recipeHeader.innerText = 'All Recipes'
       }
 
@@ -161,10 +157,10 @@ function renderRecipeInfo(e) {
         recipeSearchInput.value = '';
         removeAllCards();
         if (recipeHeader.innerText === 'Favorites') {
-          populateRecipeCards(user.filterFavoriteRecipesByName(userSearch));
+          dom.populateRecipeCards(user.filterFavoriteRecipesByName(userSearch));
           return;
         };
-          populateRecipeCards(recipeRepo.filterRecipesByName(userSearch));
+          dom.populateRecipeCards(recipeRepo.filterRecipesByName(userSearch));
       };
 
       function redirectNavBar(e) {
@@ -175,28 +171,28 @@ function renderRecipeInfo(e) {
         if(e.target.dataset.button === 'all') {
 
           removeCardsAndShowHomeView()
-          populateRecipeCards(recipeRepo.allRecipes);
+          dom.populateRecipeCards(recipeRepo.allRecipes);
         };
         if(e.target.dataset.button === 'favorites'){
           removeAllCards();
-          showFavoritesView();
-          populateRecipeCards(user.favoriteRecipes);
+          dom.showFavoritesView();
+          dom.populateRecipeCards(user.favoriteRecipes);
         };
         if(e.target.dataset.button === 'starters'){
           removeCardsAndShowHomeView();
           recipeHeader.innerText = 'Starters';
-          populateRecipeCards(recipeRepo.filterRecipesByTag(['starter']));
+          dom.populateRecipeCards(recipeRepo.filterRecipesByTag(['starter']));
         };
         if(e.target.dataset.button === 'mains'){
           removeCardsAndShowHomeView();
           recipeHeader.innerText = 'Mains';
-          populateRecipeCards(recipeRepo.filterRecipesByTag(['main course', 'main dish']));
+          dom.populateRecipeCards(recipeRepo.filterRecipesByTag(['main course', 'main dish']));
         };
       };
 
       function removeCardsAndShowHomeView() {
         removeAllCards();
-        showHomeView();
+        dom.showHomeView();
       };
 
       function show(element) {
@@ -205,20 +201,6 @@ function renderRecipeInfo(e) {
 
       function hide(element) {
         element.classList.add('hidden');
-      };
-
-      function showHomeView(){
-        recipeHeader.innerText = 'All Recipes'
-        hide(mainRenderedRecipeArea);
-        hide(mainRenderedRecipeInstructionsHeader);
-        hide(mainRenderedRecipeIngredientsHeader);
-        hide(mainRenderedReceipeInstructions);
-        hide(mainRenderedReceipeIngredients);
-        hide(mainRenderedReceipeImage);
-        hide(addFavoritesButton);
-        hide(removeFavoritesButton);
-        hide(addToCookListButton);
-        show(mainRecipeDisplay);
       };
 
       function displayRecipeInfoPage() {
@@ -242,4 +224,4 @@ function renderRecipeInfo(e) {
         document.querySelectorAll('.main__recipe-card').forEach(card => card.remove());
       };
 
-      export default { recipeRepo, user, ingredients }
+      export { recipeRepo, user, ingredients }
