@@ -3,6 +3,7 @@ import fetchData from './apiCalls';
 import './images/turing-logo.png';
 import RecipeRepository from './classes/RecipeRepository';
 import User from './classes/User';
+import dom from '../src/domUpdates.js'
 // ~~~~~~~~~~~~~~~~~~~~Query Selectors~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const navButtons = document.querySelector('.nav');
 const mainRecipeDisplay = document.querySelector('.main__recipe-images-box');
@@ -32,22 +33,26 @@ window.addEventListener('load', () => {
     ingredients = data[1];
     recipeRepo = new RecipeRepository(data[2])
     instantiateRecipeRepo()
-  }).catch(error => alertPromiseFail())
+  })
+  // .catch(error => dom.alertPromiseFail())
 });
 mainRecipeDisplay.addEventListener('click', (e) => {
   if(e.target.dataset.recipe) {
-    renderRecipeInfo(e);
+    dom.resetRecipeDisplayInfo()
+    dom.renderRecipeInfo(e);
   };
 });
 navButtons.addEventListener('click', function(e) {
-    redirectNavBar(e);
+    dom.redirectNavBar(e);
 });
 sidebarRight.addEventListener('click', function(e){
   if(e.target.dataset.tag) {
-    filterRecipeCards(e);
+    dom.filterRecipeCards(e);
   };
 });
-recipeSearchButton.addEventListener('click', searchRecipe);
+recipeSearchButton.addEventListener('click', function(){
+  dom.searchRecipe()
+});
 recipeSearchInput.addEventListener("keyup", function(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
@@ -59,14 +64,10 @@ removeFavoritesButton.addEventListener('click', removeFromFavorites);
 addToCookListButton.addEventListener('click', addToCookList);
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function alertPromiseFail(){
-  window.alert('Sorry, something went wrong!');
-  location.reload()
-}
 
 function instantiateRecipeRepo (){
     recipeRepo.instantiateRecipes();
-    populateRecipeCards(recipeRepo.allRecipes);
+    dom.populateRecipeCards(recipeRepo.allRecipes, ingredients);
 };
 
 function instantiateUser (usersData) {
@@ -74,10 +75,6 @@ function instantiateUser (usersData) {
   user = new User(randomUserInfo.name, randomUserInfo.id);
 };
 
-function showFavoritesView(){
-  showHomeView();
-  recipeHeader.innerText = 'Favorites';
-};
 
 function addToFavorites () {
   let userFavRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === recipeHeader.innerText);
@@ -99,163 +96,4 @@ function addToCookList() {
   user.addRecipeToCookList(recipeToCook);
 };
 
-function populateRecipeCards(recipesArray) {
-    recipesArray.forEach((recipe, index) => {
-      let recipeCost = recipe.calculateCostofIngredients(ingredients);
-        mainRecipeDisplay.innerHTML +=
-        `<div class="main__recipe-card" data-recipe="${recipesArray[index].name}">
-        <div class="main__recipe-card-image-box">
-        <img class="main__recipe-card-image" data-recipe="${recipesArray[index].name}" src=${recipesArray[index].image} alt="${recipesArray[index].name}">
-        </div>
-        <p class="main__recipe-card-text" data-recipe="${recipesArray[index].name}" >${recipesArray[index].name}</p>
-         <div class="main__recipe-card-tags-box" data-recipe="${recipesArray[index].name}">
-           <section class="main__recipe-card-tag" data-recipe="${recipesArray[index].name}">${recipesArray[index].tags.join(', ')}</section>
-           </div>
-          <p class="main__recipe-card-price" data-recipe="${recipesArray[index].name}">$${recipeCost}</p>
-        </div> `;
-    });
-};
-
-function renderRecipeInfo(e) {
-  window.scrollTo(0,0);
-  mainRenderedReceipeIngredients.innerHTML = '';
-  mainRenderedReceipeInstructions.innerHTML = '';
-  let currentRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === e.target.dataset.recipe);
-  let currentIngredients = currentRecipe.determineIngredientsNeeded(ingredients);
-  let currentIngredientAmounts = currentRecipe.ingredients;
-
-  displayRecipeInfoPage();
-  recipeHeader.innerText = e.target.dataset.recipe;
-  mainRenderedReceipeImage.src = currentRecipe.image;
-  mainRenderedReceipeImage.alt = `Image of ${currentRecipe.name} recipe`;
-      currentIngredientAmounts.forEach((ingredient, index) => {
-        mainRenderedReceipeIngredients.innerHTML +=
-        `<div class="main__rendered-recipe-box">
-          <section class="main__rendered-recipe-ingredients">${ingredient.quantity.amount} ${ingredient.quantity.unit} ${currentIngredients[index]}
-          </section>
-        </div>`;
-      });
-        currentRecipe.instructions.forEach(instruction =>{
-        mainRenderedReceipeInstructions.innerHTML +=
-        `<div class='main__rendered-recipe-instructions'>
-          <section class="main__rendered-recipe-instructions">${instruction.number} ${instruction.instruction}</section>
-        </div>`
-      });
-        mainRenderedRecipeArea.innerHTML = `
-              <section class="main__rendered-recipe-cost">recipe cost: $${currentRecipe.calculateCostofIngredients(ingredients)}
-              </section>`
-    };
-
-      function filterRecipeCards(e) {
-        if (e.target.dataset.tag === 'clear') {
-          clearFilters()
-          return
-        }
-        let userSelectedTag = e.target.dataset.tag;
-        user.userTags.push(userSelectedTag);
-        removeAllCards();
-        show(filterByBox)
-        filterByBox.innerText = `You are filtering by: '${user.userTags}'`
-        if (recipeHeader.innerText === 'Favorites') {
-          populateRecipeCards(user.filterFavoriteRecipesByTag(user.userTags));
-          return;
-        };
-        populateRecipeCards(recipeRepo.filterRecipesByTag(user.userTags))
-      };
-
-      function clearFilters(){
-        user.userTags = [];
-        filterByBox.innerText = ''
-        hide(filterByBox)
-        removeAllCards()
-        populateRecipeCards(recipeRepo.filterRecipesByTag(user.userTags))
-        recipeHeader.innerText = 'All Recipes'
-      }
-
-      function searchRecipe () {
-        let userSearch = recipeSearchInput.value.toLowerCase();
-        show(filterByBox);
-        filterByBox.innerText = `You are searching by: '${userSearch}'`
-        recipeSearchInput.value = '';
-        removeAllCards();
-        if (recipeHeader.innerText === 'Favorites') {
-          populateRecipeCards(user.filterFavoriteRecipesByName(userSearch));
-          return;
-        };
-          populateRecipeCards(recipeRepo.filterRecipesByName(userSearch));
-      };
-
-      function redirectNavBar(e) {
-        clearFilters()
-        recipeSearchInput.disabled = false;
-        recipeSearchButton.disabled = false;
-        allFilterButtons.forEach(button => button.disabled = false);
-        if(e.target.dataset.button === 'all') {
-
-          removeCardsAndShowHomeView()
-          populateRecipeCards(recipeRepo.allRecipes);
-        };
-        if(e.target.dataset.button === 'favorites'){
-          removeAllCards();
-          showFavoritesView();
-          populateRecipeCards(user.favoriteRecipes);
-        };
-        if(e.target.dataset.button === 'starters'){
-          removeCardsAndShowHomeView();
-          recipeHeader.innerText = 'Starters';
-          populateRecipeCards(recipeRepo.filterRecipesByTag(['starter']));
-        };
-        if(e.target.dataset.button === 'mains'){
-          removeCardsAndShowHomeView();
-          recipeHeader.innerText = 'Mains';
-          populateRecipeCards(recipeRepo.filterRecipesByTag(['main course', 'main dish']));
-        };
-      };
-
-      function removeCardsAndShowHomeView() {
-        removeAllCards();
-        showHomeView();
-      };
-
-      function show(element) {
-        element.classList.remove('hidden');
-      };
-
-      function hide(element) {
-        element.classList.add('hidden');
-      };
-
-      function showHomeView(){
-        recipeHeader.innerText = 'All Recipes'
-        hide(mainRenderedRecipeArea);
-        hide(mainRenderedRecipeInstructionsHeader);
-        hide(mainRenderedRecipeIngredientsHeader);
-        hide(mainRenderedReceipeInstructions);
-        hide(mainRenderedReceipeIngredients);
-        hide(mainRenderedReceipeImage);
-        hide(addFavoritesButton);
-        hide(removeFavoritesButton);
-        hide(addToCookListButton);
-        show(mainRecipeDisplay);
-      };
-
-      function displayRecipeInfoPage() {
-        allFilterButtons.forEach(button => button.disabled = true)
-        recipeSearchInput.disabled = true;
-        recipeSearchButton.disabled = true;
-        hide(mainRecipeDisplay);
-        show(mainRenderedRecipeArea);
-        show(mainRenderedRecipeInstructionsHeader);
-        show(mainRenderedRecipeIngredientsHeader);
-        show(mainRenderedReceipeInstructions);
-        show(mainRenderedReceipeIngredients);
-        show(mainRenderedReceipeImage);
-        show(addFavoritesButton);
-        show(removeFavoritesButton);
-        show(addToCookListButton);
-        hide(filterByBox)
-      };
-
-      function removeAllCards() {
-        document.querySelectorAll('.main__recipe-card').forEach(card => card.remove());
-      };
+      export { recipeRepo, user, ingredients }
