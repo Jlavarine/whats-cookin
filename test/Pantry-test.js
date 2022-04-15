@@ -6,11 +6,13 @@ describe('Pantry', () => {
 //   let recipeRepository;
   let recipe1;
   let recipe2;
+  let recipe3;
   let pantry;
   let pantry2;
   beforeEach( () => {
     recipe1 = new Recipe(data.sampleRecipeData[0].id, data.sampleRecipeData[0].image, data.sampleRecipeData[0].ingredients, data.sampleRecipeData[0].instructions, data.sampleRecipeData[0].name, data.sampleRecipeData[0].tags);
     recipe2 = new Recipe(data.sampleRecipeData[1].id, data.sampleRecipeData[1].image, data.sampleRecipeData[1].ingredients, data.sampleRecipeData[1].instructions, data.sampleRecipeData[1].name, data.sampleRecipeData[1].tags);
+    recipe3 = new Recipe(data.sampleRecipeData[2].id, data.sampleRecipeData[2].image, data.sampleRecipeData[2].ingredients, data.sampleRecipeData[2].instructions, data.sampleRecipeData[2].name, data.sampleRecipeData[2].tags);
     // recipeRepository = new RecipeRepository([recipe1, recipe2])
     pantry = new Pantry(data.sampleUserData[0].pantry)
     pantry2 = new Pantry([])
@@ -35,7 +37,7 @@ describe('Pantry', () => {
   it('can have a pantry with no ingredients', () => {
     expect(pantry2.pantry.length).to.equal(0);
     expect(pantry2.pantry).to.deep.equal([])
-  })     
+  })
 
   it('should keep track of shared ingredients with the recipe', () => {
     pantry.determineIfUserCanCook(recipe1.ingredients)
@@ -58,4 +60,15 @@ describe('Pantry', () => {
   it('should return false if user can not cook recipe', () => {
     expect(pantry.determineIfUserCanCook([])).to.equal(false)
   });
+
+  it('should determine ingredients missing from a recipe', () => {
+    pantry.determineMissingIngredients(recipe3.ingredients)
+    expect(pantry.shoppingList).to.deep.equal({"2": 1.5})
+  });
+
+  it('if no ingredients are missing, then the pantry\s shopping list should be empty', () => {
+    pantry.determineMissingIngredients(recipe1.ingredients)
+    expect(pantry.shoppingList).to.deep.equal({})
+  });
+
 })

@@ -29,6 +29,7 @@ class Pantry {
             return true
         }
     }
+    
     determineMissingIngredients(recipeIngredients) {
       const pantryIds = this.pantry.map(item => item.ingredient)
       recipeIngredients.forEach(ingredient => {
