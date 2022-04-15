@@ -65,9 +65,17 @@ const dom = {
   },
   ////test function pls delete thx
   testPantry(currentRecipe){
-    console.log(`currentRecipe's ingredients` , currentRecipe.ingredients)
+    // currentRecipe.ingredients = [
+    //     {id: 1, quantity: {amount: 1}},
+    //     {id: 2, quantity: {amount: 1}},
+    //     {id: 3, quantity: {amount: 1}}
+    // ]
+    user.pantry.determineIfUserCanCook(currentRecipe.ingredients)
+    user.pantry.determineMissingIngredients(currentRecipe.ingredients)
+    console.log('user shopping list', user.pantry.shoppingList)
+    // console.log(`currentRecipe's ingredients` , currentRecipe.ingredients)
     console.log(`user's pantry`, user.pantry)
-    console.log(`shared ingredients`, user.pantry.determineIfUserCanCook(currentRecipe.ingredients))
+    // console.log(`shared ingredients`, user.pantry.determineIfUserCanCook(currentRecipe.ingredients))
   },
 
 
