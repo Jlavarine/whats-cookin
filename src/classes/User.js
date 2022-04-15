@@ -1,3 +1,5 @@
+import Pantry from './Pantry';
+
 class User {
   constructor(name, id) {
     this.name = name;
@@ -5,7 +7,12 @@ class User {
     this.favoriteRecipes = [];
     this.recipesToCook = [];
     this.userTags = [];
+    this.pantry;
   };
+
+  stockPantry(pantryData) {
+    this.pantry = new Pantry(pantryData)
+  }
 
   addRecipeToFavorites(recipe) {
     if (!this.favoriteRecipes.includes(recipe));

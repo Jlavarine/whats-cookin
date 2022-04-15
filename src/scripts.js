@@ -28,6 +28,7 @@ let user;
 let ingredients;
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Event Listeners~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 window.addEventListener('load', () => {
+  
   fetchData.then(data => {
     instantiateUser(data[0]);
     ingredients = data[1];
@@ -35,6 +36,7 @@ window.addEventListener('load', () => {
     instantiateRecipeRepo()
   })
   // .catch(error => dom.alertPromiseFail())
+
 });
 mainRecipeDisplay.addEventListener('click', (e) => {
   if(e.target.dataset.recipe) {
@@ -65,6 +67,12 @@ addToCookListButton.addEventListener('click', addToCookList);
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+
+
+
+
+
+
 function instantiateRecipeRepo (){
     recipeRepo.instantiateRecipes();
     dom.populateRecipeCards(recipeRepo.allRecipes, ingredients);
@@ -73,6 +81,9 @@ function instantiateRecipeRepo (){
 function instantiateUser (usersData) {
   let randomUserInfo = usersData[Math.floor(Math.random()*usersData.length)];
   user = new User(randomUserInfo.name, randomUserInfo.id);
+  user.stockPantry(randomUserInfo.pantry)
+  console.log('userOnLoad', user);
+
 };
 
 

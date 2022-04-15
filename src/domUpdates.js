@@ -56,12 +56,28 @@ const dom = {
 
   renderRecipeInfo(e) {
     let currentRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === e.target.dataset.recipe);
+    this.testPantry(currentRecipe) //////////////////////////
     let currentIngredients = currentRecipe.determineIngredientsNeeded(ingredients);
     let currentIngredientAmounts = currentRecipe.ingredients;
     this.displayRecipeInfoPage();
     recipeHeader.innerText = e.target.dataset.recipe;
     this.createRecipeHTML(currentRecipe, currentIngredients, currentIngredientAmounts)
   },
+  ////test function pls delete thx
+  testPantry(currentRecipe){
+    // currentRecipe.ingredients = [
+    //     {id: 1, quantity: {amount: 1}},
+    //     {id: 2, quantity: {amount: 1}},
+    //     {id: 3, quantity: {amount: 1}}
+    // ]
+    user.pantry.determineIfUserCanCook(currentRecipe.ingredients)
+    user.pantry.determineMissingIngredients(currentRecipe.ingredients)
+    console.log('user shopping list', user.pantry.shoppingList)
+    // console.log(`currentRecipe's ingredients` , currentRecipe.ingredients)
+    console.log(`user's pantry`, user.pantry)
+    // console.log(`shared ingredients`, user.pantry.determineIfUserCanCook(currentRecipe.ingredients))
+  },
+
 
   createRecipeHTML(currentRecipe, currentIngredients, currentIngredientAmounts) {
     mainRenderedReceipeImage.src = currentRecipe.image;
