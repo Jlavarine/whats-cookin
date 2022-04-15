@@ -18,6 +18,8 @@ const removeFavoritesButton = document.querySelector('.remove-favorites-button')
 const addToCookListButton = document.querySelector('.add-recipe-to-cook-button');
 const filterByBox = document.querySelector('.main__filter-paragraph');
 const allFilterButtons = document.querySelectorAll('.sidebar__right-filter-button')
+const pantryDisplay = document.querySelector('.user__pantry-display')
+
 
 
 const dom = {
@@ -45,6 +47,7 @@ const dom = {
 
   showFavoritesView(){
     this.showHomeView();
+    this.hide(pantryDisplay)
     recipeHeader.innerText = 'Favorites';
   },
 
@@ -72,6 +75,8 @@ const dom = {
     // ]
     user.pantry.determineIfUserCanCook(currentRecipe.ingredients)
     user.pantry.determineMissingIngredients(currentRecipe.ingredients)
+    user.pantry.addNameToPantry(currentRecipe.allIngredients)
+    console.log('pantry w names', user.pantry.pantryWithNames)
     console.log('user shopping list', user.pantry.shoppingList)
     // console.log(`currentRecipe's ingredients` , currentRecipe.ingredients)
     console.log(`user's pantry`, user.pantry)
@@ -98,6 +103,14 @@ const dom = {
           mainRenderedRecipeArea.innerHTML = `
                 <section class="main__rendered-recipe-cost">recipe cost: $${currentRecipe.calculateCostofIngredients(ingredients)}
                 </section>`
+  },
+
+  createPantryHTML() {
+    pantryDisplay.innerHTML = ''
+    user.pantry.addNameToPantry(recipeRepo.allRecipes[0].allIngredients)
+    user.pantry.pantryWithNames.forEach(item => {
+      pantryDisplay.innerHTML += `<p class="pantry-item"> ${item.name}: ${item.amount}</p>`
+    })
   },
 
   removeAllCards() {
@@ -168,11 +181,19 @@ const dom = {
       recipeHeader.innerText = 'Mains';
       this.populateRecipeCards(recipeRepo.filterRecipesByTag(['main course', 'main dish']));
     };
+    if(e.target.dataset.button === 'pantry'){
+      allFilterButtons.forEach(button => button.disabled = true)
+      this.removeCardsAndShowHomeView();
+      this.show(pantryDisplay)
+      this.createPantryHTML()
+      recipeHeader.innerText = 'My Pantry';
+    };
   },
 
   removeCardsAndShowHomeView() {
     this.removeAllCards();
     this.showHomeView();
+    this.hide(pantryDisplay)
   },
 
   displayRecipeInfoPage() {

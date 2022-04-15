@@ -239,6 +239,30 @@ border: 3px solid orange;
   width: 45%
 }
 
+.user__pantry-display {
+  width: 86%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user__pantry-display-box {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-top: 25px;
+  height: 6%;
+  width: 85%;
+  text-align: center;
+  font-size: 34pt;
+}
+
+.pantry-item {
+  padding-left: 5px;
+  padding-right: 5px
+}
+
 .hidden {
   display: none;
 }

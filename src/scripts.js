@@ -28,7 +28,7 @@ let user;
 let ingredients;
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Event Listeners~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 window.addEventListener('load', () => {
-  
+
   fetchData.then(data => {
     instantiateUser(data[0]);
     ingredients = data[1];
@@ -45,6 +45,7 @@ mainRecipeDisplay.addEventListener('click', (e) => {
   };
 });
 navButtons.addEventListener('click', function(e) {
+  if(e.target.dataset.button)
     dom.redirectNavBar(e);
 });
 sidebarRight.addEventListener('click', function(e){
@@ -65,14 +66,6 @@ addFavoritesButton.addEventListener('click', addToFavorites);
 removeFavoritesButton.addEventListener('click', removeFromFavorites);
 addToCookListButton.addEventListener('click', addToCookList);
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
-
-
-
-
-
 function instantiateRecipeRepo (){
     recipeRepo.instantiateRecipes();
     dom.populateRecipeCards(recipeRepo.allRecipes, ingredients);
