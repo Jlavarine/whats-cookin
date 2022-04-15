@@ -54,7 +54,7 @@ let sampleRecipeData = [
     {
     "id": 1012047,
     "quantity": {
-    "amount": 24,
+    "amount": 2,
     "unit": "servings"
     }
     },
