@@ -75,8 +75,6 @@ function instantiateUser (usersData) {
   let randomUserInfo = usersData[Math.floor(Math.random()*usersData.length)];
   user = new User(randomUserInfo.name, randomUserInfo.id);
   user.stockPantry(randomUserInfo.pantry)
-  console.log('userOnLoad', user);
-
 };
 
 

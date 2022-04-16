@@ -9,6 +9,7 @@ const mainRenderedRecipeIngredientsHeader = document.querySelector('.main__rende
 const mainRenderedRecipeInstructionsHeader = document.querySelector('.main__rendered-recipe-instructions-header');
 const mainRenderedReceipeInstructions = document.querySelector('.main__rendered-recipe-instructions');
 const mainRenderedReceipeIngredients = document.querySelector('.main__rendered-recipe-ingredients');
+const missingIngredientsBox = document.querySelector('.main__rendered-missing-recipe-ingredients');
 const mainRenderedReceipeImage = document.querySelector('.main__rendered-recipe-image');
 const sidebarRight = document.querySelector('.sidebar__right');
 const recipeSearchInput = document.getElementById('searchbar');
@@ -50,6 +51,7 @@ const dom = {
     this.showHomeView();
     this.hide(pantryDisplay)
     this.hide(missingItemsBox)
+    this.hide(missingIngredientsBox)
     recipeHeader.innerText = 'Favorites';
   },
 
@@ -62,28 +64,28 @@ const dom = {
   showCookListsView() {
     this.showHomeView();
     this.hide(pantryDisplay)
+    this.hide(missingIngredientsBox)
     recipeHeader.innerText = 'Cook List';
   },
 
   renderRecipeInfo(e) {
+    user.pantry.shoppingList = {}
     let currentRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === e.target.dataset.recipe);
     this.testPantry(currentRecipe) //////////////////////////
     let currentIngredients = currentRecipe.determineIngredientsNeeded(ingredients);
     let currentIngredientAmounts = currentRecipe.ingredients;
     this.displayRecipeInfoPage();
     recipeHeader.innerText = e.target.dataset.recipe;
+    user.pantry.determineIfUserCanCook(currentRecipe.ingredients)
+    user.pantry.determineMissingIngredients(currentRecipe.ingredients)
+    user.pantry.addNamesToPantry(currentRecipe.allIngredients)
+    user.pantry.shuffleShoppingList(currentRecipe.ingredients, currentRecipe.allIngredients)
     this.createRecipeHTML(currentRecipe, currentIngredients, currentIngredientAmounts)
   },
   ////test function pls delete thx
   testPantry(currentRecipe){
-    // currentRecipe.ingredients = [
-    //     {id: 1, quantity: {amount: 1}},
-    //     {id: 2, quantity: {amount: 1}},
-    //     {id: 3, quantity: {amount: 1}}
-    // ]
     user.pantry.determineIfUserCanCook(currentRecipe.ingredients)
     user.pantry.determineMissingIngredients(currentRecipe.ingredients)
-    console.log('Artan\'s function', user.pantry.shuffleShoppingList(currentRecipe.ingredients, currentRecipe.allIngredients))
     user.pantry.addNamesToPantry(currentRecipe.allIngredients)
     console.log('pantry w names', user.pantry.pantryWithNames)
     console.log('user shopping list', user.pantry.shoppingList)
@@ -103,7 +105,14 @@ const dom = {
             </section>
           </div>`;
         });
-          currentRecipe.instructions.forEach(instruction =>{
+        user.pantry.shoppingList.forEach(item => {
+          missingIngredientsBox.innerHTML +=
+          `<div class="main__rendered-missing-recipe-box">
+            <section class="main__rendered-missing-recipe-ingredients">${item.name}: ${item.quantity} ${item.unit}
+            </section>
+          </div>`;
+        })
+          currentRecipe.instructions.forEach(instruction => {
           mainRenderedReceipeInstructions.innerHTML +=
           `<div class='main__rendered-recipe-instructions'>
             <section class="main__rendered-recipe-instructions">${instruction.number} ${instruction.instruction}</section>
@@ -215,6 +224,7 @@ const dom = {
     this.showHomeView();
     this.hide(pantryDisplay)
     this.hide(missingItemsBox)
+    this.hide(missingIngredientsBox)
   },
 
   displayRecipeInfoPage() {
@@ -227,6 +237,7 @@ const dom = {
     this.show(mainRenderedRecipeIngredientsHeader);
     this.show(mainRenderedReceipeInstructions);
     this.show(mainRenderedReceipeIngredients);
+    this.show(missingIngredientsBox);
     this.show(mainRenderedReceipeImage);
     this.show(addFavoritesButton);
     this.show(removeFavoritesButton);
