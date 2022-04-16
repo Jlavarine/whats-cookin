@@ -83,7 +83,8 @@ const dom = {
     // ]
     user.pantry.determineIfUserCanCook(currentRecipe.ingredients)
     user.pantry.determineMissingIngredients(currentRecipe.ingredients)
-    user.pantry.addNameToPantry(currentRecipe.allIngredients)
+    console.log('Artan\'s function', user.pantry.shuffleShoppingList(currentRecipe.ingredients, currentRecipe.allIngredients))
+    user.pantry.addNamesToPantry(currentRecipe.allIngredients)
     console.log('pantry w names', user.pantry.pantryWithNames)
     console.log('user shopping list', user.pantry.shoppingList)
     // console.log(`currentRecipe's ingredients` , currentRecipe.ingredients)
@@ -120,7 +121,7 @@ const dom = {
 
   createPantryHTML() {
     pantryDisplay.innerHTML = ''
-    user.pantry.addNameToPantry(recipeRepo.allRecipes[0].allIngredients)
+    user.pantry.addNamesToPantry(recipeRepo.allRecipes[0].allIngredients)
     user.pantry.pantryWithNames.forEach(item => {
       pantryDisplay.innerHTML += `<p class="pantry-item"> ${item.name}: ${item.amount}</p>`
     })

@@ -45,7 +45,7 @@ class Pantry {
       return this.shoppingList
     }
 
-    addNameToPantry(recipeIngredients) {
+    addNamesToPantry(recipeIngredients) {
       this.pantryWithNames = this.pantry.reduce((acc,item) => {
         recipeIngredients.forEach(ingredient => {
           if(ingredient.id === item.ingredient) {
@@ -54,6 +54,17 @@ class Pantry {
         })
         return acc
       },[])
+    }
+
+    shuffleShoppingList(recipeIngredients, allIngredients) {
+        this.shoppingList = Object.keys(this.shoppingList).map(key => {
+        return {
+          name: allIngredients.find(ing => ing.id === parseInt(key)).name,
+          id: parseInt(key),
+          quantity: this.shoppingList[key],
+          unit: recipeIngredients.find(ing => ing.id === parseInt(key)).quantity.unit
+        }
+      })
     }
 }
 export default Pantry;
