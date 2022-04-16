@@ -19,6 +19,7 @@ const addToCookListButton = document.querySelector('.add-recipe-to-cook-button')
 const filterByBox = document.querySelector('.main__filter-paragraph');
 const allFilterButtons = document.querySelectorAll('.sidebar__right-filter-button')
 const pantryDisplay = document.querySelector('.user__pantry-display')
+const missingItemsBox = document.querySelector('.main__rendered-recipe-missing-ingredients-box')
 
 
 
@@ -48,6 +49,7 @@ const dom = {
   showFavoritesView(){
     this.showHomeView();
     this.hide(pantryDisplay)
+    this.hide(missingItemsBox)
     recipeHeader.innerText = 'Favorites';
   },
 
@@ -55,6 +57,12 @@ const dom = {
     window.scrollTo(0,0);
     mainRenderedReceipeIngredients.innerHTML = '';
     mainRenderedReceipeInstructions.innerHTML = '';
+  },
+
+  showCookListsView() {
+    this.showHomeView();
+    this.hide(pantryDisplay)
+    recipeHeader.innerText = 'Cook List';
   },
 
   renderRecipeInfo(e) {
@@ -102,7 +110,12 @@ const dom = {
         });
           mainRenderedRecipeArea.innerHTML = `
                 <section class="main__rendered-recipe-cost">recipe cost: $${currentRecipe.calculateCostofIngredients(ingredients)}
-                </section>`
+                </section>
+              `
+          // missingItemsBox.innerHTML = `
+          //  <section class="main__rendered-recipe-missing-ingredients"> missing ingredients: ${user.pantry.shoppingList} </section>
+          //  `
+
   },
 
   createPantryHTML() {
@@ -188,12 +201,19 @@ const dom = {
       this.createPantryHTML()
       recipeHeader.innerText = 'My Pantry';
     };
+    if(e.target.dataset.button === 'cook-list'){
+      this.removeAllCards();
+      this.showCookListsView()
+      this.populateRecipeCards(user.recipesToCook);
+
+    };
   },
 
   removeCardsAndShowHomeView() {
     this.removeAllCards();
     this.showHomeView();
     this.hide(pantryDisplay)
+    this.hide(missingItemsBox)
   },
 
   displayRecipeInfoPage() {
