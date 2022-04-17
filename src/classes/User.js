@@ -14,27 +14,32 @@ class User {
     this.pantry = new Pantry(pantryData)
   }
 
-  addRecipeToFavorites(recipe) {
-    if (!this.favoriteRecipes.includes(recipe));
-    this.favoriteRecipes.push(recipe);
+  addRecipeToList(recipe, list) {
+    if(!list) {
+      list.push(recipe);
+      return
+    }
+    const listNames = list.map(item => item.name);
+    if(!listNames.includes(recipe.name))
+      list.push(recipe)
   };
 
-  removeRecipeFromFavorites(recipe) {
+  removeRecipeFromList(recipe, list) {
     if(!recipe) {
       return
     }
-    let foundRecipe = this.favoriteRecipes.indexOf(recipe);
-    this.favoriteRecipes.splice(foundRecipe, 1);
+    let foundRecipe = list.indexOf(recipe);
+    list.splice(foundRecipe, 1);
   };
 
-  addRecipeToCookList(recipe) {
-    this.recipesToCook.push(recipe);
-  };
-
-  removeRecipeFromCookList(recipe) {
-    let foundRecipe = this.recipesToCook.indexOf(recipe);
-    this.recipesToCook.splice(foundRecipe, 1);
-  };
+  // addRecipeToCookList(recipe) {
+  //   this.recipesToCook.push(recipe);
+  // };
+  //
+  // removeRecipeFromCookList(recipe) {
+  //   let foundRecipe = this.recipesToCook.indexOf(recipe);
+  //   this.recipesToCook.splice(foundRecipe, 1);
+  // };
 
   filterFavoriteRecipesByTag(userTags) {
     let filteredRecipes = this.favoriteRecipes

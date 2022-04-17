@@ -92,11 +92,6 @@ const dom = {
     user.pantry.determineIfUserCanCook(currentRecipe.ingredients)
     user.pantry.determineMissingIngredients(currentRecipe.ingredients)
     user.pantry.addNamesToPantry(currentRecipe.allIngredients)
-    console.log('pantry w names', user.pantry.pantryWithNames)
-    console.log('user shopping list', user.pantry.shoppingList)
-    // console.log(`currentRecipe's ingredients` , currentRecipe.ingredients)
-    console.log(`user's pantry`, user.pantry)
-    // console.log(`shared ingredients`, user.pantry.determineIfUserCanCook(currentRecipe.ingredients))
   },
 
 
@@ -144,7 +139,7 @@ const dom = {
   cookThisRecipe(e){
     let currentRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === recipeHeader.innerText);
     cookButton.innerText = `Enjoy your meal!`;
-    user.removeRecipeFromCookList(currentRecipe)
+    user.removeRecipeFromList(currentRecipe, user.recipesToCook)
   },
 
   createPantryHTML() {
