@@ -5,7 +5,6 @@ describe('Ingredient', () => {
 
   it('should be an instance of ingredients', () => {
     const newIngredient = new Ingredient(data.sampleIngredientData[0].id, data.sampleIngredientData[0].name, data.sampleIngredientData[0].estimatedCostInCents);
-    // console.log(data.sampleIngredientData)
     expect(newIngredient).to.be.an.instanceof(Ingredient);
   });
 

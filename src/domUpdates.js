@@ -17,10 +17,12 @@ const recipeSearchButton = document.querySelector('.top__search-bar-button');
 const addFavoritesButton = document.querySelector('.add-favorites-button');
 const removeFavoritesButton = document.querySelector('.remove-favorites-button');
 const addToCookListButton = document.querySelector('.add-recipe-to-cook-button');
+const cookButton = document.querySelector('.cook-button')
 const filterByBox = document.querySelector('.main__filter-paragraph');
 const allFilterButtons = document.querySelectorAll('.sidebar__right-filter-button')
 const pantryDisplay = document.querySelector('.user__pantry-display')
 const missingItemsBox = document.querySelector('.main__rendered-recipe-missing-ingredients-box')
+
 
 
 
@@ -96,6 +98,9 @@ const dom = {
 
 
   createRecipeHTML(currentRecipe, currentIngredients, currentIngredientAmounts) {
+    cookButton.innerText = `Cook This Recipe!`;
+    this.toggleAddToCookButton()
+    missingIngredientsBox.innerHTML = ''
     mainRenderedReceipeImage.src = currentRecipe.image;
     mainRenderedReceipeImage.alt = `Image of ${currentRecipe.name} recipe`;
         currentIngredientAmounts.forEach((ingredient, index) => {
@@ -122,10 +127,21 @@ const dom = {
                 <section class="main__rendered-recipe-cost">recipe cost: $${currentRecipe.calculateCostofIngredients(ingredients)}
                 </section>
               `
-          // missingItemsBox.innerHTML = `
-          //  <section class="main__rendered-recipe-missing-ingredients"> missing ingredients: ${user.pantry.shoppingList} </section>
-          //  `
+  },
 
+  toggleAddToCookButton(){
+    if(user.pantry.shoppingList.length) {
+      cookButton.disabled = true;
+      cookButton.innerText = `Missing Ingredients`
+    } else {
+      return
+    }
+  },
+
+  cookThisRecipe(e){
+    let currentRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === recipeHeader.innerText);
+    cookButton.innerText = `Enjoy your meal!`;
+    user.removeRecipeFromCookList(currentRecipe)
   },
 
   createPantryHTML() {
@@ -242,6 +258,7 @@ const dom = {
     this.show(addFavoritesButton);
     this.show(removeFavoritesButton);
     this.show(addToCookListButton);
+    this.show(cookButton)
     this.hide(filterByBox)
   },
 
@@ -256,6 +273,7 @@ const dom = {
     this.hide(addFavoritesButton);
     this.hide(removeFavoritesButton);
     this.hide(addToCookListButton);
+    this.hide(cookButton)
     this.show(mainRecipeDisplay);
   },
 

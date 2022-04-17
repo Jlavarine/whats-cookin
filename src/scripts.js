@@ -20,6 +20,7 @@ const recipeSearchButton = document.querySelector('.top__search-bar-button');
 const addFavoritesButton = document.querySelector('.add-favorites-button');
 const removeFavoritesButton = document.querySelector('.remove-favorites-button');
 const addToCookListButton = document.querySelector('.add-recipe-to-cook-button');
+const cookButton = document.querySelector('.cook-button')
 const filterByBox = document.querySelector('.main__filter-paragraph');
 const allFilterButtons = document.querySelectorAll('.sidebar__right-filter-button')
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Global Variables~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -65,6 +66,9 @@ recipeSearchInput.addEventListener("keyup", function(event) {
 addFavoritesButton.addEventListener('click', addToFavorites);
 removeFavoritesButton.addEventListener('click', removeFromFavorites);
 addToCookListButton.addEventListener('click', addToCookList);
+cookButton.addEventListener('click', function(){
+  dom.cookThisRecipe();
+})
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function instantiateRecipeRepo (){
     recipeRepo.instantiateRecipes();

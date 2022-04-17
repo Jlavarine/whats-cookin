@@ -79,14 +79,16 @@ cursor: pointer;
 .main__recipe-header-button-box{
   display: flex;
   justify-content: center;
+  flex-wrap: nowrap;
   width: 60%;
 }
-.add-favorites-button, .remove-favorites-button, .add-recipe-to-cook-button {
+.add-favorites-button, .remove-favorites-button, .add-recipe-to-cook-button{
   height: 4%;
   width: 29%;
   font-size: 20px;
   border-bottom: none;
 }
+
 .add-favorites-button:hover {
   color: blue
 }
@@ -99,6 +101,10 @@ button:hover {
   color: orange;
 }
 
+/* .cook-button:hover{
+  pointer-events: none;
+  color: lightgray
+} */
 
 .main {
   height: 100%;
