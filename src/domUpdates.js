@@ -89,6 +89,8 @@ const dom = {
   },
   ////test function pls delete thx
   testPantry(currentRecipe){
+    console.log(user)
+    console.log(user.pantry)
     user.pantry.determineIfUserCanCook(currentRecipe.ingredients)
     user.pantry.determineMissingIngredients(currentRecipe.ingredients)
     user.pantry.addNamesToPantry(currentRecipe.allIngredients)
@@ -144,6 +146,7 @@ const dom = {
 
   createPantryHTML() {
     pantryDisplay.innerHTML = ''
+   
     user.pantry.addNamesToPantry(recipeRepo.allRecipes[0].allIngredients)
     user.pantry.pantryWithNames.forEach(item => {
       pantryDisplay.innerHTML += `<p class="pantry-item"> ${item.name}: ${item.amount}</p>`

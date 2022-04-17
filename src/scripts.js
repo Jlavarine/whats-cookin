@@ -1,5 +1,6 @@
 import './styles.css';
-import fetchData from './apiCalls';
+import { fetchData } from './apiCalls';
+import { postDataset } from './apiCalls';
 import './images/turing-logo.png';
 import RecipeRepository from './classes/RecipeRepository';
 import User from './classes/User';
@@ -23,6 +24,9 @@ const addToCookListButton = document.querySelector('.add-recipe-to-cook-button')
 const cookButton = document.querySelector('.cook-button')
 const filterByBox = document.querySelector('.main__filter-paragraph');
 const allFilterButtons = document.querySelectorAll('.sidebar__right-filter-button')
+const userInputIngredientID = document.querySelector('.user__pantry-ingrededient-id')
+const userInputIngredientAmount = document.querySelector('.user__pantry-ingrededient-amount')
+const userSubmitFormButton = document.querySelector('.user__pantry-submit-button')
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Global Variables~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 let recipeRepo;
 let user;
@@ -70,7 +74,8 @@ addToCookListButton.addEventListener('click', function(e) {
 });
 cookButton.addEventListener('click', function(){
   dom.cookThisRecipe();
-})
+});
+userSubmitFormButton.addEventListener('click', initiatePost)
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function instantiateRecipeRepo (){
     recipeRepo.instantiateRecipes();
@@ -102,5 +107,34 @@ function removeFromUserList () {
   user.removeRecipeFromList(userFavRecipe, user.favoriteRecipes);
 };
 
+function initiatePost () {
+  if (!userInputIngredientAmount.value || !userInputIngredientID.value){
+    return
+    //User feedback for error handling
+  }
 
+  if (!recipeRepo.allRecipes[0].allIngredients.find(item => item.id === parseInt(userInputIngredientID.value))) {
+    return
+     //User feedback for error handling to check ID INGREDIENT DOES NOT EXIST
+  }
+
+  postDataset(user.id, parseInt(userInputIngredientID.value), parseInt(userInputIngredientAmount.value))
+  let newUserPantry;
+  
+  fetchData.then(data => {
+        newUserPantry = data[0].find(person => person.id === user.id).pantry
+  })
+  console.log('newUserPantry', newUserPantry)
+  
+  setTimeout(user.stockPantry(newUserPantry), 5000)
+
+  // setTimeout(dom.createPantryHTML(), 5000)
+
+}
+
+// function testAPI () {
+//   fetchData.then(data => {
+//     console.log('user after post', data[0].find(person => person.id === user.id))
+//   })
+// }
       export { recipeRepo, user, ingredients }
