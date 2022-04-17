@@ -25,10 +25,6 @@
     <main class="main">
       <section class="sidebar__left">
       </section>
-      <section class="user__pantry-display hidden">
-        <div class="user__pantry-display-box">
-        </div>
-      </section>
       <section class="main__recipe-display-box">
         <h2 class="main__recipe-header">All Recipes</h2>
         <p class="main__filter-paragraph hidden">FilterBox</p>
@@ -49,6 +45,20 @@
         <section class="main__recipe-images-box">
       </section>
       </section>
+      <section class="user__pantry-display hidden">
+        <div class="user__pantry-display-box">
+        </div>
+      </section>
+      <div class="user__pantry-shopping-form hidden">
+        <p>Update Pantry</p>
+        <label>Ingredient ID
+          <input type="number" name="Ingredient ID" value=""  min="0" placeholder="Ingredient ID here...">
+        </label>
+        <br>
+        <label>New Ingredient Amount
+          <input type="number" name="Ingredient Modification" value="" min="0" placeholder="How Many?" oninput="validity.valid||(value='');">
+        </label>
+      </div>
       <section class="sidebar__right">
         <h3 class="sidebar__right-header"> Filter All Recipes <br>--------------</h3>
         <button class="sidebar__right-filter-button clear-button" data-tag="clear">Clear Filters </button>--------------<br>

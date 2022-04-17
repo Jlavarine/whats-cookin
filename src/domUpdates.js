@@ -22,6 +22,7 @@ const filterByBox = document.querySelector('.main__filter-paragraph');
 const allFilterButtons = document.querySelectorAll('.sidebar__right-filter-button')
 const pantryDisplay = document.querySelector('.user__pantry-display')
 const missingItemsBox = document.querySelector('.main__rendered-recipe-missing-ingredients-box')
+const pantryInput = document.querySelector('.user__pantry-shopping-form')
 
 
 
@@ -54,6 +55,7 @@ const dom = {
     this.hide(pantryDisplay)
     this.hide(missingItemsBox)
     this.hide(missingIngredientsBox)
+    this.hide(pantryInput)
     recipeHeader.innerText = 'Favorites';
   },
 
@@ -67,6 +69,7 @@ const dom = {
     this.showHomeView();
     this.hide(pantryDisplay)
     this.hide(missingIngredientsBox)
+    this.hide(pantryInput)
     recipeHeader.innerText = 'Cook List';
   },
 
@@ -113,7 +116,7 @@ const dom = {
         user.pantry.shoppingList.forEach(item => {
           missingIngredientsBox.innerHTML +=
           `<div class="main__rendered-missing-recipe-box">
-            <section class="main__rendered-missing-recipe-ingredients">${item.name}: ${item.quantity} ${item.unit}
+            <section class="main__rendered-missing-recipe-ingredients">${item.name}<span>(${item.id})</span>: ${item.quantity} ${item.unit}
             </section>
           </div>`;
         })
@@ -224,6 +227,7 @@ const dom = {
       allFilterButtons.forEach(button => button.disabled = true)
       this.removeCardsAndShowHomeView();
       this.show(pantryDisplay)
+      this.show(pantryInput)
       this.createPantryHTML()
       recipeHeader.innerText = 'My Pantry';
     };
@@ -241,6 +245,7 @@ const dom = {
     this.hide(pantryDisplay)
     this.hide(missingItemsBox)
     this.hide(missingIngredientsBox)
+    this.hide(pantryInput)
   },
 
   displayRecipeInfoPage() {
