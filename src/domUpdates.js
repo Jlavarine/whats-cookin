@@ -9,6 +9,7 @@ const mainRenderedRecipeIngredientsHeader = document.querySelector('.main__rende
 const mainRenderedRecipeInstructionsHeader = document.querySelector('.main__rendered-recipe-instructions-header');
 const mainRenderedReceipeInstructions = document.querySelector('.main__rendered-recipe-instructions');
 const mainRenderedReceipeIngredients = document.querySelector('.main__rendered-recipe-ingredients');
+const missingIngredientsBox = document.querySelector('.main__rendered-missing-recipe-ingredients');
 const mainRenderedReceipeImage = document.querySelector('.main__rendered-recipe-image');
 const sidebarRight = document.querySelector('.sidebar__right');
 const recipeSearchInput = document.getElementById('searchbar');
@@ -16,8 +17,14 @@ const recipeSearchButton = document.querySelector('.top__search-bar-button');
 const addFavoritesButton = document.querySelector('.add-favorites-button');
 const removeFavoritesButton = document.querySelector('.remove-favorites-button');
 const addToCookListButton = document.querySelector('.add-recipe-to-cook-button');
+const cookButton = document.querySelector('.cook-button')
 const filterByBox = document.querySelector('.main__filter-paragraph');
 const allFilterButtons = document.querySelectorAll('.sidebar__right-filter-button')
+const pantryDisplay = document.querySelector('.user__pantry-display')
+const missingItemsBox = document.querySelector('.main__rendered-recipe-missing-ingredients-box')
+const pantryInput = document.querySelector('.user__pantry-shopping-form')
+
+
 
 
 const dom = {
@@ -45,6 +52,10 @@ const dom = {
 
   showFavoritesView(){
     this.showHomeView();
+    this.hide(pantryDisplay)
+    this.hide(missingItemsBox)
+    this.hide(missingIngredientsBox)
+    this.hide(pantryInput)
     recipeHeader.innerText = 'Favorites';
   },
 
@@ -54,24 +65,34 @@ const dom = {
     mainRenderedReceipeInstructions.innerHTML = '';
   },
 
+  showCookListsView() {
+    this.showHomeView();
+    this.hide(pantryDisplay)
+    this.hide(missingIngredientsBox)
+    this.hide(pantryInput)
+    recipeHeader.innerText = 'Cook List';
+  },
+
   renderRecipeInfo(e) {
+    user.pantry.shoppingList = {}
     let currentRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === e.target.dataset.recipe);
     this.testPantry(currentRecipe) //////////////////////////
     let currentIngredients = currentRecipe.determineIngredientsNeeded(ingredients);
     let currentIngredientAmounts = currentRecipe.ingredients;
     this.displayRecipeInfoPage();
     recipeHeader.innerText = e.target.dataset.recipe;
+    user.pantry.determineIfUserCanCook(currentRecipe.ingredients)
+    user.pantry.determineMissingIngredients(currentRecipe.ingredients)
+    user.pantry.addNamesToPantry(currentRecipe.allIngredients)
+    user.pantry.shuffleShoppingList(currentRecipe.ingredients, currentRecipe.allIngredients)
     this.createRecipeHTML(currentRecipe, currentIngredients, currentIngredientAmounts)
   },
   ////test function pls delete thx
   testPantry(currentRecipe){
-    // currentRecipe.ingredients = [
-    //     {id: 1, quantity: {amount: 1}},
-    //     {id: 2, quantity: {amount: 1}},
-    //     {id: 3, quantity: {amount: 1}}
-    // ]
     user.pantry.determineIfUserCanCook(currentRecipe.ingredients)
     user.pantry.determineMissingIngredients(currentRecipe.ingredients)
+    user.pantry.addNamesToPantry(currentRecipe.allIngredients)
+    console.log('pantry w names', user.pantry.pantryWithNames)
     console.log('user shopping list', user.pantry.shoppingList)
     // console.log(`currentRecipe's ingredients` , currentRecipe.ingredients)
     console.log(`user's pantry`, user.pantry)
@@ -80,6 +101,9 @@ const dom = {
 
 
   createRecipeHTML(currentRecipe, currentIngredients, currentIngredientAmounts) {
+    cookButton.innerText = `Cook This Recipe!`;
+    this.toggleAddToCookButton()
+    missingIngredientsBox.innerHTML = ''
     mainRenderedReceipeImage.src = currentRecipe.image;
     mainRenderedReceipeImage.alt = `Image of ${currentRecipe.name} recipe`;
         currentIngredientAmounts.forEach((ingredient, index) => {
@@ -89,7 +113,14 @@ const dom = {
             </section>
           </div>`;
         });
-          currentRecipe.instructions.forEach(instruction =>{
+        user.pantry.shoppingList.forEach(item => {
+          missingIngredientsBox.innerHTML +=
+          `<div class="main__rendered-missing-recipe-box">
+            <section class="main__rendered-missing-recipe-ingredients">${item.name}<span>(${item.id})</span>: ${item.quantity} ${item.unit}
+            </section>
+          </div>`;
+        })
+          currentRecipe.instructions.forEach(instruction => {
           mainRenderedReceipeInstructions.innerHTML +=
           `<div class='main__rendered-recipe-instructions'>
             <section class="main__rendered-recipe-instructions">${instruction.number} ${instruction.instruction}</section>
@@ -97,7 +128,31 @@ const dom = {
         });
           mainRenderedRecipeArea.innerHTML = `
                 <section class="main__rendered-recipe-cost">recipe cost: $${currentRecipe.calculateCostofIngredients(ingredients)}
-                </section>`
+                </section>
+              `
+  },
+
+  toggleAddToCookButton(){
+    if(user.pantry.shoppingList.length) {
+      cookButton.disabled = true;
+      cookButton.innerText = `Missing Ingredients`
+    } else {
+      return
+    }
+  },
+
+  cookThisRecipe(e){
+    let currentRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === recipeHeader.innerText);
+    cookButton.innerText = `Enjoy your meal!`;
+    user.removeRecipeFromCookList(currentRecipe)
+  },
+
+  createPantryHTML() {
+    pantryDisplay.innerHTML = ''
+    user.pantry.addNamesToPantry(recipeRepo.allRecipes[0].allIngredients)
+    user.pantry.pantryWithNames.forEach(item => {
+      pantryDisplay.innerHTML += `<p class="pantry-item"> ${item.name}: ${item.amount}</p>`
+    })
   },
 
   removeAllCards() {
@@ -168,11 +223,29 @@ const dom = {
       recipeHeader.innerText = 'Mains';
       this.populateRecipeCards(recipeRepo.filterRecipesByTag(['main course', 'main dish']));
     };
+    if(e.target.dataset.button === 'pantry'){
+      allFilterButtons.forEach(button => button.disabled = true)
+      this.removeCardsAndShowHomeView();
+      this.show(pantryDisplay)
+      this.show(pantryInput)
+      this.createPantryHTML()
+      recipeHeader.innerText = 'My Pantry';
+    };
+    if(e.target.dataset.button === 'cook-list'){
+      this.removeAllCards();
+      this.showCookListsView()
+      this.populateRecipeCards(user.recipesToCook);
+
+    };
   },
 
   removeCardsAndShowHomeView() {
     this.removeAllCards();
     this.showHomeView();
+    this.hide(pantryDisplay)
+    this.hide(missingItemsBox)
+    this.hide(missingIngredientsBox)
+    this.hide(pantryInput)
   },
 
   displayRecipeInfoPage() {
@@ -185,10 +258,12 @@ const dom = {
     this.show(mainRenderedRecipeIngredientsHeader);
     this.show(mainRenderedReceipeInstructions);
     this.show(mainRenderedReceipeIngredients);
+    this.show(missingIngredientsBox);
     this.show(mainRenderedReceipeImage);
     this.show(addFavoritesButton);
     this.show(removeFavoritesButton);
     this.show(addToCookListButton);
+    this.show(cookButton)
     this.hide(filterByBox)
   },
 
@@ -203,6 +278,7 @@ const dom = {
     this.hide(addFavoritesButton);
     this.hide(removeFavoritesButton);
     this.hide(addToCookListButton);
+    this.hide(cookButton)
     this.show(mainRecipeDisplay);
   },
 

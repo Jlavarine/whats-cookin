@@ -19,6 +19,8 @@
       <button data-button="starters">Starters</button>
       <button data-button="mains">Mains</button>
       <button data-button="favorites">Favorites</button>
+      <button data-button="pantry">Pantry</button>
+      <button data-button="cook-list">Cook List</button>
     </nav>
     <main class="main">
       <section class="sidebar__left">
@@ -29,17 +31,34 @@
         <div class="main__recipe-header-box">
           <button class="add-favorites-button hidden"data-button="add-favorite">Add To Favorites</button>
           <button class="remove-favorites-button hidden"data-button="remove-favorite">Remove From Favorites</button>
-          <button class="add-recipe-to-cook-button hidden"data-button="remove-favorite">Add Recipe to Cook List</button>
-      </div>
+          <button class="add-recipe-to-cook-button hidden"data-button="add-to-cook-list">Add Recipe to Cook List</button>
+          <button class="cook-button hidden"data-button="cook">Cook This Recipe!</button>
+        </div>
         <img class="main__rendered-recipe-image hidden" alt=''/>
         <h3 class="main__rendered-recipe-ingredients-header hidden"> Ingredients<h3>
         <section class="main__rendered-recipe-ingredients hidden"></section>
+        <section class="main__rendered-missing-recipe-ingredients hidden">Ingredients needed to cook</section>
         <h3 class="main__rendered-recipe-instructions-header hidden">Instructions<h3>
         <section class="main__rendered-recipe-instructions hidden"></section>
         <section class="main__rendered-recipe-area hidden"></section>
+        <section class="main__rendered-recipe-missing-ingredients-box hidden"></section>
         <section class="main__recipe-images-box">
       </section>
       </section>
+      <section class="user__pantry-display hidden">
+        <div class="user__pantry-display-box">
+        </div>
+      </section>
+      <div class="user__pantry-shopping-form hidden">
+        <p>Update Pantry</p>
+        <label>Ingredient ID
+          <input type="number" name="Ingredient ID" value=""  min="0" placeholder="Ingredient ID here...">
+        </label>
+        <br>
+        <label>New Ingredient Amount
+          <input type="number" name="Ingredient Modification" value="" min="0" placeholder="How Many?" oninput="validity.valid||(value='');">
+        </label>
+      </div>
       <section class="sidebar__right">
         <h3 class="sidebar__right-header"> Filter All Recipes <br>--------------</h3>
         <button class="sidebar__right-filter-button clear-button" data-tag="clear">Clear Filters </button>--------------<br>

@@ -3,6 +3,7 @@ class Pantry {
         this.pantry = pantry; //array of objects
         this.sharedIngredients = []
         this.shoppingList = {}
+        this.pantryWithNames;
     }
     determineIfUserCanCook(recipeIngredients) {
       if (!recipeIngredients.length) {
@@ -29,7 +30,7 @@ class Pantry {
             return true
         }
     }
-    
+
     determineMissingIngredients(recipeIngredients) {
       const pantryIds = this.pantry.map(item => item.ingredient)
       recipeIngredients.forEach(ingredient => {
@@ -42,6 +43,28 @@ class Pantry {
         }
       })
       return this.shoppingList
+    }
+
+    addNamesToPantry(recipeIngredients) {
+      this.pantryWithNames = this.pantry.reduce((acc,item) => {
+        recipeIngredients.forEach(ingredient => {
+          if(ingredient.id === item.ingredient) {
+            acc.push({name: ingredient.name, id: ingredient.id, amount: item.amount})
+          }
+        })
+        return acc
+      },[])
+    }
+
+    shuffleShoppingList(recipeIngredients, allIngredients) {
+        this.shoppingList = Object.keys(this.shoppingList).map(key => {
+        return {
+          name: allIngredients.find(ing => ing.id === parseInt(key)).name,
+          id: parseInt(key),
+          quantity: this.shoppingList[key],
+          unit: recipeIngredients.find(ing => ing.id === parseInt(key)).quantity.unit
+        }
+      })
     }
 }
 export default Pantry;

@@ -20,6 +20,7 @@ const recipeSearchButton = document.querySelector('.top__search-bar-button');
 const addFavoritesButton = document.querySelector('.add-favorites-button');
 const removeFavoritesButton = document.querySelector('.remove-favorites-button');
 const addToCookListButton = document.querySelector('.add-recipe-to-cook-button');
+const cookButton = document.querySelector('.cook-button')
 const filterByBox = document.querySelector('.main__filter-paragraph');
 const allFilterButtons = document.querySelectorAll('.sidebar__right-filter-button')
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Global Variables~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -28,7 +29,7 @@ let user;
 let ingredients;
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Event Listeners~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 window.addEventListener('load', () => {
-  
+
   fetchData.then(data => {
     instantiateUser(data[0]);
     ingredients = data[1];
@@ -45,6 +46,7 @@ mainRecipeDisplay.addEventListener('click', (e) => {
   };
 });
 navButtons.addEventListener('click', function(e) {
+  if(e.target.dataset.button)
     dom.redirectNavBar(e);
 });
 sidebarRight.addEventListener('click', function(e){
@@ -64,15 +66,10 @@ recipeSearchInput.addEventListener("keyup", function(event) {
 addFavoritesButton.addEventListener('click', addToFavorites);
 removeFavoritesButton.addEventListener('click', removeFromFavorites);
 addToCookListButton.addEventListener('click', addToCookList);
+cookButton.addEventListener('click', function(){
+  dom.cookThisRecipe();
+})
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
-
-
-
-
-
 function instantiateRecipeRepo (){
     recipeRepo.instantiateRecipes();
     dom.populateRecipeCards(recipeRepo.allRecipes, ingredients);
@@ -82,8 +79,6 @@ function instantiateUser (usersData) {
   let randomUserInfo = usersData[Math.floor(Math.random()*usersData.length)];
   user = new User(randomUserInfo.name, randomUserInfo.id);
   user.stockPantry(randomUserInfo.pantry)
-  console.log('userOnLoad', user);
-
 };
 
 
