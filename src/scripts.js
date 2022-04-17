@@ -63,9 +63,11 @@ recipeSearchInput.addEventListener("keyup", function(event) {
     document.querySelector('.top__search-bar-button').click();
   };
 });
-addFavoritesButton.addEventListener('click', addToFavorites);
-removeFavoritesButton.addEventListener('click', removeFromFavorites);
-addToCookListButton.addEventListener('click', addToCookList);
+addFavoritesButton.addEventListener('click', addToUserList);
+removeFavoritesButton.addEventListener('click', removeFromUserList);
+addToCookListButton.addEventListener('click', function(e) {
+  addToUserList(e)
+});
 cookButton.addEventListener('click', function(){
   dom.cookThisRecipe();
 })
@@ -82,24 +84,23 @@ function instantiateUser (usersData) {
 };
 
 
-function addToFavorites () {
+function addToUserList (e) {
+  if(e.target.dataset.button === 'add-favorite') {
+    var listArray = user.favoriteRecipes
+  }
+  if(e.target.dataset.button === 'add-cook-list') {
+    var listArray = user.recipesToCook
+  }
   let userFavRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === recipeHeader.innerText);
   if(!user.favoriteRecipes.includes(userFavRecipe)){
-    user.addRecipeToFavorites(userFavRecipe);
+    user.addRecipeToList(userFavRecipe, listArray);
   };
 };
 
-function removeFromFavorites () {
-  if (!user.favoriteRecipes.length){
-    return;
-  };
+function removeFromUserList () {
   let userFavRecipe = user.favoriteRecipes.find(recipe => recipe.name === recipeHeader.innerText);
-  user.removeRecipeFromFavorites(userFavRecipe);
+  user.removeRecipeFromList(userFavRecipe, user.favoriteRecipes);
 };
 
-function addToCookList() {
-  let recipeToCook = recipeRepo.allRecipes.find(recipe => recipe.name === recipeHeader.innerText);
-  user.addRecipeToCookList(recipeToCook);
-};
 
       export { recipeRepo, user, ingredients }
