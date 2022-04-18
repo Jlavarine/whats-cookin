@@ -27,6 +27,8 @@ const allFilterButtons = document.querySelectorAll('.sidebar__right-filter-butto
 const userInputIngredientID = document.querySelector('.user__pantry-ingrededient-id')
 const userInputIngredientAmount = document.querySelector('.user__pantry-ingrededient-amount')
 const userSubmitFormButton = document.querySelector('.user__pantry-submit-button')
+const inputErrorID = document.querySelector('.input-error-id')
+const inputErrorMissing = document.querySelector('.input-error-missing')
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Global Variables~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 let recipeRepo;
 let user;
@@ -120,29 +122,24 @@ function removeFromUserList () {
 
 function initiatePost () {
   if (!userInputIngredientAmount.value || !userInputIngredientID.value){
+    inputErrorID.classList.add('hidden')
+    inputErrorMissing.classList.remove('hidden')
     return
-    //User feedback for error handling
   }
 
   if (!recipeRepo.allRecipes[0].allIngredients.find(item => item.id === parseInt(userInputIngredientID.value))) {
+    inputErrorMissing.classList.add('hidden')
+    inputErrorID.classList.remove('hidden')
     return
-     //User feedback for error handling to check ID INGREDIENT DOES NOT EXIST
   }
-
+  
   postDataset(user.id, parseInt(userInputIngredientID.value), parseInt(userInputIngredientAmount.value))
-
+  
   updateUsersPantry()
-  // fetchData.then(data => {
-  //     let userData = data[0].find(person => person.id === user.id);
-  //     user = new User(userData.name, userData.id)
-  //     user.stockPantry(userData.pantry)
-  //     dom.createPantryHTML()
-  // })
-
-  // setTimeout(user.stockPantry(user.pantry), 5000)
-
-  // setTimeout(dom.createPantryHTML(), 5000)
-
+  inputErrorID.classList.add('hidden')
+  inputErrorMissing.classList.add('hidden')
+  userInputIngredientAmount.value = '';
+  userInputIngredientID.value = '';
 };
 
 function updateUsersPantry() {

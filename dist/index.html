@@ -2,7 +2,6 @@
 <html lang='en-US'>
   <head>
     <meta charset="UTF-8">
-    <!-- <link href="../src/styles.css" rel="stylesheet"> -->
     <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300&display=swap" rel="stylesheet">
     <title>Whats Cookin</title>
   </head>
@@ -44,23 +43,27 @@
         <section class="main__rendered-recipe-missing-ingredients-box hidden"></section>
         <section class="main__recipe-images-box">
       </section>
-      </section>
-      <section class="user__pantry-display hidden">
-        <div class="user__pantry-display-box">
+      <div class="user__pantry-display-and-form-box">
+        <section class="user__pantry-display hidden">
+          <div class="user__pantry-display-box">
+          </section>
+          <div class="user__pantry-shopping-form hidden">
+            <p>Update Pantry</p>
+            <label class="form__label">Ingredient ID
+              <input class="user__pantry-ingrededient-id" type="number" name="Ingredient ID" value=""  min="0" placeholder="Ingredient ID here..." oninput="validity.valid||(value='');">
+              <p class="input-error-id hidden">Invalid Ingredient ID!</p>
+              <p class="input-error-missing hidden">Both input fields are required!</p>
+            </label>
+            <br>
+            <label class="form__label">New Ingredient Amount
+              <input class="user__pantry-ingrededient-amount" type="number" name="Ingredient Modification" value="" min="0" placeholder="How Many?" oninput="validity.valid||(value='');">
+            </label>
+            <br>
+            <button class="user__pantry-submit-button">Submit!</button>
+          </div>
+        </div>
         </div>
       </section>
-      <div class="user__pantry-shopping-form hidden">
-        <p>Update Pantry</p>
-        <label>Ingredient ID
-          <input class="user__pantry-ingrededient-id" type="number" name="Ingredient ID" value=""  min="0" placeholder="Ingredient ID here..." oninput="validity.valid||(value='');">
-        </label>
-        <br>
-        <label>New Ingredient Amount
-          <input class="user__pantry-ingrededient-amount" type="number" name="Ingredient Modification" value="" min="0" placeholder="How Many?" oninput="validity.valid||(value='');">
-        </label>
-        <br>
-        <button class="user__pantry-submit-button">Submit!</button>
-      </div>
       <section class="sidebar__right">
         <h3 class="sidebar__right-header"> Filter All Recipes <br>--------------</h3>
         <button aria-label="clear added recipe filters" class="sidebar__right-filter-button clear-button" data-tag="clear">Clear Filters </button>--------------<br>
@@ -86,6 +89,5 @@
       </section>
   </main>
   </body>
-  <!-- Do not include the scripts.js file here - it is done automatically by the webpack server -->
   <script src="bundle.js"></script>
 </html>

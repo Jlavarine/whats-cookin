@@ -90,7 +90,7 @@ cursor: pointer;
   flex-wrap: nowrap;
   width: 60%;
 }
-.add-favorites-button, .remove-favorites-button, .add-recipe-to-cook-button{
+.add-favorites-button, .remove-favorites-button, .add-recipe-to-cook-button, .user__pantry-submit-button{
   height: 4%;
   width: 29%;
   font-size: 20px;
@@ -253,6 +253,12 @@ border: 3px solid orange;
   width: 45%
 }
 
+.user__pantry-display-and-form-box{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
 .user__pantry-display {
   width: 86%;
   height: 100%;
@@ -270,6 +276,38 @@ border: 3px solid orange;
   width: 85%;
   text-align: center;
   font-size: 34pt;
+}
+
+.user__pantry-shopping-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid black;
+  height: 300px;
+  width: 275px;
+  text-align: center;
+}
+
+.user__pantry-ingrededient-id, .user__pantry-ingrededient-amount {
+  width: 140px;
+  height: 25px;
+  text-align: center;
+}
+
+.user__pantry-submit-button{
+  display: flex;
+  margin-left: 60px;
+  font-size: 20pt;
+}
+
+.form__label{
+  font-size: 15px;
+  margin-top: 25px;
+}
+
+.input-error-id, .input-error-missing{
+  color: red;
+  border: 1px solid red;
 }
 
 .pantry-item {
