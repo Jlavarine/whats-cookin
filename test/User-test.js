@@ -22,34 +22,34 @@ describe('Users', () => {
   });
 
   it('Should hold a list of all favorite recipes', () => {
-    user.addRecipeToFavorites(recipe1);
+    user.addRecipeToList(recipe1, user.favoriteRecipes);
     expect(user.favoriteRecipes[0]).to.deep.equal(recipe1);
   });
 
   it('Should be able to remove favorite recipes', () => {
-    user.addRecipeToFavorites(recipe1);
-    user.addRecipeToFavorites(recipe2);
-    user.removeRecipeFromFavorites(recipe2);
+    user.addRecipeToList(recipe1, user.favoriteRecipes);
+    user.addRecipeToList(recipe2, user.favoriteRecipes);
+    user.removeRecipeFromList(recipe2, user.favoriteRecipes);
     expect(user.favoriteRecipes.length).to.equal(1);
     expect(user.favoriteRecipes[0]).to.deep.equal(recipe1);
   });
 
   it('Should hold a list of recipes to cook', () => {
-    user.addRecipeToCookList(recipe1);
+    user.addRecipeToList(recipe1, user.recipesToCook);
     expect(user.recipesToCook[0]).to.deep.equal(recipe1);
   });
 
   it('Should be able to remove from recipes to cook', () => {
-    user.addRecipeToCookList(recipe1);
-    user.addRecipeToCookList(recipe2);
-    user.removeRecipeFromCookList(recipe1);
+    user.addRecipeToList(recipe1, user.recipesToCook);
+    user.addRecipeToList(recipe2, user.recipesToCook);
+    user.removeRecipeFromList(recipe1, user.recipesToCook);
     expect(user.recipesToCook.length).to.equal(1);
     expect(user.recipesToCook[0]).to.deep.equal(recipe2);
   });
 
   it('Should be able to filter favorite recipes by tags', () => {
-    user.addRecipeToFavorites(recipe1);
-    user.addRecipeToFavorites(recipe2);
+    user.addRecipeToList(recipe1, user.favoriteRecipes);
+    user.addRecipeToList(recipe2, user.favoriteRecipes);
     expect(user.filterFavoriteRecipesByTag(['starter']).length).to.equal(1);
   });
 
@@ -58,8 +58,8 @@ describe('Users', () => {
   });
 
   it('Should be able to filter favorite recipes by names', () => {
-    user.addRecipeToFavorites(recipe1);
-    user.addRecipeToFavorites(recipe2);
+    user.addRecipeToList(recipe1, user.favoriteRecipes);
+    user.addRecipeToList(recipe2, user.favoriteRecipes);
     expect(user.filterFavoriteRecipesByName('cookie').length).to.equal(1);
   });
 
