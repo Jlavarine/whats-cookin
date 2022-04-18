@@ -1,6 +1,8 @@
 import { recipeRepo } from '../src/scripts.js';
 import { user } from '../src/scripts.js';
 import { ingredients } from '../src/scripts.js';
+import { updateUsersPantry } from '../src/scripts.js';
+import { postDataset } from './apiCalls';
 const navButtons = document.querySelector('.nav');
 const mainRecipeDisplay = document.querySelector('.main__recipe-images-box');
 const recipeHeader = document.querySelector('.main__recipe-header');
@@ -89,6 +91,8 @@ const dom = {
   },
   ////test function pls delete thx
   testPantry(currentRecipe){
+    console.log(user)
+    console.log(user.pantry)
     user.pantry.determineIfUserCanCook(currentRecipe.ingredients)
     user.pantry.determineMissingIngredients(currentRecipe.ingredients)
     user.pantry.addNamesToPantry(currentRecipe.allIngredients)
@@ -136,10 +140,16 @@ const dom = {
     }
   },
 
-  cookThisRecipe(e){
+  cookThisRecipe(){
+    user.pantry.shoppingList = {}
     let currentRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === recipeHeader.innerText);
     cookButton.innerText = `Enjoy your meal!`;
     user.removeRecipeFromList(currentRecipe, user.recipesToCook)
+    console.log(currentRecipe.ingredients)
+    currentRecipe.ingredients.forEach(item => {
+      postDataset(user.id, item.id, 0 - parseInt(`${item.quantity.amount}`))
+    })
+    setTimeout(updateUsersPantry, 5000)
   },
 
   createPantryHTML() {

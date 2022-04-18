@@ -52,12 +52,14 @@
       <div class="user__pantry-shopping-form hidden">
         <p>Update Pantry</p>
         <label>Ingredient ID
-          <input type="number" name="Ingredient ID" value=""  min="0" placeholder="Ingredient ID here...">
+          <input class="user__pantry-ingrededient-id" type="number" name="Ingredient ID" value=""  min="0" placeholder="Ingredient ID here..." oninput="validity.valid||(value='');">
         </label>
         <br>
         <label>New Ingredient Amount
-          <input type="number" name="Ingredient Modification" value="" min="0" placeholder="How Many?" oninput="validity.valid||(value='');">
+          <input class="user__pantry-ingrededient-amount" type="number" name="Ingredient Modification" value="" min="0" placeholder="How Many?" oninput="validity.valid||(value='');">
         </label>
+        <br>
+        <button class="user__pantry-submit-button">Submit!</button>
       </div>
       <section class="sidebar__right">
         <h3 class="sidebar__right-header"> Filter All Recipes <br>--------------</h3>

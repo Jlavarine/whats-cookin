@@ -1,5 +1,6 @@
 import './styles.css';
-import fetchData from './apiCalls';
+import { fetchData } from './apiCalls';
+import { postDataset } from './apiCalls';
 import './images/turing-logo.png';
 import RecipeRepository from './classes/RecipeRepository';
 import User from './classes/User';
@@ -23,13 +24,15 @@ const addToCookListButton = document.querySelector('.add-recipe-to-cook-button')
 const cookButton = document.querySelector('.cook-button')
 const filterByBox = document.querySelector('.main__filter-paragraph');
 const allFilterButtons = document.querySelectorAll('.sidebar__right-filter-button')
+const userInputIngredientID = document.querySelector('.user__pantry-ingrededient-id')
+const userInputIngredientAmount = document.querySelector('.user__pantry-ingrededient-amount')
+const userSubmitFormButton = document.querySelector('.user__pantry-submit-button')
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Global Variables~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 let recipeRepo;
 let user;
 let ingredients;
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Event Listeners~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 window.addEventListener('load', () => {
-
   fetchData.then(data => {
     instantiateUser(data[0]);
     ingredients = data[1];
@@ -70,6 +73,11 @@ addToCookListButton.addEventListener('click', function(e) {
 });
 cookButton.addEventListener('click', function(){
   dom.cookThisRecipe();
+});
+userSubmitFormButton.addEventListener('click', function() {
+  initiatePost()
+
+
 })
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function instantiateRecipeRepo (){
@@ -81,7 +89,9 @@ function instantiateUser (usersData) {
   let randomUserInfo = usersData[Math.floor(Math.random()*usersData.length)];
   user = new User(randomUserInfo.name, randomUserInfo.id);
   user.stockPantry(randomUserInfo.pantry)
+  console.log(user)
 };
+
 
 
 function addToUserList (e) {
@@ -102,5 +112,47 @@ function removeFromUserList () {
   user.removeRecipeFromList(userFavRecipe, user.favoriteRecipes);
 };
 
+function initiatePost () {
+  if (!userInputIngredientAmount.value || !userInputIngredientID.value){
+    return
+    //User feedback for error handling
+  }
 
-      export { recipeRepo, user, ingredients }
+  if (!recipeRepo.allRecipes[0].allIngredients.find(item => item.id === parseInt(userInputIngredientID.value))) {
+    return
+     //User feedback for error handling to check ID INGREDIENT DOES NOT EXIST
+  }
+
+  postDataset(user.id, parseInt(userInputIngredientID.value), parseInt(userInputIngredientAmount.value))
+
+  updateUsersPantry()
+  // fetchData.then(data => {
+  //     let userData = data[0].find(person => person.id === user.id);
+  //     user = new User(userData.name, userData.id)
+  //     user.stockPantry(userData.pantry)
+  //     dom.createPantryHTML()
+  // })
+
+  // setTimeout(user.stockPantry(user.pantry), 5000)
+
+  // setTimeout(dom.createPantryHTML(), 5000)
+
+};
+
+function updateUsersPantry() {
+  // postDataset(user.id, parseInt(userInputIngredientID.value)),
+
+  fetchData.then(data => {
+      let userData = data[0].find(person => person.id === user.id);
+      user = new User(userData.name, userData.id)
+      user.stockPantry(userData.pantry)
+      dom.createPantryHTML()
+  })
+}
+
+// function testAPI () {
+//   fetchData.then(data => {
+//     console.log('user after post', data[0].find(person => person.id === user.id))
+//   })
+// }
+      export { recipeRepo, user, ingredients, updateUsersPantry}
