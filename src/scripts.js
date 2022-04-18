@@ -33,7 +33,6 @@ let user;
 let ingredients;
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Event Listeners~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 window.addEventListener('load', () => {
-
   fetchData.then(data => {
     instantiateUser(data[0]);
     ingredients = data[1];
@@ -75,7 +74,11 @@ addToCookListButton.addEventListener('click', function(e) {
 cookButton.addEventListener('click', function(){
   dom.cookThisRecipe();
 });
-userSubmitFormButton.addEventListener('click', initiatePost)
+userSubmitFormButton.addEventListener('click', function() {
+  initiatePost()
+
+
+})
 // ~~~~~~~~~~~~~~~~~~~~~~~~~Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function instantiateRecipeRepo (){
     recipeRepo.instantiateRecipes();
@@ -86,7 +89,9 @@ function instantiateUser (usersData) {
   let randomUserInfo = usersData[Math.floor(Math.random()*usersData.length)];
   user = new User(randomUserInfo.name, randomUserInfo.id);
   user.stockPantry(randomUserInfo.pantry)
+  console.log(user)
 };
+
 
 
 function addToUserList (e) {
@@ -119,17 +124,30 @@ function initiatePost () {
   }
 
   postDataset(user.id, parseInt(userInputIngredientID.value), parseInt(userInputIngredientAmount.value))
-  let newUserPantry;
-  
-  fetchData.then(data => {
-        newUserPantry = data[0].find(person => person.id === user.id).pantry
-  })
-  console.log('newUserPantry', newUserPantry)
-  
-  setTimeout(user.stockPantry(newUserPantry), 5000)
+
+  updateUsersPantry()
+  // fetchData.then(data => {
+  //     let userData = data[0].find(person => person.id === user.id);
+  //     user = new User(userData.name, userData.id)
+  //     user.stockPantry(userData.pantry)
+  //     dom.createPantryHTML()
+  // })
+
+  // setTimeout(user.stockPantry(user.pantry), 5000)
 
   // setTimeout(dom.createPantryHTML(), 5000)
 
+};
+
+function updateUsersPantry() {
+  // postDataset(user.id, parseInt(userInputIngredientID.value)),
+
+  fetchData.then(data => {
+      let userData = data[0].find(person => person.id === user.id);
+      user = new User(userData.name, userData.id)
+      user.stockPantry(userData.pantry)
+      dom.createPantryHTML()
+  })
 }
 
 // function testAPI () {
@@ -137,4 +155,4 @@ function initiatePost () {
 //     console.log('user after post', data[0].find(person => person.id === user.id))
 //   })
 // }
-      export { recipeRepo, user, ingredients }
+      export { recipeRepo, user, ingredients, updateUsersPantry}

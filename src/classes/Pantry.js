@@ -37,10 +37,8 @@ class Pantry {
         if(!pantryIds.includes(ingredient.id)){
           if(!this.shoppingList[ingredient.id]) {
             this.shoppingList[ingredient.id] = ingredient.quantity.amount
-          }else {
-            this.shoppingList[ingredient.id] += ingredient.quantity.amount
           }
-        }
+          }
       })
       return this.shoppingList
     }
