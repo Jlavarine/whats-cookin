@@ -33,10 +33,11 @@ const dom = {
   },
 
   populateRecipeCards(recipesArray) {
+    removeFavoritesButton.disabled = true
       recipesArray.forEach((recipe, index) => {
         let recipeCost = recipe.calculateCostofIngredients(ingredients);
           mainRecipeDisplay.innerHTML +=
-          `<div class="main__recipe-card" data-recipe="${recipesArray[index].name}">
+          `<div class="main__recipe-card" tabindex='0' data-recipe="${recipesArray[index].name}">
           <div class="main__recipe-card-image-box">
           <img class="main__recipe-card-image" data-recipe="${recipesArray[index].name}" src=${recipesArray[index].image} alt="${recipesArray[index].name}">
           </div>
@@ -133,6 +134,7 @@ const dom = {
       cookButton.disabled = true;
       cookButton.innerText = `Missing Ingredients`
     } else {
+      cookButton.disabled = false;
       return
     }
   },
@@ -147,6 +149,7 @@ const dom = {
       postDataset(user.id, item.id, 0 - parseInt(`${item.quantity.amount}`))
     })
     setTimeout(updateUsersPantry, 5000)
+    cookButton.disabled = true
   },
 
   createPantryHTML() {
@@ -249,7 +252,7 @@ const dom = {
     this.hide(missingIngredientsBox)
     this.hide(pantryInput)
     addToCookListButton.innerText = 'Add Recipe to Cook List'
-    addFavoritesButton.innerText = 'Add to Favorites'
+    addFavoritesButton.innerText = 'Add To Favorites'
   },
 
   displayRecipeInfoPage() {

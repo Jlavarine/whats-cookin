@@ -42,12 +42,14 @@ window.addEventListener('load', () => {
   // .catch(error => dom.alertPromiseFail())
 
 });
+
 mainRecipeDisplay.addEventListener('click', (e) => {
   if(e.target.dataset.recipe) {
     dom.resetRecipeDisplayInfo()
     dom.renderRecipeInfo(e);
   };
 });
+
 navButtons.addEventListener('click', function(e) {
   if(e.target.dataset.button)
     dom.redirectNavBar(e);
@@ -92,10 +94,9 @@ function instantiateUser (usersData) {
   console.log(user)
 };
 
-
-
 function addToUserList (e) {
   if(e.target.dataset.button === 'add-favorite') {
+    removeFavoritesButton.disabled = false
     var listArray = user.favoriteRecipes
     addFavoritesButton.innerText = 'Added to Favorites'
   }
@@ -111,9 +112,10 @@ function addToUserList (e) {
 };
 
 function removeFromUserList () {
+  removeFavoritesButton.disabled = true
   let userFavRecipe = user.favoriteRecipes.find(recipe => recipe.name === recipeHeader.innerText);
   user.removeRecipeFromList(userFavRecipe, user.favoriteRecipes);
-  addFavoritesButton.innerText = 'Add to Favorites'
+  addFavoritesButton.innerText = 'Add To Favorites'
 };
 
 function initiatePost () {
