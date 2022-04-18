@@ -16,6 +16,88 @@ describe('Pantry', () => {
     // recipeRepository = new RecipeRepository([recipe1, recipe2])
     pantry = new Pantry(data.sampleUserData[0].pantry)
     pantry2 = new Pantry([])
+    recipe1.allIngredients = recipe1.allIngredients = [
+    {
+      "id": 20081,
+      "name": 'pepper',
+      "quantity": {
+        "amount": 1.5,
+        "unit": "c"
+    }
+  },
+    {
+      "id": 18372,
+      "name": 'salad',
+      "quantity": {
+        "amount": 0.5,
+        "unit": "tsp"
+    }
+  },
+    {
+      "id": 1123,
+      "name": 'salsa',
+      "quantity": {
+      "amount": 1,
+      "unit": "large"
+    }
+    },
+    {
+    "id": 19335,
+    "name": 'spinach',
+    "quantity": {
+    "amount": 0.5,
+    "unit": "c"
+    }
+    },
+    {
+    "id": 19206,
+    "name": 'spuds',
+    "quantity": {
+    "amount": 3,
+    "unit": "Tbsp"
+    }
+    },
+    {
+    "id": 19334,
+    "name": 'spaghetti',
+    "quantity": {
+    "amount": 0.5,
+    "unit": "c"
+    }
+    },
+    {
+    "id": 2047,
+    "name": 'sesame seeds',
+    "quantity": {
+    "amount": 0.5,
+    "unit": "tsp"
+    }
+    },
+    {
+    "id": 1012047,
+    "name": 'satsumas',
+    "quantity": {
+    "amount": 2,
+    "unit": "servings"
+    }
+    },
+    {
+    "id": 10019903,
+    "name": 'sprinkles',
+    "quantity": {
+    "amount": 2,
+    "unit": "c"
+    }
+    },
+    {
+    "id": 1145,
+    "name": 'sangria',
+    "quantity": {
+    "amount": 0.5,
+    "unit": "c"
+    }
+    }
+    ]
   });
 
   it('Should be a function', () => {
@@ -69,6 +151,16 @@ describe('Pantry', () => {
   it('if no ingredients are missing, then the pantry\s shopping list should be empty', () => {
     pantry.determineMissingIngredients(recipe1.ingredients)
     expect(pantry.shoppingList).to.deep.equal({})
+  });
+
+  it('should be able to add names to pantry ingredients', () => {
+    pantry.addNamesToPantry(recipe1.allIngredients)
+    expect(pantry.pantryWithNames[0].name).to.deep.equal('pepper')
+  });
+
+  it('should turn shoppingList into an array of objects', () => {
+    pantry.shuffleShoppingList(recipe1.ingredients,recipe1.allIngredients)
+    expect(pantry.shoppingList).to.be.an('array')
   });
 
 })
