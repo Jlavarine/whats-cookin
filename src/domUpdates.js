@@ -25,10 +25,7 @@ const allFilterButtons = document.querySelectorAll('.sidebar__right-filter-butto
 const pantryDisplay = document.querySelector('.user__pantry-display')
 const missingItemsBox = document.querySelector('.main__rendered-recipe-missing-ingredients-box')
 const pantryInput = document.querySelector('.user__pantry-shopping-form')
-
-
-
-
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Dom Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const dom = {
   alertPromiseFail(){
     window.alert('Sorry, something went wrong!');
@@ -251,6 +248,8 @@ const dom = {
     this.hide(missingItemsBox)
     this.hide(missingIngredientsBox)
     this.hide(pantryInput)
+    addToCookListButton.innerText = 'Add Recipe to Cook List'
+    addFavoritesButton.innerText = 'Add to Favorites'
   },
 
   displayRecipeInfoPage() {

@@ -97,19 +97,23 @@ function instantiateUser (usersData) {
 function addToUserList (e) {
   if(e.target.dataset.button === 'add-favorite') {
     var listArray = user.favoriteRecipes
+    addFavoritesButton.innerText = 'Added to Favorites'
   }
   if(e.target.dataset.button === 'add-cook-list') {
     var listArray = user.recipesToCook
+    addToCookListButton.innerText = 'Added to Cook List'
   }
   let userFavRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === recipeHeader.innerText);
   if(!user.favoriteRecipes.includes(userFavRecipe)){
     user.addRecipeToList(userFavRecipe, listArray);
   };
+
 };
 
 function removeFromUserList () {
   let userFavRecipe = user.favoriteRecipes.find(recipe => recipe.name === recipeHeader.innerText);
   user.removeRecipeFromList(userFavRecipe, user.favoriteRecipes);
+  addFavoritesButton.innerText = 'Add to Favorites'
 };
 
 function initiatePost () {
