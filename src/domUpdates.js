@@ -133,7 +133,7 @@ const dom = {
 
   toggleAddToCookButton(){
     if(user.pantry.shoppingList.length) {
-      // cookButton.disabled = true;
+      cookButton.disabled = true;
       cookButton.innerText = `Missing Ingredients`
     } else {
       return
@@ -154,7 +154,6 @@ const dom = {
 
   createPantryHTML() {
     pantryDisplay.innerHTML = ''
-
     user.pantry.addNamesToPantry(recipeRepo.allRecipes[0].allIngredients)
     user.pantry.pantryWithNames.forEach(item => {
       pantryDisplay.innerHTML += `<p class="pantry-item"> ${item.name}: ${item.amount}</p>`
