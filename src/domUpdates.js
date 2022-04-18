@@ -113,7 +113,7 @@ const dom = {
         user.pantry.shoppingList.forEach(item => {
           missingIngredientsBox.innerHTML +=
           `<div class="main__rendered-missing-recipe-box">
-            <section class="main__rendered-missing-recipe-ingredients">${item.name}<span>(${item.id})</span>: ${item.quantity} ${item.unit}
+            <section class="main__rendered-missing-recipe-ingredients">${item.name} : ${item.quantity} ${item.unit}, Ingredient ID:<span>(${item.id})</span>
             </section>
           </div>`;
         })
