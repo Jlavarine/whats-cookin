@@ -76,7 +76,6 @@ const dom = {
   renderRecipeInfo(e) {
     user.pantry.shoppingList = {}
     let currentRecipe = recipeRepo.allRecipes.find(recipe => recipe.name === e.target.dataset.recipe);
-    this.testPantry(currentRecipe) //////////////////////////
     let currentIngredients = currentRecipe.determineIngredientsNeeded(ingredients);
     let currentIngredientAmounts = currentRecipe.ingredients;
     this.displayRecipeInfoPage();
@@ -87,15 +86,6 @@ const dom = {
     user.pantry.shuffleShoppingList(currentRecipe.ingredients, currentRecipe.allIngredients)
     this.createRecipeHTML(currentRecipe, currentIngredients, currentIngredientAmounts)
   },
-  ////test function pls delete thx
-  testPantry(currentRecipe){
-    console.log(user)
-    console.log(user.pantry)
-    user.pantry.determineIfUserCanCook(currentRecipe.ingredients)
-    user.pantry.determineMissingIngredients(currentRecipe.ingredients)
-    user.pantry.addNamesToPantry(currentRecipe.allIngredients)
-  },
-
 
   createRecipeHTML(currentRecipe, currentIngredients, currentIngredientAmounts) {
     cookButton.innerText = `Cook This Recipe!`;
@@ -231,6 +221,7 @@ const dom = {
     if(e.target.dataset.button === 'pantry'){
       allFilterButtons.forEach(button => button.disabled = true)
       this.removeCardsAndShowHomeView();
+      this.hide(mainRecipeDisplay)
       this.show(pantryDisplay)
       this.show(pantryInput)
       this.createPantryHTML()
