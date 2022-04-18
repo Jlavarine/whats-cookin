@@ -17,10 +17,10 @@ class Pantry {
                   enoughAmounts.push(true)
                 } else if (ingredient.quantity.amount > item.amount && ingredient.id === item.ingredient) {
                   enoughAmounts.push(false)
-                  if(!this.shoppingList[item.ingredient]) {
-                    this.shoppingList[item.ingredient] = 0
-                  }
-                  this.shoppingList[item.ingredient] += ingredient.quantity.amount - item.amount
+                  // if(!this.shoppingList[item.ingredient]) {
+                    this.shoppingList[item.ingredient] = ingredient.quantity.amount - item.amount
+                  // }
+                  // this.shoppingList[item.ingredient] += ingredient.quantity.amount - item.amount
               }
             })
         });
