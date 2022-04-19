@@ -1,6 +1,6 @@
 class Pantry {
     constructor (pantry) {
-        this.pantry = pantry; //array of objects
+        this.pantry = pantry; 
         this.sharedIngredients = []
         this.shoppingList = {}
         this.pantryWithNames;
@@ -17,10 +17,7 @@ class Pantry {
                   enoughAmounts.push(true)
                 } else if (ingredient.quantity.amount > item.amount && ingredient.id === item.ingredient) {
                   enoughAmounts.push(false)
-                  // if(!this.shoppingList[item.ingredient]) {
                     this.shoppingList[item.ingredient] = ingredient.quantity.amount - item.amount
-                  // }
-                  // this.shoppingList[item.ingredient] += ingredient.quantity.amount - item.amount
               }
             })
         });

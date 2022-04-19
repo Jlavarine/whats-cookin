@@ -84,13 +84,14 @@ cursor: pointer;
   padding-left: 5px;
 }
 
-.main__recipe-header-button-box{
+.main__recipe-header-box{
   display: flex;
   justify-content: center;
-  flex-wrap: nowrap;
-  width: 60%;
+  width: 73.5%;
+  padding-bottom: 20px;
 }
-.add-favorites-button, .remove-favorites-button, .add-recipe-to-cook-button, .user__pantry-submit-button{
+
+.add-favorites-button, .remove-favorites-button, .add-recipe-to-cook-button, .user__pantry-submit-button, .cook-button{
   height: 4%;
   width: 29%;
   font-size: 20px;
@@ -108,11 +109,6 @@ cursor: pointer;
 button:hover {
   color: orange;
 }
-
-/* .cook-button:hover{
-  pointer-events: none;
-  color: lightgray
-} */
 
 .main {
   height: 100%;
@@ -160,22 +156,22 @@ button:hover {
 }
 
 .main__recipe-card {
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-width: 270px;
-height: 320px;
-margin-top: 30px;
-text-align: center;
-background-color: rgb(235,235,235);
-border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 270px;
+  height: 320px;
+  margin-top: 30px;
+  text-align: center;
+  background-color: rgb(235,235,235);
+  border-radius: 20px;
 };
 
 .main__recipe-card:hover {
-transform: scale(1.1);
-transition: 800ms;
-cursor: pointer;
-border: 3px solid orange;
+  transform: scale(1.1);
+  transition: 800ms;
+  cursor: pointer;
+  border: 3px solid orange;
 }
 
 .main__recipe-card-image-box {
@@ -249,9 +245,6 @@ border: 3px solid orange;
   font-size: 30px;
   color: green
 }
-.main__recipe-header-box {
-  width: 45%
-}
 
 .user__pantry-display-and-form-box{
   display: flex;
@@ -307,7 +300,6 @@ border: 3px solid orange;
 
 .input-error-id, .input-error-missing{
   color: red;
-  border: 1px solid red;
 }
 
 .pantry-item {
