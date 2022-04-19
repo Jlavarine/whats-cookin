@@ -32,15 +32,6 @@ class User {
     list.splice(foundRecipe, 1);
   };
 
-  // addRecipeToCookList(recipe) {
-  //   this.recipesToCook.push(recipe);
-  // };
-  //
-  // removeRecipeFromCookList(recipe) {
-  //   let foundRecipe = this.recipesToCook.indexOf(recipe);
-  //   this.recipesToCook.splice(foundRecipe, 1);
-  // };
-
   filterFavoriteRecipesByTag(userTags) {
     let filteredRecipes = this.favoriteRecipes
      userTags.forEach(tag => {

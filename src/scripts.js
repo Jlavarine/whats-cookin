@@ -10,12 +10,6 @@ const mainSiteHeader = document.querySelector('h1')
 const navButtons = document.querySelector('.nav');
 const mainRecipeDisplay = document.querySelector('.main__recipe-images-box');
 const recipeHeader = document.querySelector('.main__recipe-header');
-const mainRenderedRecipeArea = document.querySelector('.main__rendered-recipe-area');
-const mainRenderedRecipeIngredientsHeader = document.querySelector('.main__rendered-recipe-ingredients-header');
-const mainRenderedRecipeInstructionsHeader = document.querySelector('.main__rendered-recipe-instructions-header');
-const mainRenderedReceipeInstructions = document.querySelector('.main__rendered-recipe-instructions');
-const mainRenderedReceipeIngredients = document.querySelector('.main__rendered-recipe-ingredients');
-const mainRenderedReceipeImage = document.querySelector('.main__rendered-recipe-image');
 const sidebarRight = document.querySelector('.sidebar__right');
 const recipeSearchInput = document.getElementById('searchbar');
 const recipeSearchButton = document.querySelector('.top__search-bar-button');
@@ -23,8 +17,6 @@ const addFavoritesButton = document.querySelector('.add-favorites-button');
 const removeFavoritesButton = document.querySelector('.remove-favorites-button');
 const addToCookListButton = document.querySelector('.add-recipe-to-cook-button');
 const cookButton = document.querySelector('.cook-button')
-const filterByBox = document.querySelector('.main__filter-paragraph');
-const allFilterButtons = document.querySelectorAll('.sidebar__right-filter-button')
 const userInputIngredientID = document.querySelector('.user__pantry-ingrededient-id')
 const userInputIngredientAmount = document.querySelector('.user__pantry-ingrededient-amount')
 const userSubmitFormButton = document.querySelector('.user__pantry-submit-button')
@@ -93,11 +85,11 @@ function instantiateUser (usersData) {
   let randomUserInfo = usersData[Math.floor(Math.random()*usersData.length)];
   user = new User(randomUserInfo.name, randomUserInfo.id);
   user.stockPantry(randomUserInfo.pantry)
-  console.log(user)
 };
 
 function addToUserList (e) {
   if(e.target.dataset.button === 'add-favorite') {
+    removeFavoritesButton.style = 'color: red'
     removeFavoritesButton.disabled = false
     var listArray = user.favoriteRecipes
     addFavoritesButton.innerText = 'Added to Favorites'
@@ -115,6 +107,7 @@ function addToUserList (e) {
 
 function removeFromUserList () {
   removeFavoritesButton.disabled = true
+  removeFavoritesButton.style = 'color: gray'
   let userFavRecipe = user.favoriteRecipes.find(recipe => recipe.name === recipeHeader.innerText);
   user.removeRecipeFromList(userFavRecipe, user.favoriteRecipes);
   addFavoritesButton.innerText = 'Add To Favorites'
@@ -143,8 +136,6 @@ function initiatePost () {
 };
 
 function updateUsersPantry() {
-  // postDataset(user.id, parseInt(userInputIngredientID.value)),
-
   fetchData.then(data => {
       let userData = data[0].find(person => person.id === user.id);
       user = new User(userData.name, userData.id)
@@ -153,9 +144,6 @@ function updateUsersPantry() {
   })
 }
 
-// function testAPI () {
-//   fetchData.then(data => {
-//     console.log('user after post', data[0].find(person => person.id === user.id))
-//   })
-// }
-      export { recipeRepo, user, ingredients, updateUsersPantry}
+      
+
+export { recipeRepo, user, ingredients, recipeHeader, mainRecipeDisplay, recipeSearchInput, recipeSearchButton, addFavoritesButton, removeFavoritesButton,addToCookListButton, cookButton, updateUsersPantry}

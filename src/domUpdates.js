@@ -1,11 +1,6 @@
-import { recipeRepo } from '../src/scripts.js';
-import { user } from '../src/scripts.js';
-import { ingredients } from '../src/scripts.js';
-import { updateUsersPantry } from '../src/scripts.js';
+import { recipeRepo, user, ingredients, recipeHeader, mainRecipeDisplay, recipeSearchInput, recipeSearchButton, addFavoritesButton, removeFavoritesButton,addToCookListButton, cookButton, updateUsersPantry} from '../src/scripts.js';
 import { postDataset } from './apiCalls';
-const navButtons = document.querySelector('.nav');
-const mainRecipeDisplay = document.querySelector('.main__recipe-images-box');
-const recipeHeader = document.querySelector('.main__recipe-header');
+
 const mainRenderedRecipeArea = document.querySelector('.main__rendered-recipe-area');
 const mainRenderedRecipeIngredientsHeader = document.querySelector('.main__rendered-recipe-ingredients-header');
 const mainRenderedRecipeInstructionsHeader = document.querySelector('.main__rendered-recipe-instructions-header');
@@ -13,13 +8,6 @@ const mainRenderedReceipeInstructions = document.querySelector('.main__rendered-
 const mainRenderedReceipeIngredients = document.querySelector('.main__rendered-recipe-ingredients');
 const missingIngredientsBox = document.querySelector('.main__rendered-missing-recipe-ingredients');
 const mainRenderedReceipeImage = document.querySelector('.main__rendered-recipe-image');
-const sidebarRight = document.querySelector('.sidebar__right');
-const recipeSearchInput = document.getElementById('searchbar');
-const recipeSearchButton = document.querySelector('.top__search-bar-button');
-const addFavoritesButton = document.querySelector('.add-favorites-button');
-const removeFavoritesButton = document.querySelector('.remove-favorites-button');
-const addToCookListButton = document.querySelector('.add-recipe-to-cook-button');
-const cookButton = document.querySelector('.cook-button')
 const filterByBox = document.querySelector('.main__filter-paragraph');
 const allFilterButtons = document.querySelectorAll('.sidebar__right-filter-button')
 const pantryDisplay = document.querySelector('.user__pantry-display')
@@ -28,7 +16,6 @@ const pantryInput = document.querySelector('.user__pantry-shopping-form')
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Dom Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const dom = {
     populateRecipeCards(recipesArray) {
-    removeFavoritesButton.disabled = true
       recipesArray.forEach((recipe, index) => {
         let recipeCost = recipe.calculateCostofIngredients(ingredients);
           mainRecipeDisplay.innerHTML +=
@@ -125,7 +112,7 @@ const dom = {
   toggleAddToCookButton(){
     if(user.pantry.shoppingList.length) {
       cookButton.disabled = true;
-      cookButton.innerText = `Missing Ingredients`
+      cookButton.innerText = `Can't Cook: Missing Ingredients`
     } else {
       cookButton.disabled = false;
       return

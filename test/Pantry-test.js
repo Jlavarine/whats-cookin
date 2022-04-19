@@ -3,7 +3,6 @@ import Pantry from '../src/classes/Pantry';
 import Recipe from '../src/classes/Recipe';
 import data from '../test/Sample-Data.js'
 describe('Pantry', () => {
-//   let recipeRepository;
   let recipe1;
   let recipe2;
   let recipe3;
