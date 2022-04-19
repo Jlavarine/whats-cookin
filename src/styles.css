@@ -307,7 +307,6 @@ border: 3px solid orange;
 
 .input-error-id, .input-error-missing{
   color: red;
-  border: 1px solid red;
 }
 
 .pantry-item {

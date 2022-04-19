@@ -27,12 +27,7 @@ const missingItemsBox = document.querySelector('.main__rendered-recipe-missing-i
 const pantryInput = document.querySelector('.user__pantry-shopping-form')
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Dom Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const dom = {
-  alertPromiseFail(){
-    window.alert('Sorry, something went wrong!');
-    location.reload()
-  },
-
-  populateRecipeCards(recipesArray) {
+    populateRecipeCards(recipesArray) {
     removeFavoritesButton.disabled = true
       recipesArray.forEach((recipe, index) => {
         let recipeCost = recipe.calculateCostofIngredients(ingredients);
@@ -90,7 +85,7 @@ const dom = {
   createRecipeHTML(currentRecipe, currentIngredients, currentIngredientAmounts) {
     cookButton.innerText = `Cook This Recipe!`;
     this.toggleAddToCookButton()
-    missingIngredientsBox.innerHTML = ''
+    this.updateMissingIngredientsHeader()
     mainRenderedReceipeImage.src = currentRecipe.image;
     mainRenderedReceipeImage.alt = `Image of ${currentRecipe.name} recipe`;
         currentIngredientAmounts.forEach((ingredient, index) => {
@@ -103,7 +98,7 @@ const dom = {
         user.pantry.shoppingList.forEach(item => {
           missingIngredientsBox.innerHTML +=
           `<div class="main__rendered-missing-recipe-box">
-            <section class="main__rendered-missing-recipe-ingredients">${item.name} : ${item.quantity} ${item.unit}, Ingredient ID:<span>(${item.id})</span>
+            <section class="main__rendered-missing-recipe-ingredients">Ingredient ID: <span>(${item.id})</span> ---- ${item.name} : ${item.quantity} ${item.unit}
             </section>
           </div>`;
         })
@@ -117,6 +112,14 @@ const dom = {
                 <section class="main__rendered-recipe-cost">recipe cost: $${currentRecipe.calculateCostofIngredients(ingredients)}
                 </section>
               `
+  },
+
+  updateMissingIngredientsHeader(){
+    if (cookButton.innerText === `Cook This Recipe!` ){
+      missingIngredientsBox.innerHTML = ''
+    } else {
+      missingIngredientsBox.innerHTML = '<section class="main__rendered-missing-recipe-ingredients">Ingredients needed to cook:</section>'
+    }
   },
 
   toggleAddToCookButton(){

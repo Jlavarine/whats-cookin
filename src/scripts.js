@@ -6,6 +6,7 @@ import RecipeRepository from './classes/RecipeRepository';
 import User from './classes/User';
 import dom from '../src/domUpdates.js'
 // ~~~~~~~~~~~~~~~~~~~~Query Selectors~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+const mainSiteHeader = document.querySelector('h1')
 const navButtons = document.querySelector('.nav');
 const mainRecipeDisplay = document.querySelector('.main__recipe-images-box');
 const recipeHeader = document.querySelector('.main__recipe-header');
@@ -40,8 +41,7 @@ window.addEventListener('load', () => {
     ingredients = data[1];
     recipeRepo = new RecipeRepository(data[2])
     instantiateRecipeRepo()
-  })
-  // .catch(error => dom.alertPromiseFail())
+  }).catch(error => mainSiteHeader.innerText = 'Error: Please refresh!')
 
 });
 
